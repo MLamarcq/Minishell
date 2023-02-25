@@ -14,19 +14,36 @@ NAME   = minishell
 CC     = gcc -Wall -Werror -Wextra -g3 
 # -MMD -MP
 
-SRC  := main.c \
-lib/bzero.c \
-lib/ft_strncmp.c \
-lib/envp_size.c \
-lib/ft_getenv.c \
-lib/ft_strdup.c \
-built_in/echo.c \
-built_in/cd.c \
-built_in/pwd.c \
-built_in/env.c \
-built_in/export_arg.c \
-built_in/export_simple.c \
-built_in/unset.c \
+SRC  :=	free/free_parsing.c \
+		lib_gael/ft_cmp.c \
+		lib_gael/ft_is_separator.c \
+		lib_gael/ft_lstadd_back.c \
+		lib_gael/ft_lstnew_word.c \
+		lib_gael/ft_split.c \
+		lib_gael/ft_strdup.c \
+		lib_gael/ft_strjoin.c \
+		lib_gael/ft_strlen.c \
+		lib_gael/main.c \
+		parsing/expand.c \
+		parsing/ft_find_path.c \
+		parsing/parsing.c \
+		parsing/prepare_exec.c \
+		parsing/quote.c \
+		parsing/set_type.c
+
+# SRC  := main.c \
+# lib/bzero.c \
+# lib/ft_strncmp.c \
+# lib/envp_size.c \
+# lib/ft_getenv.c \
+# lib/ft_strdup.c \
+# built_in/echo.c \
+# built_in/cd.c \
+# built_in/pwd.c \
+# built_in/env.c \
+# built_in/export_arg.c \
+# built_in/export_simple.c \
+# built_in/unset.c \
 
 SRC_MAEL  := main.c \
 lib/ft_strncmp.c \

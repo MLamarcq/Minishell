@@ -66,15 +66,15 @@ void	ft_replace_dollar(t_mini_sh *mn_sh, t_arr_output *mn_tmp, int *i_expnd)
 	if (mn_tmp->word[0])
 		free(mn_tmp->word);
 	mn_tmp->word = new_w;
-	//free(new_w);
+	free(new_w);
 	// print_word(mn_tmp->word);
 	// ft_print_rl_out(mn_sh);
 	// printf(BACK_WHITE" -------------------------------------------- "RST"\n\n");
-	// if (ft_isthere_dollar(mn_tmp->word) == SUCCESS)
-	// 	expand(mn_sh);
+	if (ft_isthere_dollar(mn_tmp->word) == SUCCESS)
+		expand(mn_sh);
 }
 
-void	expand(t_mini_sh *mini_sh, t_arr_output *mn_tmp)
+void	expand(t_mini_sh *mini_sh)
 {
 	t_arr_output	*mini_tmp;
 	int				ite_expand;
@@ -82,23 +82,20 @@ void	expand(t_mini_sh *mini_sh, t_arr_output *mn_tmp)
 
 	is_dquote = FAIL;
 	mini_tmp = mini_sh->rl_out_head;
-	if (ft_isthere_dollar(mn_tmp->word) == SUCCESS)
+	while (mini_tmp)
 	{
-		while (mini_tmp)
+		ite_expand = 0;
+		while (mini_tmp->word[ite_expand])
 		{
-			ite_expand = 0;
-			while (mini_tmp->word[ite_expand])
+			check_qt_open(mini_tmp, &ite_expand, &is_dquote);
+			if (is_dquote == SUCCESS)
 			{
-				check_qt_open(mini_tmp, &ite_expand, &is_dquote);
-				if (is_dquote == SUCCESS)
-				{
-					if (mini_tmp->word[ite_expand] == '$')
-						ft_replace_dollar(mini_sh, mini_tmp, &ite_expand);
-				}
-				ite_expand++;
+				if (mini_tmp->word[ite_expand] == '$')
+					ft_replace_dollar(mini_sh, mini_tmp, &ite_expand);
 			}
-			mini_tmp = mini_tmp->next;
+			ite_expand++;
 		}
+		mini_tmp = mini_tmp->next;
 	}
 }
 
@@ -112,3 +109,15 @@ void	print_word(char *new_w)
 	}
 	printf("%i\n", new_w[x]);
 }
+
+//changements
+// -> expand.c : 
+// 		- ligne 73/74 commentees. 
+// 		- Conditon if (ft_isthere_dollar(mn_tmp->word) == SUCCESS) copiee ligne 85
+// 		- Ligne 69 commentee
+ 
+// -> ft_find_path.c : 
+// 		- ligne 36 commentee
+// 		- Rajout de "free(var_env)" ligne 113
+
+// -> 

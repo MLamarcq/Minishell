@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/02/21 11:59:46 by mael             ###   ########.fr       */
+/*   Updated: 2023/02/24 12:22:07 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 // ------------------------------ define ------------------------------------ //
 # define SUCCESS 1
 # define FAIL -1
+# define D_QUOTE 34
+# define S_QUOTE 39
 // ---------------------------- end define ---------------------------------- //
 
 // ------------------------------ struct ------------------------------------ //
@@ -50,6 +52,33 @@ typedef struct s_list
 	int					index;
 	struct s_list		*next;
 }   t_list;
+
+typedef struct s_arr_output
+{
+	char				*word;
+	int					type;
+	struct s_arr_output	*next;
+}		t_arr_output;
+
+typedef struct s_mini_sh
+{
+	char			*output;
+	char			**env;
+	char			***prepare_exec;
+	t_arr_output	*rl_out;
+	t_arr_output	*rl_out_head;
+}					t_mini_sh;
+
+enum e_type
+{
+	CMD=1,
+	PIPE,
+	ARG,
+	OPTION,
+	REDIR_L,
+	REDIR_R,
+	_FILE
+};
 
 typedef struct s_env
 {
@@ -63,60 +92,95 @@ typedef struct s_env
 }   t_env;
 // ---------------------------- end struct ---------------------------------- //
 
-//-------------------------------built_in-------------------------------------//
-
-//env.c
-int				env(int argc, char **argv, t_env *data);
-int				init_env(char **envp, t_env *data);
-
-//unset.c
+//main.c
+//built_in/cd.c
+int				ft_cd(int argc, char **str);
+//built_in/unset.c
 int				exec_unset(int argc, char **argv, t_env *data);
 void			to_empty_line(char **argv, t_env *data);
 int				unset(int argc, char **argv, t_env *data);
-
-//export_simple.c
-int				export_3(int argc, char **argv, t_env *data);
-int				is_sorted(t_env *data);
-void			sort_export(t_env *data);
-void			sort_algo(int i, t_env *data);
-int				print_export(int argc, char **argv, t_env *data);
-
-//export_arg.c
-int				if_arg(int argc, char **argv, t_env *data);
-int				export_arg(int argc, char **argv, t_env *data);
-
-//built_in/cd.c
-int				ft_cd(int argc, char **str);
-
 //built_in/echo.c
-
 int				ft_echo(char **str);
 //built_in/pwd.c
 int				ft_pwd(char **argv);
 int				ft_strlen(char *str);
-
-//------------------------------------lib-------------------------------------//
-
-//lib/envp_size.c
-int				envp_size(char **envp);
-
-//lib/ft_strdup.c
-char			*ft_strdup(char *src);
-
-//lib/ft_getenv.c
-char			*ft_getenv(char *str);
-
+//built_in/export_arg.c
+int				export_arg(int argc, char **argv, t_env *data);
+void			ft_free_tab(char **tab);
+int				if_arg(int argc, char **argv, t_env *data);
+//built_in/env.c
+int				env(int argc, char **argv, t_env *data);
+int				init_env(char **envp, t_env *data);
+//built_in/export_simple.c
+int				export_3(int argc, char **argv, t_env *data);
+int				is_sorted(t_env *data);
+int				print_export(int argc, char **argv, t_env *data);
+void			sort_export(t_env *data);
+void			swap_line(int i, t_env *data);
+//lib_gael/main.c
+//lib_gael/ft_cmp.c
+int				ft_strcmp(char *str, char *dest);
+int				ft_strncmp(char *str, char *dest, int n);
+//lib_gael/ft_lstnew_word.c
+t_arr_output *ft_lstnew_malloc(int size);
+t_arr_output *ft_lstnew_word(char *content, int save, int ite);
+//lib_gael/ft_lstadd_back.c
+void			ft_lstadd_back(t_arr_output **lst, t_arr_output *new);
+//lib_gael/ft_strjoin.c
+char			*ft_strjoin(char *s1, char *s2);
+char			*ft_strjoin_w_free(char *s1, char *s2);
+//lib_gael/ft_strlen.c
+int				ft_strlen(char *str);
+//lib_gael/ft_is_separator.c
+int				ft_is_sep(char chr);
+int				ft_is_sep_expand(char chr);
+int				ft_is_valid_export(char chr);
+int				ft_isalpha(int chr);
+//lib_gael/ft_split.c
+char			**ft_split(const char *str, char sep);
+//lib_gael/ft_strdup.c
+char			*ft_strdup(char *str);
+char			*ft_strdup_len(char *str, int start, int end);
 //lib/ft_strncmp.c
 int				ft_strncmp(char *str, char *dest, int n);
-
+//lib/envp_size.c
+int				envp_size(char **envp);
+//lib/ft_getenv.c
+char			*ft_getenv(char *str);
 //lib/bzero.c
 char			*ft_bzero(char *str, int len);
-
-//-----------------------------------parsing----------------------------------//
-
-//parsing/ft_parsing.c
-int				ft_quote(char *line);
-
-void	ft_free_tab(char **tab);
+//lib/ft_strdup.c
+char			*ft_strdup(char *src);
+//free/free_parsing.c
+void			free_env(t_mini_sh *mini_sh);
+void			free_parsing(t_mini_sh *mini_sh);
+void			ft_free_all(char *str, char **tab);
+//parsing/expand.c
+void			check_qt_open(t_arr_output *mn_tmp, int *i_expnd, int *is_qt);
+void			expand(t_mini_sh *mini_sh, t_arr_output *mn_tmp);
+int				ft_isthere_dollar(char *str);
+void			ft_replace_dollar(t_mini_sh *mn_sh, t_arr_output *mn_tmp, int *i_expnd);
+void			print_word(char *new_w);
+//parsing/prepare_exec.c
+int				coun_without_qt(char *str);
+void			remove_quote(t_mini_sh *mini_sh);
+char			*write_without_qt(char *str);
+//parsing/set_type.c
+void			set_type(t_mini_sh *mini_sh);
+//parsing/quote.c
+int				check_quote_is_closed(char *line);
+void			count_quote_arg(char *line, int *ite, int quote);
+int				count_word(char *line);
+int				quote_is_closed(char *line, int *ite, int quote);
+//parsing/ft_find_path.c
+int				ft_find_cmd(char **envp, char *cmd_to_test, int ite_env);
+int				ft_find_env(char **envp, char *cmd_to_test);
+int				ft_find_path(char **envp, char *cmd_to_test);
+char			*ft_find_var_env(char **envp, char *var_search);
+//parsing/parsing.c
+int				build_result_output(t_mini_sh *mini_sh, char *line);
+int				ft_find_args(t_mini_sh *mini_sh);
+void			ft_print_rl_out(t_mini_sh *mini_sh);
+void			put_word_in_minish(t_mini_sh *mini_sh, char *line, int *save, int *ite);
 
 #endif

@@ -26,16 +26,19 @@ int	ft_find_cmd(char **envp, char *cmd_to_test, int ite_env)
 	while (path_cmd[++ite_data])
 	{
 		path_absolue = ft_strjoin(path_cmd[ite_data], "/");
+		// printf("path absolu -> %s\n", path_absolue);
 		cmd_path_absolue = ft_strjoin(path_absolue, cmd);
+		//printf("cmd_path_absolu -> %s\n", cmd_path_absolue);
 		free(path_absolue);
 		if(access(cmd_path_absolue, X_OK) == 0)
 		{
-			free(cmd_to_test);
+			printf("cmd_path_absolu -> %s\n", cmd_path_absolue);
+			//free(cmd_to_test);
 			cmd_to_test = ft_strdup(cmd_path_absolue);
-			cmd_to_test[ft_strlen(cmd_path_absolue)] = '\0';
+			//cmd_to_test[ft_strlen(cmd_path_absolue) + 1] = '\0';
 			free(cmd_path_absolue);
-			free(cmd);
-			// ft_free_all(cmd, path_cmd);
+			//free(cmd);
+			ft_free_all(cmd, path_cmd);
 			return (SUCCESS);
 		}
 		else
@@ -107,6 +110,7 @@ char	*ft_find_var_env(char **envp, char *var_search)
 				while (envp[ite_env][ite_env_char])
 					ite_env_char++;
 				free(res_var_env);
+				free(var_env);
 				return (ft_strdup_len(envp[ite_env], save, ite_env_char));
 			}
 			free(res_var_env);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_minishell.h"
+#include "../ft_minishell.h"
 
 //main mael
 // int main(int argc, char **argv)
@@ -51,6 +51,14 @@ int	main(int argc, char *argv[], char **envp)
 		mini_sh.env[env_length] = ft_strdup(envp[env_length]);
 	}
 	mini_sh.env[env_length] = 0;
+	// printf("res 1 = %d\n", env_length);
+	// env_length = 0;
+	// while (mini_sh.env[env_length])
+	// {
+	// 	printf("-> %s\n", mini_sh.env[env_length]);
+	// 	env_length++;
+	// }
+	// printf("res 2 = %d\n", env_length);
 	// while (1)
 	// {
 		mini_sh.output = NULL;
@@ -70,8 +78,8 @@ int	main(int argc, char *argv[], char **envp)
 	// 		return (res);
 	// 	}
 	// }
-	// free_parsing(&mini_sh);
-	// free_env(&mini_sh);
+	free_parsing(&mini_sh);
+	free_env(&mini_sh);
 	// env_length = -1;
 	// while (mini_sh.env[++env_length])
 	// {

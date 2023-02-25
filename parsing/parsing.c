@@ -25,19 +25,19 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 		if (tmp->type)
 		{
 			if (tmp->type == CMD)
-				printf(BLUE"CMD"RST"\n");
+				printf("CMD\n");
 			if (tmp->type == PIPE)
-				printf(BLUE"PIPE"RST"\n");
+				printf("PIPE\n");
 			if (tmp->type == ARG)
-				printf(BLUE"ARG"RST"\n");
+				printf("ARG\n");
 			if (tmp->type == REDIR_L)
-				printf(BLUE"REDIR_L"RST"\n");
+				printf("REDIR_L\n");
 			if (tmp->type == REDIR_R)
-				printf(BLUE"REDIR_R"RST"\n");
+				printf("REDIR_R\n");
 			if (tmp->type == OPTION)
-				printf(BLUE"OPTION"RST"\n");
+				printf("OPTION\n");
 			if (tmp->type == _FILE)
-				printf(BLUE"_FILE"RST"\n");
+				printf("_FILE\n");
 		}
 		printf("\n");
 		tmp = tmp->next;
@@ -113,7 +113,7 @@ int	ft_find_args(t_mini_sh *mini_sh)
 	// printf("  0123 \"abc def\"  $		 %i 2\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 \"abc def\"  "));
 	// printf("  0123 | \"abc def\"  $		 %i 3\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 | \"abc def\"  "));
 	// printf("  0123 \"abc'def\" xyz'  $	%i -1\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 \"abc'def\" xyz'  "));
-	printf("  < 	 main.c  /usr/bin/grep -i --color=never 	  in >   \'$USER\'\" $USER-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\""BACK_RED"$	%i 17"RST"\n------------------------------------------------\n",
+	printf("  < 	 main.c  /usr/bin/grep -i --color=never 	  in >   \'$USER\'\" $USER-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\"""$	%i 17""\n------------------------------------------------\n",
 	build_result_output(mini_sh, "  < 	 main.c  /usr/bin/grep -i --color=never 	  in >   \'$USER\'\" $USER-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\""));
 
 	return (SUCCESS);
