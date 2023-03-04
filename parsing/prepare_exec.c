@@ -5,67 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/23 23:19:01 by gael              #+#    #+#             */
-/*   Updated: 2023/02/24 00:28:24 by gael             ###   ########.fr       */
+/*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
+/*   Updated: 2023/02/26 17:56:23 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-int	coun_without_qt(char *str)
+int	count_double_arr(t_mini_sh *mini_sh)
 {
-	int	i_str;
-	int	i_real_len;
+	t_mini_sh	*mn_tmp;
+	int	len_double_arr;
 
-	i_real_len = 0;
-	i_str = 0;
-	while (str[i_str])
+	len_double_arr = 0;
+	mn_tmp = mini_sh;
+	mn_tmp->rl_out = mini_sh->rl_out_head;
+	while (mn_tmp->rl_out)
 	{
-		if (str[i_str] != '\'' && str[i_str] != '\"')
-			i_real_len++;
-		i_str++;
+		if (mn_tmp->rl_out->type == PIPE)
+			len_double_arr++;
+		mn_tmp->rl_out = mn_tmp->rl_out->next;
 	}
-	return (i_real_len);
+	return (len_double_arr);
 }
 
-char	*write_without_qt(char *str)
+void	prepare_exec(t_mini_sh *mini_sh)
 {
-	int		i_str;
-	int		i_real_len;
-	char	*str_without_qt;
-
-	str_without_qt = (char *)malloc((sizeof (char)) * \
-	(coun_without_qt(str) + 1));
-	if (!str_without_qt)
-		return (NULL);
-	i_real_len = 0;
-	i_str = 0;
-	while (str[i_str])
-	{
-		if (str[i_str] != '\'' && str[i_str] != '\"')
-		{
-			str_without_qt[i_real_len] = str[i_str];
-			i_real_len++;
-		}
-		i_str++;
-	}
-	str_without_qt[i_real_len] = 0;
-	return (str_without_qt);
-}
-
-void	remove_quote(t_mini_sh *mini_sh)
-{
-	t_mini_sh	*mini_tmp;
-	char		*save;
-
-	mini_tmp = mini_sh;
-	while (mini_tmp->rl_out)
-	{
-		save = ft_strdup(mini_tmp->rl_out->word);
-		free(mini_tmp->rl_out->word);
-		mini_tmp->rl_out->word = write_without_qt(save);
-		free(save);
-		// printf(BACK_GREEN"%s"RST"\n\n", mini_tmp->rl_out->word);
-		mini_tmp->rl_out = mini_sh->rl_out->next;
-	}
+	printf(BACK_PURPLE"count_double_arr(mini_sh): %i"RST"\n", count_double_arr(mini_sh));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/02/24 00:28:34 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/02 12:03:11 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,23 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 		if (tmp->type)
 		{
 			if (tmp->type == CMD)
-				printf("CMD\n");
+				printf(BLUE"CMD"RST"\n");
 			if (tmp->type == PIPE)
-				printf("PIPE\n");
+				printf(BLUE"PIPE"RST"\n");
 			if (tmp->type == ARG)
-				printf("ARG\n");
+				printf(BLUE"ARG"RST"\n");
 			if (tmp->type == REDIR_L)
-				printf("REDIR_L\n");
+				printf(BLUE"REDIR_L"RST"\n");
 			if (tmp->type == REDIR_R)
-				printf("REDIR_R\n");
+				printf(BLUE"REDIR_R"RST"\n");
 			if (tmp->type == OPTION)
-				printf("OPTION\n");
+				printf(BLUE"OPTION"RST"\n");
 			if (tmp->type == _FILE)
-				printf("_FILE\n");
+				printf(BLUE"_FILE"RST"\n");
+			if (tmp->type == HR_DOC)
+				printf(BLUE"HR_DOC"RST"\n");
+			if (tmp->type == APPEND)
+				printf(BLUE"APPEND"RST"\n");
 		}
 		printf("\n");
 		tmp = tmp->next;
@@ -88,14 +92,16 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 			// printf("mini_sh->rl_out->word: %s\n", mini_sh->rl_out->word);
 		}
 		expand(mini_sh);
-		set_type(mini_sh);
-		remove_quote(mini_sh);
+		if (set_type(mini_sh) == FAIL)
+			return (FAIL);
 		ft_print_rl_out(mini_sh);
+		// remove_quote(mini_sh);
+		prepare_exec(mini_sh);
 	}
 	return (len_global);
 }
 
-int	ft_find_args(t_mini_sh *mini_sh)
+int	ft_find_args(t_mini_sh *mini_sh, char *imput)
 {
 	// test count_word
 	// printf("$				 %i 0\n------------------------------------------------\n", build_result_output(mini_sh, ""));
@@ -113,14 +119,23 @@ int	ft_find_args(t_mini_sh *mini_sh)
 	// printf("  0123 \"abc def\"  $		 %i 2\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 \"abc def\"  "));
 	// printf("  0123 | \"abc def\"  $		 %i 3\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 | \"abc def\"  "));
 	// printf("  0123 \"abc'def\" xyz'  $	%i -1\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 \"abc'def\" xyz'  "));
-	printf("  < 	 main.c  /usr/bin/grep -i --color=never 	  in >   \'$USER\'\" $USER-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\"""$	%i 17""\n------------------------------------------------\n",
-	build_result_output(mini_sh, "  < 	 main.c  /usr/bin/grep -i --color=never 	  in >   \'$USER\'\" $USER-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\""));
+	//printf("  < 	 main.c  /usr/bin/grep -i \'\"$USER\"\' \"\'$USER\'\" --color=never  	  >   \'$USER\'\" \'$USER\'-$USER.txt\"   	| ls -l --color=never  	 -a | echo \"|\" \"| >>\""BACK_RED"$	%i 19"RST"\n------------------------------------------------\n",
+	if(build_result_output(mini_sh, imput) == FAIL)
+		return (FAIL);
+	t_arr_output	*tmp;
 
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		printf("-> %s\n", tmp->word);
+		tmp = tmp->next;
+	}
 	return (SUCCESS);
 	(void)mini_sh;
 }
 
 /*
+
 int	count_word(char *line)
 {
 	int	ite;

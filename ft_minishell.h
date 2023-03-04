@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/02/24 12:22:07 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/04 13:05:14 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@
 # include <readline/history.h>
 
 // ------------------------------ include ----------------------------------- //
+# include "color.h"
 // ---------------------------- end include --------------------------------- //
 
 // ------------------------------ define ------------------------------------ //
 # define SUCCESS 1
 # define FAIL -1
+# define FAIL_MALLOC -2
 # define D_QUOTE 34
 # define S_QUOTE 39
 // ---------------------------- end define ---------------------------------- //
@@ -60,25 +62,41 @@ typedef struct s_arr_output
 	struct s_arr_output	*next;
 }		t_arr_output;
 
-typedef struct s_mini_sh
-{
-	char			*output;
-	char			**env;
-	char			***prepare_exec;
-	t_arr_output	*rl_out;
-	t_arr_output	*rl_out_head;
-}					t_mini_sh;
+// typedef struct s_mini_sh
+// {
+// 	char			*output;
+// 	char			**env;
+// 	char			***prepare_exec;
+// 	t_arr_output	*rl_out;
+// 	t_arr_output	*rl_out_head;
+// }					t_mini_sh;
 
 enum e_type
 {
-	CMD=1,
+	CMD=2,
+	CMD_ABS,
 	PIPE,
 	ARG,
 	OPTION,
 	REDIR_L,
 	REDIR_R,
-	_FILE
+	_FILE,
+	APPEND,
+	HR_DOC
 };
+
+typedef struct s_mini_sh
+{
+	char			*output;
+	char			**env;
+	char			***prep_exec;
+	int				is_dquote;
+	int				is_squote;
+	int				sep;
+	int				nbr_word;
+	t_arr_output	*rl_out;
+	t_arr_output	*rl_out_head;
+}	t_mini_sh;
 
 typedef struct s_env
 {
@@ -155,32 +173,79 @@ char			*ft_strdup(char *src);
 void			free_env(t_mini_sh *mini_sh);
 void			free_parsing(t_mini_sh *mini_sh);
 void			ft_free_all(char *str, char **tab);
+// //parsing/expand.c
+// void			check_qt_open(t_arr_output *mn_tmp, int *i_expnd, int *is_qt);
+// void			expand(t_mini_sh *mini_sh);
+// int				ft_isthere_dollar(char *str);
+// void			ft_replace_dollar(t_mini_sh *mn_sh, t_arr_output *mn_tmp, int *i_expnd);
+// void			print_word(char *new_w);
+// void			print_word2(char *new_w);
+// //parsing/prepare_exec.c
+// int				coun_without_qt(char *str);
+// void			remove_quote(t_mini_sh *mini_sh);
+// char			*write_without_qt(char *str);
+// //parsing/set_type.c
+// void			set_type(t_mini_sh *mini_sh);
+// //parsing/quote.c
+// int				check_quote_is_closed(char *line);
+// void			count_quote_arg(char *line, int *ite, int quote);
+// int				count_word(char *line);
+// int				quote_is_closed(char *line, int *ite, int quote);
+// //parsing/ft_find_path.c
+// int				ft_find_cmd(char **envp, char *cmd_to_test, int ite_env);
+// int				ft_find_env(char **envp, char *cmd_to_test);
+// int				ft_find_path(char **envp, char *cmd_to_test);
+// char			*ft_find_var_env(char **envp, char *var_search);
+// //parsing/parsing.c
+// int				build_result_output(t_mini_sh *mini_sh, char *line);
+// int				ft_find_args(t_mini_sh *mini_sh);
+// void			ft_print_rl_out(t_mini_sh *mini_sh);
+// void			put_word_in_minish(t_mini_sh *mini_sh, char *line, int *save, int *ite);
+
 //parsing/expand.c
-void			check_qt_open(t_arr_output *mn_tmp, int *i_expnd, int *is_qt);
-void			expand(t_mini_sh *mini_sh, t_arr_output *mn_tmp);
-int				ft_isthere_dollar(char *str);
+void			check_qt_open(char *line, t_mini_sh *min, int *i_expnd, int *is_qt);
+void			expand(t_mini_sh *mini_sh);
+int				ft_isthere_dollar(char *str, t_mini_sh *min);
 void			ft_replace_dollar(t_mini_sh *mn_sh, t_arr_output *mn_tmp, int *i_expnd);
 void			print_word(char *new_w);
-//parsing/prepare_exec.c
+void			print_word2(char *new_w);
+//parsing/ft_find_path.c
+int				ft_find_cmd(t_mini_sh *mini_sh, int ite_env);
+int				ft_find_env(t_mini_sh *mini_sh);
+int				ft_find_path(t_mini_sh *mini_sh);
+char			*ft_find_var_env(char **envp, char *var_search);
+//parsing/remove_quote.c
 int				coun_without_qt(char *str);
 void			remove_quote(t_mini_sh *mini_sh);
 char			*write_without_qt(char *str);
 //parsing/set_type.c
-void			set_type(t_mini_sh *mini_sh);
+int				set_type(t_mini_sh *mini_sh);
+//parsing/prepare_exec.c
+int				count_double_arr(t_mini_sh *mini_sh);
+void			prepare_exec(t_mini_sh *mini_sh);
 //parsing/quote.c
 int				check_quote_is_closed(char *line);
 void			count_quote_arg(char *line, int *ite, int quote);
 int				count_word(char *line);
 int				quote_is_closed(char *line, int *ite, int quote);
-//parsing/ft_find_path.c
-int				ft_find_cmd(char **envp, char *cmd_to_test, int ite_env);
-int				ft_find_env(char **envp, char *cmd_to_test);
-int				ft_find_path(char **envp, char *cmd_to_test);
-char			*ft_find_var_env(char **envp, char *var_search);
 //parsing/parsing.c
 int				build_result_output(t_mini_sh *mini_sh, char *line);
-int				ft_find_args(t_mini_sh *mini_sh);
+int				ft_find_args(t_mini_sh *mini_sh, char *imput);
 void			ft_print_rl_out(t_mini_sh *mini_sh);
 void			put_word_in_minish(t_mini_sh *mini_sh, char *line, int *save, int *ite);
+
+//signal
+void	handle_ctrl_c(int signal);
+void	handle_ctrl_kill(int signal);
+void	exec_signal(int index);
+
+int	first_is_sep(t_mini_sh *mini_sh);
+int	check_first_sep_error(t_mini_sh *mini_sh);
+int	is_last_sep(t_mini_sh *mini_sh);
+int	check_last_sep_error(t_mini_sh *mini_sh);
+int	count_sep(t_mini_sh *mini_sh);
+int	init_tab(t_mini_sh *mini_sh);
+int	count_word_for_alloc(t_mini_sh *mini_sh, t_arr_output *rlout);
+int	if_empty_chain(t_mini_sh *mini_sh);
 
 #endif
