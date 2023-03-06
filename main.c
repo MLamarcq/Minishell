@@ -114,6 +114,7 @@ int	main(int argc, char *argv[], char **envp)
 		// ft_find_args(&mini_sh, "ls -l --color=never 	 -a | /usr/bin/grep -i --color=never  	   in >     result.txt");
 		mini_sh.output = readline("\n\033[31m>\033[0m");
 		mini_sh.sep = 0;
+		mini_sh.sep_2 = 0;
 		mini_sh.nbr_word = 0;
 		add_history(mini_sh.output);
 		// printf(BLUE"mini_sh.output: %s\n"RESET, mini_sh.output);
@@ -121,8 +122,13 @@ int	main(int argc, char *argv[], char **envp)
 		// process 
 		if (ft_find_args(&mini_sh, mini_sh.output) == SUCCESS)
 		{
-			printf("_%i_\n", if_empty_chain(&mini_sh));
-			//init_tab(&mini_sh);
+			//printf("_%i_\n", if_empty_chain(&mini_sh));
+			init_tab(&mini_sh);
+			//count_sep(&mini_sh);
+			//count_sep_2(&mini_sh);
+			//check_error_first_sep(&mini_sh);
+			//printf("res = %d\n", first_is_sep_2(&mini_sh));
+			//check_first_sep_error_2(&mini_sh);
 			//count_word_for_alloc(&mini_sh);
 		}
 			

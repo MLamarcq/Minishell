@@ -61,7 +61,8 @@ parsing/remove_quote.c \
 parsing/prepare_exec.c \
 parsing/ft_find_path.c \
 exec/count_sep_list.c \
-exec/init_tab.c
+exec/init_tab.c \
+exec/count_sep_retry.c
 
 SRC_MAEL  := main.c \
 lib/ft_strncmp.c \

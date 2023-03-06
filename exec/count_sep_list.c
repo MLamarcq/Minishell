@@ -139,6 +139,8 @@ int	count_sep(t_mini_sh *mini_sh)
 	t_arr_output *tmp;
 
 	tmp = mini_sh->rl_out_head;
+	mini_sh->sep = 0;
+	printf("nbr sep before -> %d\n", mini_sh->sep);
 	//printf("res 10 = %d\n", check_first_sep_error(mini_sh));
 	if (check_first_sep_error(mini_sh) == FAIL)
 		return (FAIL);
@@ -146,6 +148,7 @@ int	count_sep(t_mini_sh *mini_sh)
 		mini_sh->sep = mini_sh->sep - 1;
 	else if (check_last_sep_error(mini_sh) == FAIL)
 		return (FAIL);
+	printf("nbr sep before -> %d\n", mini_sh->sep);
 	while (tmp)
 	{
 	//	printf("tmp = %s\n", tmp->word);
@@ -165,7 +168,7 @@ int	count_sep(t_mini_sh *mini_sh)
 	//printf("res 10 = %d\n", check_first_sep_error(mini_sh));
 	// if (check_first_sep_error(mini_sh) == SUCCESS)
 	// 	mini_sh->sep = mini_sh->sep - 1;
-	//printf("res = %d\n", mini_sh->sep);
+	printf("res = %d\n", mini_sh->sep);
 	return (SUCCESS);
 }
 // int	count_sep(t_mini_sh *mini_sh)

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/04 13:05:14 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/05 14:06:38 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_mini_sh
 	int				is_dquote;
 	int				is_squote;
 	int				sep;
+	int				flag;
+	int				sep_2;
 	int				nbr_word;
 	t_arr_output	*rl_out;
 	t_arr_output	*rl_out_head;
@@ -247,5 +249,15 @@ int	count_sep(t_mini_sh *mini_sh);
 int	init_tab(t_mini_sh *mini_sh);
 int	count_word_for_alloc(t_mini_sh *mini_sh, t_arr_output *rlout);
 int	if_empty_chain(t_mini_sh *mini_sh);
+int	is_sep(char *word);
+
+int	count_sep_2(t_mini_sh *mini_sh);
+int	first_sep_error(t_mini_sh *mini_sh);
+int	check_error_first_sep(t_mini_sh *mini_sh);
+
+//int	first_is_sep_2(t_mini_sh *mini_sh);
+int	check_first_is_sep(t_mini_sh *mini_sh);
+int	check_first_is_sep_2(t_mini_sh *mini_sh);
+int	check_first_sep_error_2(t_mini_sh *mini_sh);
 
 #endif
