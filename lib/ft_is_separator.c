@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_separator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 16:30:08 by gael              #+#    #+#             */
-/*   Updated: 2023/02/23 14:30:30 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/09 19:02:15 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-int	ft_is_sep(char chr)
+int	ft_is_sep_parse(char chr)
 {
 	if ((int)chr == 32 || (int)chr == 9)
 		return (SUCCESS);
@@ -29,6 +29,13 @@ int	ft_is_sep_expand(char chr)
 int	ft_isalpha(int chr)
 {
 	if (((chr >= 65) && (chr <= 90)) || ((chr >= 97) && (chr <= 122)))
+		return (SUCCESS);
+	return (FAIL);
+}
+
+int	valid_identifier(int chr)
+{
+	if ((ft_isalpha(chr) == SUCCESS) || (chr >= 48 && chr <= 57) || chr == '_')
 		return (SUCCESS);
 	return (FAIL);
 }

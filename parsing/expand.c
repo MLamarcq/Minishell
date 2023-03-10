@@ -3,146 +3,218 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/02/27 14:22:26 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/09 19:07:16 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-int	ft_isthere_dollar(char *str, t_mini_sh *min)
-{
-	int	ite_isdollar;
-	int	is_squote;
+// int	len_word_replace(int end1, int start2, int end2)
+// {
+	
+// }
 
-	is_squote = FAIL;
-	ite_isdollar = -1;
-	while (str[++ite_isdollar])
-	{
-		check_qt_open(str, min, &ite_isdollar, &is_squote);
-		if (is_squote == SUCCESS)
-		{
-			if (str[ite_isdollar] == '$')
-				return (SUCCESS);
-		}
-	}
-	(void)is_squote;
-	return (FAIL);
-}
-
-void	check_qt_open(char *line, t_mini_sh *min, int *i_expnd, int *is_qt)
+void	replace_dollar(t_mini_sh * mini_sh, int *i_replace)
 {
-	(void)is_qt;
-	if (line[*i_expnd] == S_QUOTE)
-	{
-		min->is_squote = SUCCESS;
-		min->is_dquote = FAIL;
-	}
-	else if (line[*i_expnd] == D_QUOTE)
-	{
-		min->is_dquote = SUCCESS;
-		min->is_squote = FAIL;
-	}
-	// if (line[*i_expnd] == D_QUOTE)
-	// {
-	// 	if ((*is_qt) == FAIL)
-	// 		(*is_qt) = SUCCESS;
-	// 	else
-	// 		(*is_qt) = FAIL;
-	// }
-}
-
-void	ft_replace_dollar(t_mini_sh *mn_sh, t_arr_output *mn_tmp, int *i_expnd)
-{
-	char	*new_w;
 	int		save;
-	char	*dup_len1;
-	char	*dup_len2;
-	char	*dup_len3;
+	int		save2;
+	char	*var_name;
+	char	*final_var;
 
+	final_var = 0;
 	save = 0;
-	new_w = NULL;
-	save = (*i_expnd);
-	(*i_expnd)++;
-	while (ft_is_valid_export(mn_tmp->word[(*i_expnd)]) == SUCCESS)
-		(*i_expnd)++;
-	new_w = ft_strdup_len(mn_tmp->word, 0, save);
-	dup_len2 = ft_strdup_len(mn_tmp->word, save + 1, (*i_expnd));
-	dup_len3 = ft_find_var_env(mn_sh->env, dup_len2);
-	new_w = ft_strjoin_w_free(new_w, dup_len3);
-	free(dup_len2);
-	// free(dup_len3);
-	save = (*i_expnd);
-	while (mn_tmp->word[(*i_expnd)])
-		(*i_expnd)++;
-	dup_len1 = ft_strdup_len(mn_tmp->word, save, (*i_expnd));
-	new_w = ft_strjoin_w_free(new_w, dup_len1);
-	// free(dup_len1);
-	if (mn_tmp->word[0])
-		free(mn_tmp->word);
-	mn_tmp->word = new_w;
-	// free(new_w);
-	// print_word(mn_tmp->word);
-	// ft_print_rl_out(mn_sh);
-	// printf(BACK_WHITE" -------------------------------------------- "RST"\n\n");
-	if (ft_isthere_dollar(mn_tmp->word, mn_sh) == SUCCESS)
-		expand(mn_sh);
+	save2 = 0;
+	while (mini_sh->rl_out->word[(*i_replace)] && mini_sh->rl_out->word[(*i_replace)] != '$')
+		(*i_replace)++;
+	save = (*i_replace);
+ 
+	if (mini_sh->rl_out->word[(*i_replace)] && mini_sh->rl_out->word[(*i_replace)] == '$')
+		(*i_replace)++;
+	while (mini_sh->rl_out->word[(*i_replace)] && valid_identifier(mini_sh->rl_out->word[(*i_replace)]) == SUCCESS)
+		(*i_replace)++;
+	save2 = (*i_replace);
+	// printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
+	// printf(BACK_PURPLE"save: %i"RST"\n", save);
+	// printf(BACK_PURPLE"save2: %i"RST"\n", save2);
+	// printf("\n");
+	var_name = ft_strdup_len(mini_sh->rl_out->word, (save + 1), (*i_replace));
+	final_var = ft_find_var_env(mini_sh->env, var_name);
+	free(var_name);
+	if (final_var)
+		final_var = ft_strjoin_dfree(ft_strdup_len(mini_sh->rl_out->word, 0, save), final_var);
+	else
+		final_var = ft_strdup_len(mini_sh->rl_out->word, 0, save);
+
+	while (mini_sh->rl_out->word[(*i_replace)])
+		(*i_replace)++;
+	final_var = ft_strjoin_dfree(final_var, ft_strdup_len(mini_sh->rl_out->word, save2, (*i_replace)));
+	free(mini_sh->rl_out->word);
+	mini_sh->rl_out->word = ft_strdup(final_var);
+	free(final_var);
+	(void)save2;
+	(void)var_name;
+	(void)mini_sh;
+}
+
+int	interpreted(t_mini_sh *mini_sh)
+{
+	int	i_isdollar;
+
+	i_isdollar = -1;
+	while (mini_sh->rl_out->word[++i_isdollar])
+	{
+		toggle_quote(mini_sh, mini_sh->rl_out->word[i_isdollar]);
+		if ((mini_sh->is_dquote == SUCCESS || (mini_sh->is_dquote == FAIL && mini_sh->is_squote == FAIL)) && mini_sh->rl_out->word[i_isdollar] != '"' && mini_sh->rl_out->word[i_isdollar] != '\'')
+		{
+			// printf(BACK_YELLOW"%c"RST"", mini_sh->rl_out->word[i_isdollar]);
+			// if (mini_sh->is_squote == FAIL)
+			// 	printf(BACK_RED"is_squote: %i"RST"\n", mini_sh->is_squote);
+			// else
+			// 	printf(BACK_GREEN"is_squote: %i"RST"\n", mini_sh->is_squote);
+			// if (mini_sh->is_dquote == FAIL)
+			// 	printf(BACK_RED"is_dquote: %i"RST"\n", mini_sh->is_dquote);
+			// else
+			// 	printf(BACK_GREEN"is_dquote: %i"RST"\n", mini_sh->is_dquote);
+			replace_dollar(mini_sh, &i_isdollar);
+			break ;
+		}
+		// else
+		// 	printf(BACK_RED"%c"RST"", mini_sh->rl_out->word[i_isdollar]);
+		// printf("-------------------------------------------------------\n");
+		// toggle_quote(mini_sh, mini_sh->rl_out->word[i_isdollar]);
+	}
+	printf("\n");
+
+	return (SUCCESS);
+	(void)i_isdollar;
+	(void)mini_sh;
+}
+
+int	ft_isthere_dollar(t_mini_sh *mini_sh)
+{
+	int	i_isdollar;
+	int	rtn_val;
+
+	rtn_val = FAIL;
+	i_isdollar = -1;
+	while (mini_sh->rl_out->word[++i_isdollar])
+	{
+		toggle_quote(mini_sh, mini_sh->rl_out->word[i_isdollar]);
+		if ((mini_sh->is_dquote == SUCCESS || (mini_sh->is_dquote == FAIL && mini_sh->is_squote == FAIL)) && mini_sh->rl_out->word[i_isdollar] != '"' && mini_sh->rl_out->word[i_isdollar] != '\'')
+		{
+			if (mini_sh->rl_out->word[i_isdollar] == '$' && (valid_identifier(mini_sh->rl_out->word[i_isdollar + 1]) == SUCCESS))
+				rtn_val = SUCCESS;
+			// if (mini_sh->rl_out->word[i_isdollar] == '$') 
+			// {
+			// 	rtn_val = SUCCESS;
+			// 	if (mini_sh->rl_out->word[i_isdollar + 1] == '\0')
+			// 	{
+			// 		printf(BACK_RED"valid id %i"RST"\n", valid_identifier(mini_sh->rl_out->word[i_isdollar + 1]));
+			// 		printf(BACK_RED"int %i"RST"\n", mini_sh->rl_out->word[i_isdollar + 1]);
+			// 		printf(BACK_RED"chr %c"RST"\n", mini_sh->rl_out->word[i_isdollar + 1]);
+			// 	}
+			// 	if (valid_identifier(mini_sh->rl_out->word[i_isdollar + 1])) 
+			// 	{
+			// 		printf(BACK_PURPLE"valid id %i"RST"\n", valid_identifier(mini_sh->rl_out->word[i_isdollar + 1]));
+			// 		printf(BACK_PURPLE"int %i"RST"\n", mini_sh->rl_out->word[i_isdollar + 1]);
+			// 		printf(BACK_PURPLE"chr %c"RST"\n", mini_sh->rl_out->word[i_isdollar + 1]);
+			// 	}
+			// 	printf("\n");
+			// }
+			// printf(BACK_YELLOW"%c"RST"", mini_sh->rl_out->word[i_isdollar]);
+			// if (mini_sh->is_squote == FAIL)
+			// 	printf(BACK_RED"is_squote: %i"RST"\n", mini_sh->is_squote);
+			// else
+			// 	printf(BACK_GREEN"is_squote: %i"RST"\n", mini_sh->is_squote);
+			// if (mini_sh->is_dquote == FAIL)
+			// 	printf(BACK_RED"is_dquote: %i"RST"\n", mini_sh->is_dquote);
+			// else
+			// 	printf(BACK_GREEN"is_dquote: %i"RST"\n", mini_sh->is_dquote);
+			// replace_dollar(mini_sh, &i_isdollar);
+		}
+		// else
+		// 	printf(BACK_RED"%c"RST"", mini_sh->rl_out->word[i_isdollar]);
+		// printf("-------------------------------------------------------\n");
+		// toggle_quote(mini_sh, mini_sh->rl_out->word[i_isdollar]);
+	}
+	// printf("\n");
+
+	return (rtn_val);
+	(void)i_isdollar;
+	(void)mini_sh;
+}
+// int	ft_isthere_dollar(t_mini_sh *mini_sh)
+// {
+// 	int	i_isdollar;
+// 	int	rtn_val;
+
+// 	rtn_val = FAIL;
+// 	i_isdollar = -1;
+// 	while (mini_sh->rl_out->word[++i_isdollar])
+// 	{
+// 		// toggle_quote(mini_sh, mini_sh->rl_out->word[i_isdollar]);
+// 		// if (mini_sh->is_dquote == SUCCESS && mini_sh->rl_out->word[i_isdollar] != '"')
+// 		// 	rtn_val = SUCCESS;
+// 		toggle_quote(mini_sh, mini_sh->rl_out->word[i_isdollar]);
+// 		if ((mini_sh->is_dquote == SUCCESS || (mini_sh->is_dquote == FAIL && mini_sh->is_squote == FAIL)) && mini_sh->rl_out->word[i_isdollar] != '"' && mini_sh->rl_out->word[i_isdollar] != '\'')
+// 			rtn_val = SUCCESS;
+// 	}
+// 	if (rtn_val == SUCCESS)
+// 		printf(BACK_GREEN"%s"RST"\n", mini_sh->rl_out->word);
+// 	return (rtn_val);
+// 	(void)i_isdollar;
+// 	(void)mini_sh;
+// }
+
+void	init_quote(t_mini_sh *mini_sh)
+{
+	mini_sh->is_squote = FAIL;
+	mini_sh->is_dquote = FAIL;
+}
+
+void	toggle_quote(t_mini_sh *mini_sh, char chr)
+{
+	if (chr == S_QUOTE)
+	{
+		if (mini_sh->is_squote == FAIL)
+			mini_sh->is_squote = SUCCESS;
+		else
+			mini_sh->is_squote = FAIL;
+	}
+	else if (chr == D_QUOTE && mini_sh->is_squote == FAIL)
+	{
+		if (mini_sh->is_dquote == FAIL)
+			mini_sh->is_dquote = SUCCESS;
+		else
+			mini_sh->is_dquote = FAIL;
+	}
 }
 
 void	expand(t_mini_sh *mini_sh)
 {
-	t_arr_output	*mini_tmp;
-	int				ite_expand;
-	int				is_dquote;
-
-	is_dquote = FAIL;
-	mini_tmp = mini_sh->rl_out_head;
-	while (mini_tmp)
+	int	ite = 0;
+	int	tt = 0;
+	mini_sh->rl_out = mini_sh->rl_out_head;
+	while (mini_sh->rl_out)
 	{
-		ite_expand = 0;
-		// print_word2(mini_tmp->word);
-		if (mini_tmp->word[0])
+		// printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
+		init_quote(mini_sh);
+		while (ft_isthere_dollar(mini_sh) == SUCCESS)
 		{
-			// printf(BACK_GREEN"%c"RST"\n\n", mini_tmp->word[ite_expand]);
-			while (mini_tmp->word[ite_expand])
-			{
-				check_qt_open(mini_tmp->word, mini_sh, &ite_expand, &is_dquote);
-				if (mini_sh->is_squote == SUCCESS)
-				{
-					if (mini_tmp->word[ite_expand] == '$')
-						ft_replace_dollar(mini_sh, mini_tmp, &ite_expand);
-				}
-				else if (mini_sh->is_dquote == SUCCESS)
-					printf("We have to configure simple quote\n");
-				ite_expand++;
-			}
+			init_quote(mini_sh);
+			interpreted(mini_sh);
+			init_quote(mini_sh);
 		}
-		mini_tmp = mini_tmp->next;
-		if (!mini_tmp)
-			break ;
+
+		// make is there a dollar like above
+		// if (ft_isthere_dollar(mini_sh) == SUCCESS)
+		// 	replace_dollar(mini_sh);
+		mini_sh->rl_out = mini_sh->rl_out->next;
 	}
+	(void)ite;
+	(void)tt;
 }
 
-void	print_word(char *new_w)
-{
-	int x = 0;
-	while (new_w[x])
-	{
-		printf(BACK_CYAN"%c"RST"", new_w[x]);
-		x++;
-	}
-	printf(BACK_RED"%i"RST"\n", new_w[x]);
-}
-
-void	print_word2(char *new_w)
-{
-	int x = 0;
-	while (new_w[x])
-	{
-		printf(BACK_PURPLE"%c"RST"", new_w[x]);
-		x++;
-	}
-	printf(BACK_YELLOW"%i"RST"\n", new_w[x]);
-}

@@ -93,6 +93,7 @@
 int	main(int argc, char *argv[], char **envp)
 {
 	t_mini_sh	mini_sh;
+	// t_exec_t	exec;
 	int	env_length;
 
 	// mini_sh.env = envp;
@@ -115,23 +116,30 @@ int	main(int argc, char *argv[], char **envp)
 		mini_sh.output = readline("\n\033[31m>\033[0m");
 		mini_sh.sep = 0;
 		mini_sh.sep_2 = 0;
-		mini_sh.nbr_word = 0;
+		//mini_sh.nbr_word = 0;
 		add_history(mini_sh.output);
+		if (!mini_sh.output)
+		{
+			printf("exit\n");
+			break;
+		}
 		// printf(BLUE"mini_sh.output: %s\n"RESET, mini_sh.output);
 		// printf("mini_sh.output[5]-48: %i\n", mini_sh.output[5]-48);
 		// process 
-		if (ft_find_args(&mini_sh, mini_sh.output) == SUCCESS)
+		if (ft_parsing(&mini_sh) == SUCCESS)
 		{
 			//printf("_%i_\n", if_empty_chain(&mini_sh));
-			init_tab(&mini_sh);
+			//prepare_exec(&mini_sh);
 			//count_sep(&mini_sh);
 			//count_sep_2(&mini_sh);
 			//check_error_first_sep(&mini_sh);
 			//printf("res = %d\n", first_is_sep_2(&mini_sh));
 			//check_first_sep_error_2(&mini_sh);
 			//count_word_for_alloc(&mini_sh);
+			if_redir_R(&mini_sh);
+			printf("\n");
 		}
-			
+		mini_sh.output = NULL;
 		//count_sep(&mini_sh);
 		//count_sep(&mini_sh, imput);
 		//check_first_sep(&mini_sh, imput);

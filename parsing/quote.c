@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 01:53:30 by gael              #+#    #+#             */
-/*   Updated: 2023/02/16 14:22:30 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/09 19:15:01 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
 
 void	count_quote_arg(char *line, int *ite, int quote)
 {
@@ -31,11 +32,11 @@ int	count_word(char *line)
 	ite = 0;
 	while (line[ite])
 	{
-		while (ft_is_sep(line[ite]) == SUCCESS)
+		while (ft_is_sep_parse(line[ite]) == SUCCESS)
 			ite++;
-		if (line[ite] != '\0' && ft_is_sep(line[ite]) == FAIL)
+		if (line[ite] != '\0' && ft_is_sep_parse(line[ite]) == FAIL)
 			len++;
-		while (line[ite] != '\0' && ft_is_sep(line[ite]) == FAIL)
+		while (line[ite] != '\0' && ft_is_sep_parse(line[ite]) == FAIL)
 		{
 			count_quote_arg(line, &ite, D_QUOTE);
 			count_quote_arg(line, &ite, S_QUOTE);
@@ -71,11 +72,11 @@ int	check_quote_is_closed(char *line)
 	ite = 0;
 	while (line[ite])
 	{
-		while (ft_is_sep(line[ite]) == SUCCESS)
+		while (ft_is_sep_parse(line[ite]) == SUCCESS)
 			ite++;
-		if (line[ite] != '\0' && ft_is_sep(line[ite]) == FAIL)
+		if (line[ite] != '\0' && ft_is_sep_parse(line[ite]) == FAIL)
 			len++;
-		while (line[ite] != '\0' && ft_is_sep(line[ite]) == FAIL)
+		while (line[ite] != '\0' && ft_is_sep_parse(line[ite]) == FAIL)
 		{
 			if (quote_is_closed(line, &ite, D_QUOTE) == FAIL)
 				return (FAIL);

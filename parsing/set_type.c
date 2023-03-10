@@ -6,11 +6,32 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/03/02 12:07:36 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/10 10:42:47 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+int	is_built_in(t_mini_sh *mini_sh)
+{
+	if (ft_strncmp(mini_sh->rl_out->word, "pwd", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "cd", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "echo", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "unset", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "env", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "export", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "echo", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	else if (ft_strncmp(mini_sh->rl_out->word, "exit", ft_strlen(mini_sh->rl_out->word)) == 0)
+		return (SUCCESS);
+	return (FAIL);
+}
 
 int	set_type(t_mini_sh *mini_sh)
 {
@@ -18,7 +39,9 @@ int	set_type(t_mini_sh *mini_sh)
 	while (mini_sh->rl_out)
 	{
 		// printf("ft_find_env(envp, %s, "PATH="): %i\n", mini_sh->rl_out->word, ft_find_env(mini_sh->env, mini_sh->rl_out->word, "PATH="));
-		if (ft_find_env(mini_sh) == SUCCESS)
+		if (is_built_in(mini_sh) == SUCCESS)
+			mini_sh->rl_out->type = BUILT_IN;
+		else if (ft_find_env(mini_sh) == SUCCESS)
 		{
 			if (access(mini_sh->rl_out->word, F_OK) == 0)
 				mini_sh->rl_out->type = CMD_ABS;
