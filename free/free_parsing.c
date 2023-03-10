@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:56:00 by gael              #+#    #+#             */
-/*   Updated: 2023/03/10 11:26:09 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/10 11:49:52 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	free_parsing(t_mini_sh *mini_sh)
 		free(mini_sh->output);
 
 	mini_sh->rl_out = mini_sh->rl_out_head;
-	ft_lstclear(&mini_sh->rl_out);
+	if (mini_sh->rl_out)
+		ft_lstclear(&mini_sh->rl_out);
 	// while (mini_sh->rl_out)
 	// {
 	// 	printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);

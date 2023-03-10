@@ -123,6 +123,7 @@ int	main(int argc, char *argv[], char **envp)
 			printf("exit\n");
 			break;
 		}
+		exec_signal(1);
 		// printf(BLUE"mini_sh.output: %s\n"RESET, mini_sh.output);
 		// printf("mini_sh.output[5]-48: %i\n", mini_sh.output[5]-48);
 		// process 
@@ -137,24 +138,26 @@ int	main(int argc, char *argv[], char **envp)
 			//check_first_sep_error_2(&mini_sh);
 			//count_word_for_alloc(&mini_sh);
 			if_redir_R(&mini_sh);
+			init_sep_type(&mini_sh);
 			printf("\n");
 		}
-		mini_sh.output = NULL;
 		//count_sep(&mini_sh);
 		//count_sep(&mini_sh, imput);
 		//check_first_sep(&mini_sh, imput);
 		
-	// 	if (ft_strncmp(mini_sh.output, "exit", 4) == 0)
-	// 	{
-	// 		char **str;
-	// 		int res;
+		// 	if (ft_strncmp(mini_sh.output, "exit", 4) == 0)
+		// 	{
+		// 		char **str;
+		// 		int res;
 
-	// 		str = ft_split(mini_sh.output, ' ');
-	// 		res = atoi(str[1]);
-	// 		return (res);
-	// 	}
+		// 		str = ft_split(mini_sh.output, ' ');
+		// 		res = atoi(str[1]);
+		// 		return (res);
+		// 	}
+		free(mini_sh.output),
+		mini_sh.output = NULL;
+		free_parsing(&mini_sh);
 	}
-	free_parsing(&mini_sh);
 	free_env(&mini_sh);
 	// env_length = -1;
 		//  si c'est une simplle on interprete pas doublr

@@ -57,6 +57,7 @@ int	if_redir_R(t_mini_sh *mini_sh)
 		// if (tmp->type != ARG)
 		// exec->fd = open(tmp->next->word, )
 	}
+	free(mini_sh->exec);
 	return (SUCCESS);
 }
 

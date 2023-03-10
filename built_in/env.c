@@ -1,29 +1,5 @@
 #include "../ft_minishell.h"
 
-int	init_env(char **envp, t_env *data)
-{
-	int size;
-	int i;
-
-	i = 0;
-	size = envp_size(envp);
-	data->envp = (char**)malloc(sizeof(char *) * (size + 1));
-	if (!data->envp)
-		return (FAIL);
-	data->envp[size] = 0;
-	while (envp[i])
-	{
-		data->envp[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	data->dest = NULL;
-	data->temp = NULL;
-	data->size = envp_size(data->envp);
-	data->count = 0;
-	data->ite_getenv = 0;
-	return (SUCCESS);
-}
-
 int	env(int argc, char **argv, t_env *data)
 {
 	int i;

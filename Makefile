@@ -61,7 +61,8 @@ parsing/remove_quote.c \
 parsing/ft_find_path.c \
 exec/prepare_exec.c \
 exec/sep.c \
-exec/which_sep.c
+exec/which_sep.c \
+exec/start_exec.c
 
 SRC_MAEL  := main.c \
 lib/ft_strncmp.c \

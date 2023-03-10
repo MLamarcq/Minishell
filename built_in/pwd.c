@@ -15,7 +15,7 @@ int	ft_pwd(char **argv)
 	char *str;
 
 	str = NULL; 
-	if (ft_strncmp(argv[1], "pwd", 3) == 0)
+	if (ft_strncmp(argv[0], "pwd", 3) == 0)
 	{
 		str = getcwd(str, 10000);
 		if (str != NULL)
@@ -30,7 +30,7 @@ int	ft_pwd(char **argv)
 	}
 	else
 	{
-		printf("%s: command not found\n", argv[1]);
+		printf("%s: command not found\n", argv[0]);
 		return (FAIL);
 	}
 }

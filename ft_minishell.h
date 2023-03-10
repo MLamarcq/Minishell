@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/10 10:55:25 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/10 16:50:07 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,17 @@ typedef struct s_exec_tools
 	int	fd[2];
 } t_exec_t;
 
+typedef struct s_env
+{
+	char	**envp;
+	char	**new_envp;
+	char	*dest;
+	char	*temp;
+	int		size;
+	int 	count;
+	int		ite_getenv;
+}   t_env;
+
 typedef struct s_mini_sh
 {
 	char			*output;
@@ -106,21 +117,14 @@ typedef struct s_mini_sh
 	int				flag;
 	int				sep_2;
 	int				nbr_word;
+	int				*sep_type;
+	pid_t			*pids;
+	t_env			*data;
 	t_exec_t		*exec;
 	t_arr_output	*rl_out;
 	t_arr_output	*rl_out_head;
 }	t_mini_sh;
 
-typedef struct s_env
-{
-	char	**envp;
-	char	**new_envp;
-	char	*dest;
-	char	*temp;
-	int		size;
-	int 	count;
-	int		ite_getenv;
-}   t_env;
 // ---------------------------- end struct ---------------------------------- //
 
 //main.c
@@ -238,5 +242,8 @@ void			ft_print_rl_out(t_mini_sh *mini_sh);
 void			print_word(char *new_w);
 void			print_word2(char *new_w);
 void			put_word_in_minish(t_mini_sh *mini_sh, char *line, int *save, int *ite);
+
+int	init_sep_type(t_mini_sh *mini_sh);
+
 
 #endif

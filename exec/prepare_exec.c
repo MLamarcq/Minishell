@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/10 11:15:10 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/10 14:52:06 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	prepare_exec(t_mini_sh *mini_sh)
 	// 	printf(BACK_CYAN"mini_sh->prepare_exec[%i][0]: %s"RST"\n", len, mini_sh->prepare_exec[len][0]);
 	// 	len++;
 	// }
-	// printf(BACK_GREEN"3"RST"\n");
+	printf(BACK_GREEN"3"RST"\n");
 	free_exec(mini_sh);
 	return (SUCCESS);
 }
