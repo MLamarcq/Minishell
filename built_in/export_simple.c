@@ -7,10 +7,10 @@ int	is_sorted(t_mini_sh *mini_sh)
 
 	i = 0;
 	j = 0;
-	while (mini_sh->env[i + 1])
+	while (mini_sh->data->env_sorted[i + 1])
 	{
 		j = 0;
-		if (mini_sh->env[i][j] > mini_sh->env[i + 1][j])
+		if (mini_sh->data->env_sorted[i][j] > mini_sh->data->env_sorted[i + 1][j])
 			return (FAIL);
 		i++;
 	}
@@ -20,11 +20,11 @@ int	is_sorted(t_mini_sh *mini_sh)
 
 void	swap_line(int i, t_mini_sh *mini_sh)
 {
-	mini_sh->data->temp = ft_strdup(mini_sh->env[i]);
-	free(mini_sh->env[i]);
-	mini_sh->env[i] = ft_strdup(mini_sh->env[i + 1]);
-	free(mini_sh->env[i + 1]);
-	mini_sh->env[i + 1] = ft_strdup(mini_sh->data->temp);
+	mini_sh->data->temp = ft_strdup(mini_sh->data->env_sorted[i]);
+	free(mini_sh->data->env_sorted[i]);
+	mini_sh->data->env_sorted[i] = ft_strdup(mini_sh->data->env_sorted[i + 1]);
+	free(mini_sh->data->env_sorted[i + 1]);
+	mini_sh->data->env_sorted[i + 1] = ft_strdup(mini_sh->data->temp);
 	free(mini_sh->data->temp);
 }
 
@@ -36,16 +36,16 @@ void	sort_export(t_mini_sh *mini_sh)
 	while (is_sorted(mini_sh) == FAIL)
 	{
 		i = 0;
-		while (mini_sh->env[i + 1])
+		while (mini_sh->data->env_sorted[i + 1])
 		{
 			j = 0;
-			if (mini_sh->env[i][j] > mini_sh->env[i + 1][j])
+			if (mini_sh->data->env_sorted[i][j] > mini_sh->data->env_sorted[i + 1][j])
 				swap_line(i, mini_sh);
-			else if (mini_sh->env[i][j] == mini_sh->env[i + 1][j])
+			else if (mini_sh->data->env_sorted[i][j] == mini_sh->data->env_sorted[i + 1][j])
 			{
-				while (mini_sh->env[i][j] == mini_sh->env[i + 1][j])
+				while (mini_sh->data->env_sorted[i][j] == mini_sh->data->env_sorted[i + 1][j])
 					j++;
-				if (mini_sh->env[i][j] > mini_sh->env[i + 1][j])
+				if (mini_sh->data->env_sorted[i][j] > mini_sh->data->env_sorted[i + 1][j])
 					swap_line(i, mini_sh);
 			}
 			i++;
@@ -70,14 +70,14 @@ int	print_export(char **argv, t_mini_sh *mini_sh)
 
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
-		if (export_3(argv, mini_sh) == SUCCESS)
+		if (export(argv, mini_sh) == SUCCESS)
 		{
-			while (mini_sh->env[i])
+			while (mini_sh->data->env_sorted[i])
 			{
-				printf("declare -x %s\n", mini_sh->env[i]);
+				printf("declare -x %s\n", mini_sh->data->env_sorted[i]);
 				i++;
 			}
-			//ft_free_tab(mini_sh->env);
+			//ft_free_tab(mini_sh->data->env_sorted);
 			return (SUCCESS);
 		}
 		else

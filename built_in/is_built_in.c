@@ -19,6 +19,7 @@ int	init_env(t_mini_sh *mini_sh)
 	// 	mini_sh->data->envp[i] = ft_strdup(envp[i]);
 	// 	i++;
 	// }
+	mini_sh->data->env_sorted = NULL;
 	mini_sh->data->dest = NULL;
 	mini_sh->data->temp = NULL;
 	mini_sh->data->size = envp_size(mini_sh->env);
@@ -70,6 +71,13 @@ int	do_built_in(t_mini_sh *mini_sh)
 	int i;
 
 	init_env(mini_sh);
+	init_env_sorted(mini_sh);
+	//i = 0;
+	// while (mini_sh->data->env_sorted[i])
+	// {
+	// 	printf("-> %s\n", mini_sh->data->env_sorted[i]);
+	// 	i++;
+	// }
 	i = 0;
 	while (mini_sh->prepare_exec[i])
 	{

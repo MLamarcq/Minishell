@@ -1,5 +1,35 @@
 #include "../ft_minishell.h"
 
+
+int init_env_sorted(t_mini_sh *mini_sh)
+{
+	int i;
+
+	i = 0;
+	// mini_sh->data->env_sorted = NULL;
+	mini_sh->data->env_sorted = (char **)malloc(sizeof(char *) * (mini_sh->data->size + 1));
+	if (!mini_sh->data->env_sorted)
+		return (FAIL_MALLOC);
+	mini_sh->data->env_sorted[mini_sh->data->size] = NULL;
+	while (mini_sh->env[i])
+	{
+		// printf("------------> i : %i\n", i);
+		// printf(RED"-> %s\n"RST, mini_sh->data->env_sorted[i]);
+		mini_sh->data->env_sorted[i] = ft_strdup(mini_sh->env[i]);
+		// printf(BLUE"-> %s\n\n"RST, mini_sh->data->env_sorted[i]);
+		i++;
+	}
+	//i = 0;
+	// printf("------------> i : %i\n", i);
+	// printf("------------> first %s\n", mini_sh->data->env_sorted[0]);
+	// while (mini_sh->data->env_sorted[i])
+	// {
+	// 	printf("-> %s\n", mini_sh->data->env_sorted[i]);
+	// 	i++;
+	// }
+	return (SUCCESS);
+}
+
 int	if_arg(char **argv, t_mini_sh *mini_sh)
 {
 	int i;

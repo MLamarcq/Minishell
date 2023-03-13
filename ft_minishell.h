@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/11 19:38:19 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/13 13:55:59 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct s_exec_tools
 
 typedef struct s_env
 {
-	char	**envp;
+	char	**env_sorted;
 	char	**new_envp;
 	char	*dest;
 	char	*temp;
@@ -149,7 +149,7 @@ int				if_arg(char **argv, t_mini_sh *mini_sh);
 //built_in/env.c
 int				env(char **argv, t_mini_sh *mini_sh);
 //built_in/export_simple.c
-int				export_3(char **argv, t_mini_sh *mini_sh);
+int				export(char **argv, t_mini_sh *mini_sh);
 int				is_sorted(t_mini_sh *mini_sh);
 int				print_export(char **argv, t_mini_sh *mini_sh);
 void			sort_export(t_mini_sh *mini_sh);
@@ -246,4 +246,6 @@ int	init_sep_type(t_mini_sh *mini_sh);
 int	do_built_in(t_mini_sh *mini_sh);
 int	init_env(t_mini_sh *mini_sh);
 int				is_built_in_2(char **exec, t_mini_sh *mini_sh);
+int init_env_sorted(t_mini_sh *mini_sh);
+
 #endif
