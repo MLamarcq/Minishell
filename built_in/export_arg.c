@@ -1,25 +1,20 @@
 #include "../ft_minishell.h"
 
-int	if_arg(int argc, char **argv, t_env *data)
+int	if_arg(char **argv, t_mini_sh *mini_sh)
 {
 	int i;
 
 	i = 0;
-	if (argc == 3)
+	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
-		if (ft_strncmp(argv[1], "export", 6) == 0)
+		mini_sh->data->dest = ft_strdup(argv[1]);
+		while (mini_sh->data->dest[i])
 		{
-			data->dest = ft_strdup(argv[2]);
-			while (data->dest[i])
-			{
-				if (data->dest[i] == '=')
-					return (SUCCESS);
-				i++;
-			}
+			if (mini_sh->data->dest[i] == '=')
+				return (SUCCESS);
+			i++;
 		}
-		return (FAIL);
 	}
-	else
 		return (FAIL);
 }
 
@@ -36,35 +31,35 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
-int	export_arg(int argc, char **argv, t_env *data)
+int	export_arg(char **argv, t_mini_sh *mini_sh)
 {
 	int i;
 
 	i = 0;
-	if (if_arg(argc, argv, data) == SUCCESS)
+	if (if_arg(argv, mini_sh) == SUCCESS)
 	{
-		data->new_envp = (char **)malloc(sizeof (char *) * (data->size + 2));
-		if (!data->new_envp)
+		mini_sh->data->new_envp = (char **)malloc(sizeof (char *) * (mini_sh->data->size + 2));
+		if (!mini_sh->data->new_envp)
 			return (FAIL);
-		data->new_envp[data->size + 1] = 0;
+		mini_sh->data->new_envp[mini_sh->data->size + 1] = 0;
 		i = -1;
-		while (data->envp[++i])
-			data->new_envp[i] = ft_strdup(data->envp[i]);
-		data->new_envp[i] = ft_strdup(data->dest);
-		ft_free_tab(data->envp);
-		data->envp = (char **)malloc(sizeof (char *) * (data->size + 2));
-		if (!data->envp)
+		while (mini_sh->env[++i])
+			mini_sh->data->new_envp[i] = ft_strdup(mini_sh->env[i]);
+		mini_sh->data->new_envp[i] = ft_strdup(mini_sh->data->dest);
+		ft_free_tab(mini_sh->env);
+		mini_sh->env = (char **)malloc(sizeof (char *) * (mini_sh->data->size + 2));
+		if (!mini_sh->env)
 			return (FAIL);
 		i = -1;
-		while (data->new_envp[++i])
-			data->envp[i] = ft_strdup(data->new_envp[i]);
-		data->envp[data->size + 1] = 0;
-		ft_free_tab(data->new_envp);
-		export_3(argc, argv, data);
+		while (mini_sh->data->new_envp[++i])
+			mini_sh->env[i] = ft_strdup(mini_sh->data->new_envp[i]);
+		mini_sh->env[mini_sh->data->size + 1] = 0;
+		ft_free_tab(mini_sh->data->new_envp);
+		export(argv, mini_sh);
 		i = 0;
-		while (data->envp[i])
+		while (mini_sh->env[i])
 		{
-			printf("-> %s\n", data->envp[i]);
+			printf("-> %s\n", mini_sh->env[i]);
 			i++;
 		}
 	}

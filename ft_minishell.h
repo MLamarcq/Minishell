@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/10 16:50:07 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/11 19:38:19 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,28 +133,27 @@ void			handle_ctrl_c(int signal);
 //signal/exec_signal.c
 void			exec_signal(int index);
 //built_in/cd.c
-int				ft_cd(int argc, char **str);
+int				ft_cd(char **str);
 //built_in/unset.c
-int				exec_unset(int argc, char **argv, t_env *data);
-void			to_empty_line(char **argv, t_env *data);
-int				unset(int argc, char **argv, t_env *data);
+int				exec_unset(char **argv, t_mini_sh *mini_sh);
+void			to_empty_line(char **argv, t_mini_sh *mini_sh);
+int				unset(char **argv, t_mini_sh *mini_sh);
 //built_in/echo.c
 int				ft_echo(char **str);
 //built_in/pwd.c
 int				ft_pwd(char **argv);
 //built_in/export_arg.c
-int				export_arg(int argc, char **argv, t_env *data);
+int				export_arg(char **argv, t_mini_sh *mini_sh);
 void			ft_free_tab(char **tab);
-int				if_arg(int argc, char **argv, t_env *data);
+int				if_arg(char **argv, t_mini_sh *mini_sh);
 //built_in/env.c
-int				env(int argc, char **argv, t_env *data);
-int				init_env(char **envp, t_env *data);
+int				env(char **argv, t_mini_sh *mini_sh);
 //built_in/export_simple.c
-int				export_3(int argc, char **argv, t_env *data);
-int				is_sorted(t_env *data);
-int				print_export(int argc, char **argv, t_env *data);
-void			sort_export(t_env *data);
-void			swap_line(int i, t_env *data);
+int				export_3(char **argv, t_mini_sh *mini_sh);
+int				is_sorted(t_mini_sh *mini_sh);
+int				print_export(char **argv, t_mini_sh *mini_sh);
+void			sort_export(t_mini_sh *mini_sh);
+void			swap_line(int i, t_mini_sh *mini_sh);
 //lib/main.c
 //lib/envp_size.c
 int				envp_size(char **envp);
@@ -244,6 +243,7 @@ void			print_word2(char *new_w);
 void			put_word_in_minish(t_mini_sh *mini_sh, char *line, int *save, int *ite);
 
 int	init_sep_type(t_mini_sh *mini_sh);
-
-
+int	do_built_in(t_mini_sh *mini_sh);
+int	init_env(t_mini_sh *mini_sh);
+int				is_built_in_2(char **exec, t_mini_sh *mini_sh);
 #endif

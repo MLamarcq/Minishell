@@ -87,27 +87,29 @@
 
 // }
 
+void	init_env_2(char **envp, t_mini_sh * mini_sh)
+{
+	int	env_length;
 
+	env_length = 0;
+	while (envp[env_length])
+		env_length++;
+	mini_sh->env = (char **)malloc((sizeof (char *)) * (env_length + 1));
+	env_length = -1;
+	while (envp[++env_length])
+		mini_sh->env[env_length] = ft_strdup(envp[env_length]);
+	mini_sh->env[env_length] = 0;
+}
 
 
 int	main(int argc, char *argv[], char **envp)
 {
 	t_mini_sh	mini_sh;
 	// t_exec_t	exec;
-	int	env_length;
 
 	// mini_sh.env = envp;
-	env_length = 0;
-	while (envp[env_length])
-		env_length++;
-	mini_sh.env = (char **)malloc((sizeof (char *)) * (env_length + 1));
-	env_length = -1;
-	while (envp[++env_length])
-	{
-		mini_sh.env[env_length] = ft_strdup(envp[env_length]);
-	}
-	mini_sh.env[env_length] = 0;
 	mini_sh.output = NULL;
+	init_env_2(envp, &mini_sh);
 	while (1)
 	{
 		// char *imput;
@@ -137,8 +139,9 @@ int	main(int argc, char *argv[], char **envp)
 			//printf("res = %d\n", first_is_sep_2(&mini_sh));
 			//check_first_sep_error_2(&mini_sh);
 			//count_word_for_alloc(&mini_sh);
-			if_redir_R(&mini_sh);
-			init_sep_type(&mini_sh);
+			//if_redir_R(&mini_sh);
+			do_built_in(&mini_sh);
+			//init_sep_type(&mini_sh);
 			printf("\n");
 		}
 		//count_sep(&mini_sh);

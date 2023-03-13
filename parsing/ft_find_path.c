@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:57 by ggosse            #+#    #+#             */
-/*   Updated: 2023/03/09 19:08:56 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/11 20:21:04 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_find_env(t_mini_sh *mini_sh)
 	return (FAIL);
 }
 
-char	*ft_find_var_env(char **envp, char *var_search)
+char	*ft_find_var_env(char **abc, char *var_search)
 {
 	char	*var_env;
 	int		ite_env;
@@ -90,25 +90,25 @@ char	*ft_find_var_env(char **envp, char *var_search)
 	ite_env = -1;
 	if (!var_search)
 		return (NULL);
-	if (envp[0])
+	if (abc[0])
 	{
-		while (envp[++ite_env])
+		while (abc[++ite_env])
 		{
 			var_env = ft_strdup(var_search);
 			var_env = ft_strjoin_lfree(var_env, "=");
 			ite_env_char = 0;
-			while (envp[ite_env][ite_env_char] != '=')
+			while (abc[ite_env][ite_env_char] != '=')
 				ite_env_char++;
-			res_var_env = ft_strdup_len(envp[ite_env], 0, ite_env_char + 1);
+			res_var_env = ft_strdup_len(abc[ite_env], 0, ite_env_char + 1);
 			if (ft_strncmp(res_var_env, var_env, ft_strlen(var_env)) == 0)
 			{
 				ite_env_char++;
 				save = ite_env_char;
-				while (envp[ite_env][ite_env_char])
+				while (abc[ite_env][ite_env_char])
 					ite_env_char++;
 				free(res_var_env);
 				free(var_env);
-				final = ft_strdup_len(envp[ite_env], save, ite_env_char);
+				final = ft_strdup_len(abc[ite_env], save, ite_env_char);
 				return (final);
 			}
 			free(res_var_env);
