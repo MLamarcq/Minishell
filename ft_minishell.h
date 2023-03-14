@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/13 13:55:59 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 11:53:12 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void			handle_ctrl_c(int signal);
 //signal/exec_signal.c
 void			exec_signal(int index);
 //built_in/cd.c
-int				ft_cd(char **str);
+int				ft_cd(char **str, t_mini_sh *mini_sh);
 //built_in/unset.c
 int				exec_unset(char **argv, t_mini_sh *mini_sh);
 void			to_empty_line(char **argv, t_mini_sh *mini_sh);
@@ -247,5 +247,8 @@ int	do_built_in(t_mini_sh *mini_sh);
 int	init_env(t_mini_sh *mini_sh);
 int				is_built_in_2(char **exec, t_mini_sh *mini_sh);
 int init_env_sorted(t_mini_sh *mini_sh);
+int	export_cd(char **str, t_mini_sh *mini_sh);
+int	export_specific(char *to_export, t_mini_sh *mini_sh);
+void	export_home(char *home, t_mini_sh *mini_sh);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/10 10:53:43 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 12:13:52 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 				printf(BLUE"_FILE"RST"\n");
 			if (tmp->type == BUILT_IN)
 				printf(BLUE"BUILT_IN"RST"\n");
+			printf("\n");
 		}
-		printf("\n");
 		tmp = tmp->next;
 	}
 }
@@ -128,7 +128,9 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 		if (prepare_exec(mini_sh) < 0)
 			return (FAIL);
 	}
-	return (len_global + 1);
+	else
+		return (FAIL);
+	return (SUCCESS);
 }
 
 int	ft_parsing(t_mini_sh *mini_sh)
@@ -158,7 +160,8 @@ int	ft_parsing(t_mini_sh *mini_sh)
 	// build_result_output(mini_sh, "  < 	 lib  /usr/bin/grep -i | \"abc $TERM def\" \"\" | \'\"$TERM\"\' \"\'$TERM\'\" --color=never 	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\""));
 	// printf("  < 	 lib  /usr/bin/grep -ri in | echo \"abc $TERM def\" $USER xyz \"$$\" \"$\" $ | echo \'\"$TERM\"\' \"\'$TERM\'\"   	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l  --color=never  	 -a | echo >\"|\" \"| >>\""BACK_RED"$	%i 27"RST"\n------------------------------------------------\n",
 	// build_result_output(mini_sh, "  < 	 lib  /usr/bin/grep -ri in | echo \"abc $TERM def\" $USER xyz \"$$\" \"$\" $ | echo \'\"$TERM\"\' \"\'$TERM\'\"  	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l  --color=never 	 -a | echo \"|\" \"| >>\""));
-	build_result_output(mini_sh, mini_sh->output);
+	if (build_result_output(mini_sh, mini_sh->output) < 0)
+		return (FAIL); 
 	return (SUCCESS);
 	(void)mini_sh;
 }

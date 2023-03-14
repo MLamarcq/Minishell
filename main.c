@@ -115,7 +115,7 @@ int	main(int argc, char *argv[], char **envp)
 		// char *imput;
 		// imput = readline(">");
 		// ft_find_args(&mini_sh, "ls -l --color=never 	 -a | /usr/bin/grep -i --color=never  	   in >     result.txt");
-		mini_sh.output = readline("\n\033[31m>\033[0m");
+		mini_sh.output = readline("\033[31m>\033[0m");
 		mini_sh.sep = 0;
 		mini_sh.sep_2 = 0;
 		//mini_sh.nbr_word = 0;
@@ -142,7 +142,7 @@ int	main(int argc, char *argv[], char **envp)
 			//if_redir_R(&mini_sh);
 			do_built_in(&mini_sh);
 			//init_sep_type(&mini_sh);
-			printf("\n");
+			// printf("\n");
 		}
 		//count_sep(&mini_sh);
 		//count_sep(&mini_sh, imput);

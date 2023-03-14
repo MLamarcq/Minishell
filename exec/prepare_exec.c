@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/11 19:40:46 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 12:12:20 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,11 @@ int	prepare_exec(t_mini_sh *mini_sh)
 			return (FAIL);
 		dble = 0;
 		mini_sh->prepare_exec[triple] = (char **)malloc((sizeof (char *)) * (mini_sh->nbr_word + 1));
-		printf(BACK_PURPLE"mini_sh->nbr_word: %i"RST"\n", mini_sh->nbr_word);
 		mini_sh->nbr_word = 0;
 		while (tmp && is_sep(tmp->word) == FAIL)
 		{
 			mini_sh->prepare_exec[triple][dble] = ft_strdup(tmp->word);
 			dble++;
-			printf(BACK_RED"1"RST"\n");
 			if (!tmp->next)
 				break;
 			else
@@ -124,7 +122,6 @@ int	prepare_exec(t_mini_sh *mini_sh)
 		}
 		mini_sh->prepare_exec[triple][dble] = NULL;
 		triple++;
-		printf(BACK_BLUE"2"RST"\n");
 		if (!tmp->next)
 			break;
 		else
@@ -138,7 +135,6 @@ int	prepare_exec(t_mini_sh *mini_sh)
 	// 	printf(BACK_CYAN"mini_sh->prepare_exec[%i][0]: %s"RST"\n", len, mini_sh->prepare_exec[len][0]);
 	// 	len++;
 	// }
-	printf(BACK_GREEN"3"RST"\n");
 	//free_exec(mini_sh);
 	return (SUCCESS);
 }

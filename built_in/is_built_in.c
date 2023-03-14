@@ -1,24 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_built_in.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
+/*   Updated: 2023/03/14 14:12:10 by mael             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
 int	init_env(t_mini_sh *mini_sh)
 {
-	// int size;
-	// int i;
-
 	mini_sh->data = malloc(sizeof(t_env));
 	if (!mini_sh->data)
 		return (FAIL_MALLOC);
-	// i = 0;
-	// size = envp_size(envp);
-	// mini_sh->data->envp = (char**)malloc(sizeof(char *) * (size + 1));
-	// if (!mini_sh->data->envp)
-	// 	return (FAIL);
-	// mini_sh->data->envp[size] = 0;
-	// while (envp[i])
-	// {
-	// 	mini_sh->data->envp[i] = ft_strdup(envp[i]);
-	// 	i++;
-	// }
 	mini_sh->data->env_sorted = NULL;
 	mini_sh->data->dest = NULL;
 	mini_sh->data->temp = NULL;
@@ -31,25 +29,13 @@ int	init_env(t_mini_sh *mini_sh)
 int	is_built_in_2(char **exec, t_mini_sh *mini_sh)
 {
 	if (ft_strncmp(exec[0], "echo", ft_strlen(exec[0])) == 0)
-	{
-		ft_echo(exec);
-		return (SUCCESS);
-	}
+		return (ft_echo(exec), SUCCESS);
 	else if (ft_strncmp(exec[0], "pwd", ft_strlen(exec[0])) == 0)
-	{
-		ft_pwd(exec);
-		return (SUCCESS);
-	}
+		return (ft_pwd(exec), SUCCESS);
 	else if (ft_strncmp(exec[0], "cd", ft_strlen(exec[0])) == 0)
-	{
-		ft_cd(exec);
-		return (SUCCESS);
-	}
+		return (ft_cd(exec, mini_sh), SUCCESS);
 	else if (ft_strncmp(exec[0], "unset", ft_strlen(exec[0])) == 0)
-	{
-		exec_unset(exec, mini_sh);
-		return (SUCCESS);
-	}
+		return (exec_unset(exec, mini_sh), SUCCESS);
 	else if (ft_strncmp(exec[0], "export", ft_strlen(exec[0])) == 0)
 	{
 		if (!exec[1])
@@ -59,25 +45,16 @@ int	is_built_in_2(char **exec, t_mini_sh *mini_sh)
 		return (SUCCESS);
 	}
 	else if (ft_strncmp(exec[0], "env", ft_strlen(exec[0])) == 0)
-	{
-		env(exec, mini_sh);
-		return (SUCCESS);
-	}
+		return (env(exec, mini_sh), SUCCESS);
 	return (FAIL);
 }
 
 int	do_built_in(t_mini_sh *mini_sh)
 {
-	int i;
+	int	i;
 
 	init_env(mini_sh);
 	init_env_sorted(mini_sh);
-	//i = 0;
-	// while (mini_sh->data->env_sorted[i])
-	// {
-	// 	printf("-> %s\n", mini_sh->data->env_sorted[i]);
-	// 	i++;
-	// }
 	i = 0;
 	while (mini_sh->prepare_exec[i])
 	{
