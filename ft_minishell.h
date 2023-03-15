@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/14 11:53:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 16:59:09 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ typedef struct s_arr_output
 	char				*word;
 	int					type;
 	struct s_arr_output	*next;
-}		t_arr_output;
+}		t_parse;
 
 // typedef struct s_mini_sh
 // {
 // 	char			*output;
 // 	char			**env;
 // 	char			***prepare_exec;
-// 	t_arr_output	*rl_out;
-// 	t_arr_output	*rl_out_head;
+// 	t_parse	*rl_out;
+// 	t_parse	*rl_out_head;
 // }					t_mini_sh;
 
 enum e_type
@@ -103,7 +103,7 @@ typedef struct s_env
 	char	*temp;
 	int		size;
 	int 	count;
-	int		ite_getenv;
+	int		ite_genv;
 }   t_env;
 
 typedef struct s_mini_sh
@@ -121,8 +121,8 @@ typedef struct s_mini_sh
 	pid_t			*pids;
 	t_env			*data;
 	t_exec_t		*exec;
-	t_arr_output	*rl_out;
-	t_arr_output	*rl_out_head;
+	t_parse	*rl_out;
+	t_parse	*rl_out_head;
 }	t_mini_sh;
 
 // ---------------------------- end struct ---------------------------------- //
@@ -161,10 +161,10 @@ int				envp_size(char **envp);
 int				ft_strcmp(char *str, char *dest);
 int				ft_strncmp(char *str, char *dest, int n);
 //lib/ft_lstnew_word.c
-t_arr_output *ft_lstnew_malloc(int size);
-t_arr_output *ft_lstnew_word(char *content, int save, int ite);
+t_parse *ft_lstnew_malloc(int size);
+t_parse *ft_lstnew_word(char *content, int save, int ite);
 //lib/ft_lstadd_back.c
-void			ft_lstadd_back(t_arr_output **lst, t_arr_output *new);
+void			ft_lstadd_back(t_parse **lst, t_parse *new);
 //lib/ft_strjoin.c
 char			*ft_strjoin(char *s1, char *s2);
 char			*ft_strjoin_dfree(char *s1, char *s2);
@@ -191,10 +191,10 @@ char			*ft_strdup_len(char *str, int start, int end);
 void			free_env(t_mini_sh *mini_sh);
 void			free_parsing(t_mini_sh *mini_sh);
 void			ft_free_all(char *str, char **tab);
-void			ft_lstclear(t_arr_output **lst);
+void			ft_lstclear(t_parse **lst);
 //exec/prepare_exec.c
 int				count_double_arr(t_mini_sh *mini_sh);
-int				count_word_for_alloc(t_mini_sh *mini_sh, t_arr_output *rlout);
+int				count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout);
 void			free_exec(t_mini_sh *mini_sh);
 int				prepare_exec(t_mini_sh *mini_sh);
 //exec/which_sep.c
@@ -250,5 +250,11 @@ int init_env_sorted(t_mini_sh *mini_sh);
 int	export_cd(char **str, t_mini_sh *mini_sh);
 int	export_specific(char *to_export, t_mini_sh *mini_sh);
 void	export_home(char *home, t_mini_sh *mini_sh);
+
+
+void	fill_little_tab(t_mini_sh *mini_sh, int	trple);
+// int	init_little_tab(t_mini_sh *mini_sh);
+// int	init_big_tab(t_mini_sh *mini_sh);
+// int	fill_little_tab(t_parse *tmp, int *dble, int *triple, t_mini_sh *mini_sh);
 
 #endif

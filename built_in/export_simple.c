@@ -1,16 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_simple.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/14 15:32:26 by mael              #+#    #+#             */
+/*   Updated: 2023/03/14 15:34:12 by mael             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
 int	is_sorted(t_mini_sh *mini_sh)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	while (mini_sh->data->env_sorted[i + 1])
 	{
 		j = 0;
-		if (mini_sh->data->env_sorted[i][j] > mini_sh->data->env_sorted[i + 1][j])
+		if (mini_sh->data->env_sorted[i][j] > \
+			mini_sh->data->env_sorted[i + 1][j])
 			return (FAIL);
 		i++;
 	}
@@ -30,8 +43,8 @@ void	swap_line(int i, t_mini_sh *mini_sh)
 
 void	sort_export(t_mini_sh *mini_sh)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	while (is_sorted(mini_sh) == FAIL)
 	{
@@ -39,13 +52,17 @@ void	sort_export(t_mini_sh *mini_sh)
 		while (mini_sh->data->env_sorted[i + 1])
 		{
 			j = 0;
-			if (mini_sh->data->env_sorted[i][j] > mini_sh->data->env_sorted[i + 1][j])
+			if (mini_sh->data->env_sorted[i][j] > \
+				mini_sh->data->env_sorted[i + 1][j])
 				swap_line(i, mini_sh);
-			else if (mini_sh->data->env_sorted[i][j] == mini_sh->data->env_sorted[i + 1][j])
+			else if (mini_sh->data->env_sorted[i][j] == \
+				mini_sh->data->env_sorted[i + 1][j])
 			{
-				while (mini_sh->data->env_sorted[i][j] == mini_sh->data->env_sorted[i + 1][j])
+				while (mini_sh->data->env_sorted[i][j] == \
+					mini_sh->data->env_sorted[i + 1][j])
 					j++;
-				if (mini_sh->data->env_sorted[i][j] > mini_sh->data->env_sorted[i + 1][j])
+				if (mini_sh->data->env_sorted[i][j] > \
+					mini_sh->data->env_sorted[i + 1][j])
 					swap_line(i, mini_sh);
 			}
 			i++;
@@ -62,12 +79,11 @@ int	export(char **argv, t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-
 int	print_export(char **argv, t_mini_sh *mini_sh)
 {
-	int i;
-	i = 0;
+	int	i;
 
+	i = 0;
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
 		if (export(argv, mini_sh) == SUCCESS)
@@ -77,7 +93,6 @@ int	print_export(char **argv, t_mini_sh *mini_sh)
 				printf("declare -x %s\n", mini_sh->data->env_sorted[i]);
 				i++;
 			}
-			//ft_free_tab(mini_sh->data->env_sorted);
 			return (SUCCESS);
 		}
 		else
@@ -88,33 +103,3 @@ int	print_export(char **argv, t_mini_sh *mini_sh)
 		printf("\n");
 	return (FAIL);
 }
-
-
-
-
-// printf("dest inside = %c\n", data->dest[j]);
-// 				printf("var = %c\n", data->envp[i][j]);
-// 				if (data->dest[j] > data->envp[i][j])
-// 				{
-// 						printf("c2\n");
-// 						temp = ft_strdup(data->dest);
-// 						free(data->dest);
-// 						data->dest = ft_strdup(data->envp[i]);
-// 						free(data->envp[i]);
-// 						data->envp[i] = ft_strdup(temp);
-// 						free(temp);
-// 				}
-// 				else if (data->dest[j] == data->envp[i][j])
-// 				{
-// 					while (data->dest[j] == data->envp[i][j])
-// 						j++;
-// 					if (data->dest[j] > data->envp[i][j])
-// 					{
-// 						temp = ft_strdup(data->dest);
-// 						free(data->dest);
-// 						data->dest = ft_strdup(data->envp[i]);
-// 						free(data->envp[i]);
-// 						data->envp[i] = ft_strdup(temp);
-// 						free(temp);
-// 					}
-// 				}

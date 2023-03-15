@@ -2,7 +2,7 @@
 
 // int	init_sep_type(t_mini_sh *mini_sh)
 // {
-// 	t_arr_output *tmp;
+// 	t_parse *tmp;
 // 	int i;
 
 // 	tmp = mini_sh->rl_out_head;

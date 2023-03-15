@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:57:05 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/03/10 16:42:55 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 14:32:42 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 
 int	ft_echo(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_strncmp(str[0], "echo", 4) == 0)
 	{
 		if (!str[1])
-		{
-			printf("\n");
-			return (SUCCESS);
-		}
+			return (printf("\n"), SUCCESS);
 		if (ft_strncmp(str[1], "-n", 2) != 0)
 		{		
 			i = 1;

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/03/14 14:12:10 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 15:38:16 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	init_env(t_mini_sh *mini_sh)
 	mini_sh->data->temp = NULL;
 	mini_sh->data->size = envp_size(mini_sh->env);
 	mini_sh->data->count = 0;
-	mini_sh->data->ite_getenv = 0;
+	mini_sh->data->ite_genv = 0;
 	return (SUCCESS);
 }
 

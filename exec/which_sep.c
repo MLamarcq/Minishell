@@ -17,7 +17,7 @@ int	init_exec(t_mini_sh *mini_sh)
 
 int	if_redir_R(t_mini_sh *mini_sh)
 {
-	t_arr_output *tmp;
+	t_parse *tmp;
 
 	tmp = mini_sh->rl_out_head;
 	if (init_exec(mini_sh) < 0)
@@ -63,7 +63,7 @@ int	if_redir_R(t_mini_sh *mini_sh)
 
 int	if_redir_L(t_mini_sh *mini_sh)
 {
-	t_arr_output *tmp;
+	t_parse *tmp;
 	
 	tmp = mini_sh->rl_out_head;
 	if (init_exec(mini_sh) < 0)

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:56:00 by gael              #+#    #+#             */
-/*   Updated: 2023/03/14 12:11:08 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 16:25:12 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // void	free_parsing(t_mini_sh *mini_sh)
 // {
 // 	t_mini_sh		*tmp;
-// 	t_arr_output	*tmp_readline;
+// 	t_parse	*tmp_readline;
 
 // 	tmp = mini_sh;
 // 	if (tmp->output)
@@ -39,9 +39,9 @@
 // 	tmp = mini_sh;
 // }
 
-void	ft_lstclear(t_arr_output **lst)
+void	ft_lstclear(t_parse **lst)
 {
-	t_arr_output	*tmp;
+	t_parse	*tmp;
 	
 	tmp = NULL;
 	if (!lst)
@@ -58,7 +58,7 @@ void	ft_lstclear(t_arr_output **lst)
 
 void	free_parsing(t_mini_sh *mini_sh)
 {
-	t_arr_output	*tmp;
+	t_parse	*tmp;
 
 	if (mini_sh->output)
 	{

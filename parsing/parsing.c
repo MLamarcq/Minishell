@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/14 12:13:52 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 17:24:07 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	print_word(char *new_w)
 {
-	int x = 0;
+	int	x;
+
+	x = 0;
 	while (new_w[x])
 	{
 		printf(BACK_CYAN"%c"RST"", new_w[x]);
@@ -36,7 +38,7 @@ void	print_word2(char *new_w)
 
 void	ft_print_rl_out(t_mini_sh *mini_sh)
 {
-	t_arr_output	*tmp;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	printf("\n");
@@ -44,8 +46,6 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 	while (tmp)
 	{
 		print_word(tmp->word);
-		// if (tmp->word)
-		// 	printf(RED"tmp->word: %s\n"RST, tmp->word);
 		if (tmp->type)
 		{
 			if (tmp->type == CMD)
@@ -78,7 +78,7 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 
 void	put_word_in_minish(t_mini_sh *mini_sh, char *line, int *save, int *ite)
 {
-	t_arr_output	*new;
+	t_parse	*new;
 
 	new = ft_lstnew_word(line, (*save), (*ite));
 	if ((*ite) - (*save) > 0)
@@ -117,13 +117,11 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 				ite++;
 			}
 			put_word_in_minish(mini_sh, line, &save, &ite);
-			// printf("mini_sh->rl_out->word: %s\n", mini_sh->rl_out->word);
 		}
 		ft_print_rl_out(mini_sh);
 		expand(mini_sh);
 		if (set_type(mini_sh) == FAIL)
 			return (printf(" ----- something wrong happend ----- \n"), FAIL);
-		// remove_quote(mini_sh); 
 		ft_print_rl_out(mini_sh);
 		if (prepare_exec(mini_sh) < 0)
 			return (FAIL);
@@ -137,29 +135,6 @@ int	ft_parsing(t_mini_sh *mini_sh)
 {
 	mini_sh->is_dquote = FAIL;
 	mini_sh->is_squote = FAIL;
-	// test count_word
-	// printf("$				 %i 0\n------------------------------------------------\n", build_result_output(mini_sh, ""));
-	// printf("\"$				%i -1\n------------------------------------------------\n", build_result_output(mini_sh, "\""));
-	// printf("\"\"$				 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "\"\""));
-	// printf("\"e\"$				 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "\"e\""));
-	// printf("\"abcdef\"$			 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "\"abcdef\""));
-	// printf("cat |$				 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "cat |"));
-	// printf("|$				 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "|"));
-	// printf("< /usr/bin/ls -la -le | cat > out$				 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "< /usr/bin/ls -la -le | cat > out"));
-	// printf("ls$				 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "ls"));
-	// printf("  \"abcdef\"  $			 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "  \"abcdef\"  "));
-	// printf("  abcdef  $			 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "  abcdef  "));
-	// printf("  abc\"def\"ghi  $		 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "  abc\"def\"ghi  "));
-	// printf("  abc\"def\"ghi  $		 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "  abc\"def\"ghi  "));
-	// printf("  \"abc def\"  $			 %i 1\n------------------------------------------------\n", build_result_output(mini_sh, "  \"abc def\"  "));
-	// printf("  abc def  $			 %i 2\n------------------------------------------------\n", build_result_output(mini_sh, "  abc def  "));
-	// printf("  0123 \"abc def\"  $		 %i 2\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 \"abc def\"  "));
-	// printf("  0123 | \"abc def\"  $		 %i 3\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 | \"abc def\"  "));
-	// printf("  0123 \"abc'def\" xyz'  $	%i -1\n------------------------------------------------\n", build_result_output(mini_sh, "  0123 \"abc'def\" xyz'  "));
-	// printf("  < 	 lib  /usr/bin/grep -i | \"abc $TERM def\" \"\" | \'\"$TERM\"\' \"\'$TERM\'\" --color=never  	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l --color=never  	 -a | echo >\"|\" \"| >>\""BACK_RED"$	%i 22"RST"\n------------------------------------------------\n",
-	// build_result_output(mini_sh, "  < 	 lib  /usr/bin/grep -i | \"abc $TERM def\" \"\" | \'\"$TERM\"\' \"\'$TERM\'\" --color=never 	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l --color=never 	 -a | echo \"|\" \"| >>\""));
-	// printf("  < 	 lib  /usr/bin/grep -ri in | echo \"abc $TERM def\" $USER xyz \"$$\" \"$\" $ | echo \'\"$TERM\"\' \"\'$TERM\'\"   	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l  --color=never  	 -a | echo >\"|\" \"| >>\""BACK_RED"$	%i 27"RST"\n------------------------------------------------\n",
-	// build_result_output(mini_sh, "  < 	 lib  /usr/bin/grep -ri in | echo \"abc $TERM def\" $USER xyz \"$$\" \"$\" $ | echo \'\"$TERM\"\' \"\'$TERM\'\"  	  >   \'$USER\'\" $abc\'$USER\'-$USER.txt\"   	| ls -l  --color=never 	 -a | echo \"|\" \"| >>\""));
 	if (build_result_output(mini_sh, mini_sh->output) < 0)
 		return (FAIL); 
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/03/10 10:58:01 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/14 17:07:16 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,22 @@
 
 int	is_sep(char *word)
 {
-	//printf("here\n");
 	if (ft_strncmp(word, "|", ft_strlen(word)) == 0)
-	{
-		//printf("c1\n");
 		return (SUCCESS);
-	}
 	else if (ft_strncmp(word, ">", ft_strlen(word)) == 0)
-	{
-		//printf("c2\n");
 		return (SUCCESS);
-	}
 	else if (ft_strncmp(word, "<", ft_strlen(word)) == 0)
-	{
-		//printf("c3\n");
 		return (SUCCESS);
-	}
 	else if (ft_strncmp(word, ">>", ft_strlen(word)) == 0)
-	{
-		//printf("c4\n");
 		return (SUCCESS);
-	}
 	else if (ft_strncmp(word, "<<", ft_strlen(word)) == 0)
-	{
-		//printf("c5\n");
 		return (SUCCESS);
-	}
 	return (FAIL);
 }
 
 int	check_first_is_sep(t_mini_sh *mini_sh)
 {
-	t_arr_output *tmp;
+	t_parse *tmp;
 
 	tmp = mini_sh->rl_out_head;
 	if (is_sep(tmp->word) == SUCCESS)
@@ -69,7 +53,7 @@ int	check_first_is_sep(t_mini_sh *mini_sh)
 
 int	check_first_is_sep_2(t_mini_sh *mini_sh)
 {
-	t_arr_output *tmp;
+	t_parse *tmp;
 
 	tmp = mini_sh->rl_out_head;
 	if (is_sep(tmp->word) == SUCCESS)
@@ -102,7 +86,7 @@ int	check_first_sep_error_2(t_mini_sh *mini_sh)
 
 int	count_sep_2(t_mini_sh *mini_sh)
 {
-	t_arr_output *tmp;
+	t_parse *tmp;
 
 	tmp = mini_sh->rl_out_head;
 	if (check_first_sep_error_2(mini_sh) == FAIL)
@@ -128,6 +112,5 @@ int	count_sep_2(t_mini_sh *mini_sh)
 			return (FAIL);
 		}
 	}
-	printf("res = %d\n", mini_sh->sep_2);
 	return (SUCCESS);
 }

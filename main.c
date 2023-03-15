@@ -141,6 +141,18 @@ int	main(int argc, char *argv[], char **envp)
 			//count_word_for_alloc(&mini_sh);
 			//if_redir_R(&mini_sh);
 			do_built_in(&mini_sh);
+			
+			int lil = 0;
+			int big = 0;
+			while (mini_sh.prepare_exec[big])
+			{
+				lil = -1;
+				while (mini_sh.prepare_exec[big][++lil])
+					printf(BACK_CYAN"mini_sh.prepare_exec[%i][%i]: %s"RST"\n", big, lil, mini_sh.prepare_exec[big][lil]);
+				printf("-------------------------------\n");
+				big++;
+			}
+			//free_exec(mini_sh);
 			//init_sep_type(&mini_sh);
 			// printf("\n");
 		}

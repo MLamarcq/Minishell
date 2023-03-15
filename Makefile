@@ -51,6 +51,7 @@ built_in/export_arg.c \
 built_in/export_simple.c \
 built_in/unset.c \
 built_in/is_built_in.c \
+built_in/built_in_utils.c \
 signal/exec_signal.c \
 signal/handle_ctrl_c.c \
 free/free_parsing.c \
@@ -64,6 +65,7 @@ exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
 exec/start_exec.c \
+exec/exec_utils.c
 
 SRC_MAEL  := main.c \
 lib/ft_strncmp.c \
