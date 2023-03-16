@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/15 23:40:33 by gael              #+#    #+#             */
+/*   Updated: 2023/03/15 23:40:45 by gael             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
 char	*ft_getenv(char *str)
 {
-	char *dest;
+	char	*dest;
 
 	dest = getenv(str);
 	if (!dest)
 		return (NULL);
-	//printf("dest = %s\n", dest);
 	return (dest);
 }

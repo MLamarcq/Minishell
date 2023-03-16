@@ -59,24 +59,26 @@ parsing/expand.c \
 parsing/parsing.c \
 parsing/set_type.c \
 parsing/quote.c \
-parsing/remove_quote.c \
+parsing/remove_quote_2.c \
+parsing/find_var_env.c \
 parsing/ft_find_path.c \
+parsing/print.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
 exec/start_exec.c \
 exec/exec_utils.c
 
-SRC_MAEL  := main.c \
-lib/ft_strncmp.c \
-built_in/echo.c \
-built_in/cd.c \
+# ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
+# echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def
+# echo abc'" $USER$$ic$TERM"'def$mp
+# echo abc"' $USER$$ic$TERM'"def$xe
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)
 DEPS = $(OBJ:%.o=%.d)
 
-OBJ_DIR := objs_mael/
+OBJ_DIR := objs/
 OBJ_MAEL = $(addprefix $(OBJ_DIR), ${SRC_MAEL:.c=.o})
 
 ##### RULES #####

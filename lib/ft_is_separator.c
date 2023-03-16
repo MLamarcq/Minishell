@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_separator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 16:30:08 by gael              #+#    #+#             */
-/*   Updated: 2023/03/09 19:02:15 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/15 23:40:53 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_isalpha(int chr)
 	return (FAIL);
 }
 
-int	valid_identifier(int chr)
+int	valid_id(int chr)
 {
 	if ((ft_isalpha(chr) == SUCCESS) || (chr >= 48 && chr <= 57) || chr == '_')
 		return (SUCCESS);
@@ -42,7 +42,6 @@ int	valid_identifier(int chr)
 
 int	ft_is_valid_export(char chr)
 {
-	// is num
 	if (ft_isalpha(chr) == SUCCESS || chr == '_')
 		return (SUCCESS);
 	return (FAIL);

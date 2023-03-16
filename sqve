@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    sqve                                               :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mael <mael@student.42.fr>                  +#+  +:+       +#+         #
+#    By: gael <gael@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/14 11:14:58 by gael              #+#    #+#              #
-#    Updated: 2023/03/14 16:25:12 by mael             ###   ########.fr        #
+#    Updated: 2023/03/15 23:32:30 by gael             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,10 +88,10 @@ enum e_type
 
 typedef struct s_exec_tools
 {
-	int	fd_R;
-	int	fd_L;
-	int	fd_HR;
-	int	fd_APP;
+	int	fd_r;
+	int	fd_l;
+	int	fd_hr;
+	int	fd_app;
 	int	fd[2];
 } t_exec_t;
 
@@ -274,7 +274,7 @@ int	check_first_sep_error_2(t_mini_sh *mini_sh);
 int	count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout);
 int	prepare_exec(t_mini_sh *mini_sh);
 
-int	if_redir_R(t_mini_sh *mini_sh);
+int	if_redir_r(t_mini_sh *mini_sh);
 
 
 #endif

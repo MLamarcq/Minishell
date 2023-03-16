@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/14 17:04:08 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/15 23:37:51 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	prepare_exec(t_mini_sh *mini_sh)
 		fill_little_tab(mini_sh, triple);
 		triple++;
 		if (!mini_sh->rl_out->next)
-			break;
+			break ;
 		else
 			mini_sh->rl_out = mini_sh->rl_out->next;
 	}
@@ -146,17 +146,5 @@ int	prepare_exec(t_mini_sh *mini_sh)
 // 			tmp = tmp->next;
 // 	}
 // 	mini_sh->prepare_exec[triple] = NULL;
-// 	int i = 0;
-// 	int j = 0;
-// 	while (mini_sh->prepare_exec[i])
-// 	{
-// 		j = 0;
-// 		while (mini_sh->prepare_exec[i][j])
-// 		{
-// 			printf(BLUE"prepare[%d][%d] : %s\n"RST, i, j, mini_sh->prepare_exec[i][j]);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
 // 	return (SUCCESS);
 // }

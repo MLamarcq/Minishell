@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start_exec.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
+/*   Updated: 2023/03/15 23:38:59 by gael             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // #include "../ft_minishell.h"
 
 // int	init_sep_type(t_mini_sh *mini_sh)
 // {
 // 	t_parse *tmp;
 // 	int i;
-
+// 
 // 	tmp = mini_sh->rl_out_head;
 // 	printf("nbr sep = %d\n", mini_sh->sep_2);
 // 	mini_sh->sep_type = (int*)malloc(sizeof(int) * mini_sh->sep_2 + 1);
@@ -48,7 +60,7 @@
 
 // int	child_process(char **cmds_to_exec)
 // {
-	
+// 
 // 	// builtin
 // 	// redirections
 // 	return (SUCCESS);
@@ -57,7 +69,7 @@
 // int	is_all_pids_full(t_mini_sh *mini_sh)
 // {
 // 	int	i;
-
+// 
 // 	i = 0;
 // 	while (mini_sh->pids[i])
 // 	{
@@ -70,7 +82,7 @@
 // int	start_exec(t_mini_sh *mini_sh)
 // {
 // 	int i;
-
+// 
 // 	mini_sh->pids = (pid_t *)malloc((sizeof (pid_t)) * (mini_sh->sep_2 + 2));
 // 	if (!mini_sh->pids)
 // 		return (FAIL_MALLOC);
@@ -92,7 +104,4 @@
 // 	// 
 // }
 
-
 // char ** -> {PIPE, PIPE, REDIR_R, PIPE}
-
-// ls -la l | ls | ls > oufille | grep c

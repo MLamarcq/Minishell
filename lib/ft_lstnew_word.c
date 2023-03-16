@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_word.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 12:04:44 by gael              #+#    #+#             */
-/*   Updated: 2023/03/14 16:25:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/15 23:41:11 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_parse	*ft_lstnew_word(char *content, int save, int ite)
 	new = (t_parse *)malloc(sizeof(t_parse));
 	if (!new)
 		return (NULL);
-	// new->word = malloc((sizeof (char) * (ft_strlen(content))));
 	new->type = 0;
 	new->word = ft_strdup_len(content, save, ite);
 	new->next = NULL;

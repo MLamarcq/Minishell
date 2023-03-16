@@ -3,46 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   free_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:56:00 by gael              #+#    #+#             */
-/*   Updated: 2023/03/14 16:25:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/15 23:44:58 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-// void	free_parsing(t_mini_sh *mini_sh)
-// {
-// 	t_mini_sh		*tmp;
-// 	t_parse	*tmp_readline;
-
-// 	tmp = mini_sh;
-// 	if (tmp->output)
-// 		free(tmp->output);
-// 	while (tmp->rl_out)
-// 	{
-// 		if (tmp->rl_out->word)
-// 			free(tmp->rl_out->word);
-// 		tmp->rl_out = tmp->rl_out->next;
-// 	}
-// 	tmp = mini_sh;
-// 	while (tmp->rl_out)
-// 	{
-// 		tmp_readline = tmp->rl_out;
-// 		tmp->rl_out = tmp->rl_out->next;
-// 		free(tmp_readline);
-// 		tmp_readline = mnini->env;
-// 		mnini->env = mnini->env->next;
-// 		free(tmp_readline);
-// 	}
-// 	tmp = mini_sh;
-// }
-
 void	ft_lstclear(t_parse **lst)
 {
 	t_parse	*tmp;
-	
+
 	tmp = NULL;
 	if (!lst)
 		return ;
@@ -58,8 +31,6 @@ void	ft_lstclear(t_parse **lst)
 
 void	free_parsing(t_mini_sh *mini_sh)
 {
-	t_parse	*tmp;
-
 	if (mini_sh->output)
 	{
 		free(mini_sh->output);
@@ -67,15 +38,6 @@ void	free_parsing(t_mini_sh *mini_sh)
 		if (mini_sh->rl_out)
 			ft_lstclear(&mini_sh->rl_out);
 	}
-	// while (mini_sh->rl_out)
-	// {
-	// 	printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
-	// 	// free(mini_sh->rl_out->word);
-	// 	// tmp = mini_sh->rl_out;
-	// 	mini_sh->rl_out = mini_sh->rl_out->next;
-	// 	// free(tmp);
-	// }
-	(void)tmp;
 }
 
 void	free_env(t_mini_sh *mini_sh)
@@ -84,11 +46,7 @@ void	free_env(t_mini_sh *mini_sh)
 
 	ite_free_env = -1;
 	while (mini_sh->env[++ite_free_env])
-	{
-		// printf(BACK_GREEN"mini_sh->env[ite_free_env]: %s"RST"\n", mini_sh->env[ite_free_env]);
-		// if (mini_sh->env[ite_free_env][0])
 		free(mini_sh->env[ite_free_env]);
-	}
 	free(mini_sh->env);
 }
 
@@ -105,4 +63,10 @@ void	ft_free_all(char *str, char **tab)
 	}
 	if (str)
 		free(str);
+}
+
+void	ft_free_var_env(char *var_env, char *res_var_env)
+{
+	free(var_env);
+	free(res_var_env);
 }
