@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 11:25:22 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/16 14:17:32 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	interpreted(t_mini_sh *mini_sh)
 			break ;
 		}
 	}
-	printf("\n");
 	return (SUCCESS);
 	(void)i_isdollar;
 	(void)mini_sh;
@@ -87,7 +86,6 @@ int	ft_isthere_dollar(t_mini_sh *mini_sh)
 		{
 			if (mini_sh->rl_out->word[i_isdollar] == '$' && (valid_id(mini_sh->rl_out->word[i_isdollar + 1]) == SUCCESS))
 			{
-				printf(BACK_YELLOW"mini_sh->rl_out->word[%i]: %c"RST"\n", i_isdollar, mini_sh->rl_out->word[i_isdollar]);
 				rtn_val = i_isdollar;
 			}
 		}
@@ -138,7 +136,6 @@ void	expand(t_mini_sh *mini_sh)
 			// interpreted(mini_sh);
 			init_quote(mini_sh);
 			i_dollar = ft_isthere_dollar(mini_sh);
-			printf(WHITE"-------------------"RST"\n\n");
 		}
 		mini_sh->rl_out = mini_sh->rl_out->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 11:28:48 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/16 14:42:09 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ char	*build_var_env(char *var_env, char *var_search, int *ite_env_char);
 char	*ft_find_var_env(char **envp, char *var_search);
 void	init_res_var(char **res_varenv, int *save, int *i_char, int *i_env);
 //parsing/remove_quote_2.c
-int		count_without_qt_2(char *str);
 int		isthere_quote(t_mini_sh *mini_sh);
 void	remove_quote_2(t_mini_sh *mini_sh);
 char	*write_without_qt_2(char *str);

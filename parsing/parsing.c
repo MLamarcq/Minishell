@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 11:30:40 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/16 14:13:51 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 	expand(mini_sh);
 	if (set_type(mini_sh) == FAIL)
 		return (FAIL);
+	remove_quote_2(mini_sh);
 	if (prepare_exec(mini_sh) < 0)
 		return (FAIL);
 	return (SUCCESS);
