@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/15 23:38:59 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/16 15:59:41 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../ft_minishell.h"
+#include "../ft_minishell.h"
 
 // int	init_sep_type(t_mini_sh *mini_sh)
 // {
@@ -58,13 +58,12 @@
 // 	return (SUCCESS);
 // }
 
-// int	child_process(char **cmds_to_exec)
-// {
-// 
-// 	// builtin
-// 	// redirections
-// 	return (SUCCESS);
-// }
+int	child_process(t_mini_sh *mini_sh, int i)
+{
+	if (do_built_in(mini_sh) == FAIL)
+		test_exec(mini_sh, i);
+	return (SUCCESS);
+}
 
 // int	is_all_pids_full(t_mini_sh *mini_sh)
 // {
@@ -79,29 +78,32 @@
 // 	return (SUCCESS);
 // }
 
-// int	start_exec(t_mini_sh *mini_sh)
-// {
-// 	int i;
-// 
-// 	mini_sh->pids = (pid_t *)malloc((sizeof (pid_t)) * (mini_sh->sep_2 + 2));
-// 	if (!mini_sh->pids)
-// 		return (FAIL_MALLOC);
-// 	while (mini_sh->prepare_exec[i])
-// 	{
-// 		mini_sh->pids[i] = fork();
-// 		if (mini_sh->pids[i] == -1)
-// 			return (FAIL)
-// 		if (mini_sh->pids[i] == 0)
-// 			child_process(mini_sh->prepare_exec[i]);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (mini_sh->pids[i])
-// 	{
-// 		waitpid(mini_sh->pids[i], NULL, 0);
-// 	}
-// 	// function while tous est 0
-// 	// 
-// }
+int	start_exec(t_mini_sh *mini_sh)
+{
+	int i;
+
+	i = 0;
+	mini_sh->pids = (pid_t *)malloc((sizeof (pid_t)) * (mini_sh->sep_2 + 1));
+	if (!mini_sh->pids)
+		return (FAIL_MALLOC);
+	while (mini_sh->prepare_exec[i])
+	{
+		mini_sh->pids[i] = fork();
+		if (mini_sh->pids[i] == -1)
+			return (FAIL);
+		if (mini_sh->pids[i] == 0)
+			child_process(mini_sh, i);
+		i++;
+	}
+	i = 0;
+	while (mini_sh->pids[i])
+	{
+		waitpid(mini_sh->pids[i], NULL, 0);
+		i++;
+	}
+	return (SUCCESS);
+	// function while tous est 0
+	// 
+}
 
 // char ** -> {PIPE, PIPE, REDIR_R, PIPE}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/03/15 23:53:15 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/16 15:55:43 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ int	main(int argc, char *argv[], char **envp)
 		}
 		exec_signal(1);
 		if (ft_parsing(&mini_sh) == SUCCESS)
-			do_built_in(&mini_sh);
+		{
+			start_exec(&mini_sh);
+			// if (do_built_in(&mini_sh) == FAIL)
+			// 	test_exec(&mini_sh);
+		}
 		free(mini_sh.output),
 		mini_sh.output = NULL;
 		free_parsing(&mini_sh);

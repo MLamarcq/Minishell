@@ -67,7 +67,8 @@ exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
 exec/start_exec.c \
-exec/exec_utils.c
+exec/exec_utils.c \
+exec/test.c 
 
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def

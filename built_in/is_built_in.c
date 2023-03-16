@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/03/14 15:38:16 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/16 15:27:29 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	do_built_in(t_mini_sh *mini_sh)
 	i = 0;
 	while (mini_sh->prepare_exec[i])
 	{
-		is_built_in_2(mini_sh->prepare_exec[i], mini_sh);
+		if (is_built_in_2(mini_sh->prepare_exec[i], mini_sh) == FAIL)
+			return (FAIL);
 		i++;
 	}
 	return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 14:42:09 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/16 17:24:05 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_exec_tools
 	int	fd_hr;
 	int	fd_app;
 	int	fd[2];
+	int	**tab_fd;
 } t_exec_t;
 
 typedef struct s_env
@@ -264,5 +265,10 @@ int		export_cd(char **str, t_mini_sh *mini_sh);
 void	export_home(char *home, t_mini_sh *mini_sh);
 int		ft_cd(char **str, t_mini_sh *mini_sh);
 void	replace_pwd(t_mini_sh *mini_sh, int *is_exist, char *oldpwd);
+
+void	test_exec(t_mini_sh *mini_sh, int i);
+char	*ft_find_cmd_2(t_mini_sh *mini_sh, int ite_env, char *cmd_to_find);
+char	*ft_find_path_2(t_mini_sh *mini_sh, char *cmd_to_find);
+int	start_exec(t_mini_sh *mini_sh);
 
 #endif
