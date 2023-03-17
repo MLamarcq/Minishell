@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/03/17 15:32:22 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/17 18:37:30 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	main(int argc, char *argv[], char **envp)
 		{
 			init_sep_type(&mini_sh);
 			init_exec(&mini_sh);
+			init_tab_fd(&mini_sh);
 			start_exec(&mini_sh);
 			// if (do_built_in(&mini_sh) == FAIL)
-			// 	test_exec(&mini_sh);
+			// 	exec_cmd(&mini_sh);
 		}
 		free(mini_sh.output),
 		mini_sh.output = NULL;
 		free_parsing(&mini_sh);
-		free_tab_fd(&mini_sh);
 	}
 	free_env(&mini_sh);
 	(void)argc;

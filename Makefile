@@ -14,23 +14,6 @@ NAME   = minishell
 CC     = gcc -Wall -Werror -Wextra -g3 
 # -MMD -MP
 
-# SRC  :=	free/free_parsing.c \
-# 		lib_gael/ft_cmp.c \
-# 		lib_gael/ft_is_separator.c \
-# 		lib_gael/ft_lstadd_back.c \
-# 		lib_gael/ft_lstnew_word.c \
-# 		lib_gael/ft_split.c \
-# 		lib_gael/ft_strdup.c \
-# 		lib_gael/ft_strjoin.c \
-# 		lib_gael/ft_strlen.c \
-# 		lib_gael/main.c \
-# 		parsing/expand.c \
-# 		parsing/ft_find_path.c \
-# 		parsing/parsing.c \
-# 		parsing/prepare_exec.c \
-# 		parsing/quote.c \
-# 		parsing/set_type.c
-
 SRC  := main.c \
 lib/bzero.c \
 lib/envp_size.c \
@@ -68,7 +51,7 @@ exec/sep.c \
 exec/which_sep.c \
 exec/start_exec.c \
 exec/exec_utils.c \
-exec/test.c 
+exec/child_process.c 
 
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def
