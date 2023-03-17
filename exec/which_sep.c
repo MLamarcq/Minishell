@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 13:29:33 by mael              #+#    #+#             */
-/*   Updated: 2023/03/15 23:36:33 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/17 15:23:51 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	init_exec(t_mini_sh *mini_sh)
 	mini_sh->exec = malloc(sizeof(t_exec_t));
 	if (!mini_sh->exec)
 		return (FAIL_MALLOC);
+	mini_sh->exec->pipe_id = 0;
 	mini_sh->exec->fd_r = 0;
 	mini_sh->exec->fd_l = 0;
 	mini_sh->exec->fd_hr = 0;

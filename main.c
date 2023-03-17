@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 15:55:43 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/17 15:32:22 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	main(int argc, char *argv[], char **envp)
 		exec_signal(1);
 		if (ft_parsing(&mini_sh) == SUCCESS)
 		{
+			init_sep_type(&mini_sh);
+			init_exec(&mini_sh);
 			start_exec(&mini_sh);
 			// if (do_built_in(&mini_sh) == FAIL)
 			// 	test_exec(&mini_sh);
@@ -59,6 +61,7 @@ int	main(int argc, char *argv[], char **envp)
 		free(mini_sh.output),
 		mini_sh.output = NULL;
 		free_parsing(&mini_sh);
+		free_tab_fd(&mini_sh);
 	}
 	free_env(&mini_sh);
 	(void)argc;

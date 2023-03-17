@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 17:24:05 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/17 16:07:16 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ enum e_type
 
 typedef struct s_exec_tools
 {
+	int	pipe_id;
 	int	fd_r;
 	int	fd_l;
 	int	fd_hr;
@@ -172,11 +173,23 @@ int		check_first_is_sep_2(t_mini_sh *mini_sh);
 int		check_first_sep_error_2(t_mini_sh *mini_sh);
 int		count_sep_2(t_mini_sh *mini_sh);
 int		is_sep(char *word);
+//exec/test.c
+int		count_pipe(t_mini_sh *mini_sh);
+void	free_tab_fd(t_mini_sh *mini_sh);
+char	*ft_find_cmd_2(t_mini_sh *mini_sh, int ite_env, char *cmd_to_find);
+char	*ft_find_path_2(t_mini_sh *mini_sh, char *cmd_to_find);
+int		init_tab_fd(t_mini_sh *mini_sh);
+void	test_exec(t_mini_sh *mini_sh, int i_exec);
 //exec/prepare_exec.c
 int		count_double_arr(t_mini_sh *mini_sh);
 int		count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout);
 void	free_exec(t_mini_sh *mini_sh);
 int		prepare_exec(t_mini_sh *mini_sh);
+//exec/start_exec.c
+int		child_process(t_mini_sh *mini_sh, int i);
+int		if_pipe(t_mini_sh *mini_sh, int i);
+int		init_sep_type(t_mini_sh *mini_sh);
+int		start_exec(t_mini_sh *mini_sh);
 //exec/exec_utils.c
 void	fill_little_tab(t_mini_sh *mini_sh, int trple);
 int		init_big_tab(t_mini_sh *mini_sh);
@@ -265,10 +278,5 @@ int		export_cd(char **str, t_mini_sh *mini_sh);
 void	export_home(char *home, t_mini_sh *mini_sh);
 int		ft_cd(char **str, t_mini_sh *mini_sh);
 void	replace_pwd(t_mini_sh *mini_sh, int *is_exist, char *oldpwd);
-
-void	test_exec(t_mini_sh *mini_sh, int i);
-char	*ft_find_cmd_2(t_mini_sh *mini_sh, int ite_env, char *cmd_to_find);
-char	*ft_find_path_2(t_mini_sh *mini_sh, char *cmd_to_find);
-int	start_exec(t_mini_sh *mini_sh);
 
 #endif

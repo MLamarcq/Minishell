@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:57 by ggosse            #+#    #+#             */
-/*   Updated: 2023/03/15 16:56:25 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/17 13:27:31 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	ft_find_cmd(t_mini_sh *mini_sh, int ite_env)
 			ft_free_all(cmd, path_cmd);
 			return (SUCCESS);
 		}
-		else
-			free(cmd_path_absolue);
+		// else
+		// 	free(cmd_path_absolue);
 	}
 	ft_free_all(cmd, path_cmd);
 	return (FAIL);

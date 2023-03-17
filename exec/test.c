@@ -42,36 +42,84 @@ char	*ft_find_path_2(t_mini_sh *mini_sh, char *cmd_to_find)
 	return (NULL);
 }
 
-void	test_exec(t_mini_sh *mini_sh, int i)
+void	test_exec(t_mini_sh *mini_sh, int i_exec)
 {
 	char *str;
 
-	str = ft_find_path_2(mini_sh, mini_sh->prepare_exec[0][0]);
+	str = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
 	//printf(BLUE"str = %s\n"RST, str);
-	if (access(mini_sh->prepare_exec[i][0], X_OK) == 0)
+	printf(BACK_GREEN"mini: %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
+	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
 	{
-		execve(mini_sh->prepare_exec[i][0], mini_sh->prepare_exec[i], mini_sh->env);
+		close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
+		close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
+		execve(mini_sh->prepare_exec[i_exec][0], mini_sh->prepare_exec[i_exec], mini_sh->env);
 	}
 	else if (str != NULL)
 	{
-		free(mini_sh->prepare_exec[i][0]);
-		mini_sh->prepare_exec[i][0] = str;
-		execve(str, mini_sh->prepare_exec[i], mini_sh->env);
+		close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
+		close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
+		free(mini_sh->prepare_exec[i_exec][0]);
+		mini_sh->prepare_exec[i_exec][0] = str;
+		execve(str, mini_sh->prepare_exec[i_exec], mini_sh->env);
 	}
 	else
 	{
-		printf("minishell:%s: command not found\n", mini_sh->prepare_exec[0][0]);
+		printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
 		exit (127);
 	}
 }
 
+int	count_pipe(t_mini_sh *mini_sh)
+{
+	int	i_count_pipe;
+	int	i_sep_type;
+
+	i_sep_type = 0;
+	i_count_pipe = 0;
+	while (mini_sh->sep_type[i_sep_type])
+	{
+		if (mini_sh->sep_type[i_sep_type] == PIPE)
+			i_count_pipe++;
+		i_sep_type++;
+	}
+	return (i_count_pipe);
+}
+
 int	init_tab_fd(t_mini_sh *mini_sh)
 {
-	int i;
+	int	i_init_fd;
 
-	i = 0;
-	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
+	i_init_fd = 0;
+	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (count_pipe(mini_sh) + 1));
+	mini_sh->exec->tab_fd[count_pipe(mini_sh)] = 0;
 	if (!mini_sh->exec->tab_fd)
 		return (FAIL_MALLOC);
-	
+	while (i_init_fd < count_pipe(mini_sh))
+	{
+		mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
+		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
+		pipe(mini_sh->exec->tab_fd[i_init_fd]);
+		printf(BACK_PURPLE"mini_sh->exec->tab_fd[%i][0]: %i"RST"\n", i_init_fd, mini_sh->exec->tab_fd[i_init_fd][0]);
+		printf(BACK_PURPLE"mini_sh->exec->tab_fd[%i][1]: %i"RST"\n", i_init_fd, mini_sh->exec->tab_fd[i_init_fd][1]);
+		i_init_fd++;
+	}
+	(void)i_init_fd;
+	return (SUCCESS);
 }
+
+void	free_tab_fd(t_mini_sh *mini_sh)
+{
+	int	i_free_int;
+
+	i_free_int = 0;
+	while (mini_sh->exec->tab_fd[i_free_int])
+	{
+		close(mini_sh->exec->tab_fd[i_free_int][0]);
+		close(mini_sh->exec->tab_fd[i_free_int][1]);
+		free(mini_sh->exec->tab_fd[i_free_int]);
+		i_free_int++;
+	}
+	free(mini_sh->exec->tab_fd);
+}
+
