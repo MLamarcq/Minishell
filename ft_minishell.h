@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/17 18:38:38 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/20 12:42:45 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ int		child_process(t_mini_sh *mini_sh, int i_exec);
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);
 int		init_tab_fd(t_mini_sh *mini_sh);
+void	print_sep(t_mini_sh *mini_sh);
 int		start_exec(t_mini_sh *mini_sh);
 //exec/child_process.c
 char	*ft_find_cmd_2(t_mini_sh *mini_sh, int ite_env, char *cmd_to_find);

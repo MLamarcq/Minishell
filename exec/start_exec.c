@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/17 18:38:31 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/20 12:41:21 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,36 +53,36 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-// int	if_pipe(t_mini_sh *mini_sh, int i)
-// {
-// 	printf("mini_sh->exec->pipe_id: %i\n", mini_sh->exec->pipe_id);
-// 	if (mini_sh->exec->pipe_id == 0)
-// 	{
-// 		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], STDIN_FILENO);
-// 		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], STDOUT_FILENO);
-// 	}
-// 	else if (mini_sh->exec->tab_fd[mini_sh->exec->pipe_id + 1])
-// 	{
-// 		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], mini_sh->exec->tab_fd[mini_sh->exec->pipe_id - 1][1]);
-// 		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], mini_sh->exec->tab_fd[mini_sh->exec->pipe_id + 1][0]);
-// 	}
-// 	else
-// 	{
-// 		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], mini_sh->exec->tab_fd[mini_sh->exec->pipe_id - 1][1]);
-// 		dup2(STDOUT_FILENO, mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
-// 	}
-// 	close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
-// 	close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
-// 	mini_sh->exec->pipe_id++;
-// 	if (do_built_in(mini_sh) == FAIL)
-// 		exec_cmd(mini_sh, i);
-// 	return (SUCCESS);
-// }
+/*
+int	if_pipe(t_mini_sh *mini_sh, int i)
+{
+	printf("mini_sh->exec->pipe_id: %i\n", mini_sh->exec->pipe_id);
+	if (mini_sh->exec->pipe_id == 0)
+	{
+		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], STDIN_FILENO);
+		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], STDOUT_FILENO);
+	}
+	else if (mini_sh->exec->tab_fd[mini_sh->exec->pipe_id + 1])
+	{
+		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], mini_sh->exec->tab_fd[mini_sh->exec->pipe_id - 1][1]);
+		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], mini_sh->exec->tab_fd[mini_sh->exec->pipe_id + 1][0]);
+	}
+	else
+	{
+		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], mini_sh->exec->tab_fd[mini_sh->exec->pipe_id - 1][1]);
+		dup2(STDOUT_FILENO, mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
+	}
+	close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
+	close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
+	mini_sh->exec->pipe_id++;
+	if (do_built_in(mini_sh) == FAIL)
+		exec_cmd(mini_sh, i);
+	return (SUCCESS);
+}
+*/
 
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 {
-	printf(BACK_RED"ABC"RST"\n");
-	fprintf(stderr, BACK_RED"ABC"RST"\n");
 	char *cmd_abs_path;
 
 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
@@ -116,29 +116,38 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
 		if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
 			printf(BACK_RED"pipe not working"RST"\n");
-		printf(BACK_BLUE"mini_sh->exec->tab_fd[%i][0]: %i"RST"\n", i_init_fd, mini_sh->exec->tab_fd[i_init_fd][0]);
-		printf(BACK_BLUE"mini_sh->exec->tab_fd[%i][1]: %i"RST"\n", i_init_fd, mini_sh->exec->tab_fd[i_init_fd][1]);
+		// printf(BACK_BLUE"mini_sh->exec->tab_fd[%i][0]: %i"RST"\n", i_init_fd, mini_sh->exec->tab_fd[i_init_fd][0]);
+		// printf(BACK_BLUE"mini_sh->exec->tab_fd[%i][1]: %i"RST"\n", i_init_fd, mini_sh->exec->tab_fd[i_init_fd][1]);
 		i_init_fd++;
 	}
 	return (SUCCESS);
 	(void)i_init_fd;
 }
 
+void	print_sep(t_mini_sh *mini_sh)
+{
+	int	i_print_sep;
+
+	i_print_sep = -1;
+	while (mini_sh->sep_type[++i_print_sep])
+		print_type(mini_sh->sep_type[i_print_sep]);
+}
 
 int	child_process(t_mini_sh *mini_sh, int i_exec)
 {
+	// print_sep(mini_sh);
+	printf(BACK_PURPLE"sep > 0     : %i"RST"\n", mini_sh->sep_type[i_exec] > 0);
+	printf(BACK_PURPLE"!sep_type   : %i"RST"\n", !mini_sh->sep_type[i_exec]);
+	printf(BOLD_PURPLE"i_exec      : %i"RST"\n", mini_sh->sep_type[i_exec]);
 	if (mini_sh->sep_type[i_exec] && i_exec == 0)
 	{
+		printf(BACK_RED"start"RST"\n");
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
-			// dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], STDOUT_FILENO);
-			
-			// dup2(STDIN_FILENO, mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
-			// dup2(STDOUT_FILENO, mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]); 
-
-			dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], STDOUT_FILENO);
-			close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
-			close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
+			dup2(mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
+			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec][1]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec][1]);
+			close(mini_sh->exec->tab_fd[i_exec][0]);
+			close(mini_sh->exec->tab_fd[i_exec][1]);
 		 	exec_cmd(mini_sh, i_exec);
 		}
 		// else if (mini_sh->sep_type[i_exec] == REDIR_R)
@@ -146,29 +155,47 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 		// else if (mini_sh->sep_type[i_exec] == APPEND)
 		// else if (mini_sh->sep_type[i_exec] == HR_DOC)
 	}
-	else if (mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] > 1)
+	else if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] > 0)
 	{
-		printf(BACK_PURPLE"mini_sh->sep_type[i_exec]: %i"RST"\n", mini_sh->sep_type[i_exec]);
+		printf(BACK_RED"middle"RST"\n");
+		printf(BACK_PURPLE"mini_sh->sep_type[i_exec + 1]: %i"RST"\n", mini_sh->sep_type[i_exec + 1]);
+		if (mini_sh->sep_type[i_exec] == PIPE)
+		{
+			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec - 1][0]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0]);
+			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec][1]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec][1]);
+			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
+			dup2(mini_sh->exec->tab_fd[i_exec][1], mini_sh->exec->tab_fd[i_exec - 1][1]);
+			exit(1);
+		}
 		// else if (mini_sh->sep_type[i_exec] == REDIR_R)
 		// else if (mini_sh->sep_type[i_exec] == REDIR_L)
 		// else if (mini_sh->sep_type[i_exec] == APPEND)
 		// else if (mini_sh->sep_type[i_exec] == HR_DOC)
 	}
+	else if (!mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec - 1])
+	{
+		printf(BACK_RED"end"RST"\n");
+		if (mini_sh->sep_type[i_exec - 1] == PIPE)
+		{
+			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec - 1][0]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0]);
+			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
+			close(mini_sh->exec->tab_fd[i_exec - 1][0]);
+			close(mini_sh->exec->tab_fd[i_exec - 1][1]);
+			exec_cmd(mini_sh, i_exec);
+		}
+		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_R)
+		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_L)
+		// else if (mini_sh->sep_type[i_exec - 1] == APPEND)
+		// else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
+	}
 	else
 	{
-		// dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], STDIN_FILENO); 
-		
-		// dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], STDIN_FILENO); 
-		// dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1], STDOUT_FILENO); 
-		
-		dup2(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0], STDIN_FILENO);
-		close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
-		close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
-	 	exec_cmd(mini_sh, i_exec);
-		// else if (mini_sh->sep_type[i_exec] == REDIR_R)
-		// else if (mini_sh->sep_type[i_exec] == REDIR_L)
-		// else if (mini_sh->sep_type[i_exec] == APPEND)
-		// else if (mini_sh->sep_type[i_exec] == HR_DOC)
+		printf(BACK_RED"alone"RST"\n");
+		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_R)
+		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_L)
+		// else if (mini_sh->sep_type[i_exec - 1] == APPEND)
+		// else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
+		exec_cmd(mini_sh, i_exec);
 	}
 	// if (do_built_in(mini_sh) == FAIL)
 	return (SUCCESS);
@@ -193,17 +220,19 @@ int	start_exec(t_mini_sh *mini_sh)
 			waitpid(mini_sh->pids[i_exec], NULL, 0);
 		
 
-		fprintf(stderr, BACK_PURPLE"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
+		fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
 		if (mini_sh->prepare_exec[i_exec + 1])
 			printf("\n.....................................\n\n");
 		i_exec++;
 	}
-	// i_exec = 0;
-	// while (mini_sh->pids[i_exec])
-	// {
-	// 	waitpid(mini_sh->pids[i_exec], NULL, 0);
-	// 	i_exec++;
-	// }
+	i_exec = 0;
+	while (mini_sh->pids[i_exec + 1])
+	{
+		close(mini_sh->exec->tab_fd[i_exec][0]);
+		close(mini_sh->exec->tab_fd[i_exec][1]);
+		// waitpid(mini_sh->pids[i_exec], NULL, 0);
+		i_exec++;
+	}
 	return (SUCCESS);
 	// function while tous est 0
 	// 

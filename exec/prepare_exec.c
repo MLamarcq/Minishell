@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/15 23:37:51 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/17 19:48:29 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	prepare_exec(t_mini_sh *mini_sh)
 			mini_sh->rl_out = mini_sh->rl_out->next;
 	}
 	mini_sh->prepare_exec[triple] = NULL;
+	mini_sh->len_prepare_exec = triple;
 	return (SUCCESS);
 }
 
