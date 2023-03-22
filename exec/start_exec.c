@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/22 16:22:57 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/22 16:50:26 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 			exec_cmd(mini_sh, i_exec);
 		}
 	}
-	else if (!mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec - 1])
+	else if ((mini_sh->sep_type[i_exec + 1] > 1024 || !mini_sh->sep_type[i_exec + 1]) && mini_sh->sep_type[i_exec - 1])
 	{
 		if (mini_sh->sep_type[i_exec - 1] == PIPE)
 		{
@@ -204,6 +204,7 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	else
 	{
 		printf(BACK_RED"alone"RST"\n");
+		fprintf(stderr, BLUE"Previous(%i, %i)"RST"\n", mini_sh->sep_type[i_exec + 1], mini_sh->sep_type[i_exec - 1]);
 		dup2(0, 0);
 		dup2(1, 1);
 		exec_cmd(mini_sh, i_exec);
