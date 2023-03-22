@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/03/17 18:37:30 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/22 14:11:14 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_env_2(char **envp, t_mini_sh *mini_sh)
 
 void	init_rl(t_mini_sh *mini_sh)
 {
-	mini_sh->output = readline("minishell>");
+	mini_sh->output = readline(RED"minishell>"RST);
 	mini_sh->sep = 0;
 	mini_sh->sep_2 = 0;
 	(void)mini_sh;
@@ -43,18 +43,20 @@ int	main(int argc, char *argv[], char **envp)
 	while (1)
 	{
 		init_rl(&mini_sh);
-		add_history(mini_sh.output);
 		if (!mini_sh.output)
 		{
-			printf("exit\n");
+			printf("@exit\n");
 			break ;
 		}
+		if (mini_sh.output[0])
+			add_history(mini_sh.output);
 		exec_signal(1);
 		if (ft_parsing(&mini_sh) == SUCCESS)
 		{
 			init_sep_type(&mini_sh);
 			init_exec(&mini_sh);
-			init_tab_fd(&mini_sh);
+			if (mini_sh.sep_2 > 0)
+				init_tab_fd(&mini_sh);
 			start_exec(&mini_sh);
 			// if (do_built_in(&mini_sh) == FAIL)
 			// 	exec_cmd(&mini_sh);

@@ -1,0 +1,32 @@
+{
+   READLINE_readline
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:readline
+   ...
+}
+{
+   READLINE_add_history
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:add_history
+   ...
+}
+{
+   READLINE_undo_return_line
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:rl_add_undo
+   ...
+}
+{
+   READLINE_big_useless_query
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:_rl_dispatch_subseq
+   ...
+}

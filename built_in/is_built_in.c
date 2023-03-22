@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/03/16 15:27:29 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/22 09:14:08 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	do_built_in(t_mini_sh *mini_sh)
 {
 	int	i;
 
-	init_env(mini_sh);
 	init_env_sorted(mini_sh);
 	i = 0;
 	while (mini_sh->prepare_exec[i])
@@ -62,5 +61,7 @@ int	do_built_in(t_mini_sh *mini_sh)
 			return (FAIL);
 		i++;
 	}
+	printf(BACK_GREEN"built"RST"\n");
+	// exit(1);
 	return (SUCCESS);
 }

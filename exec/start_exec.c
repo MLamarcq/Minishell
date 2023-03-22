@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/20 12:41:21 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/22 14:33:45 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	init_sep_type(t_mini_sh *mini_sh)
 {
-	t_parse *tmp;
-	int i;
+	t_parse	*tmp;
+	int		i;
 
 	tmp = mini_sh->rl_out_head;
-	mini_sh->sep_type = (int*)malloc(sizeof(int) * mini_sh->sep_2 + 1);
+	mini_sh->sep_type = (int*)malloc(sizeof(int) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->sep_type)
 		return (FAIL_MALLOC);
 	i = 0;
@@ -75,7 +75,7 @@ int	if_pipe(t_mini_sh *mini_sh, int i)
 	close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][0]);
 	close(mini_sh->exec->tab_fd[mini_sh->exec->pipe_id][1]);
 	mini_sh->exec->pipe_id++;
-	if (do_built_in(mini_sh) == FAIL)
+	if (<do_built_in(>mini_sh) == FAIL)
 		exec_cmd(mini_sh, i);
 	return (SUCCESS);
 }
@@ -85,10 +85,14 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 {
 	char *cmd_abs_path;
 
-	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
+	cmd_abs_path = NULL;
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
+	{
 		execve(mini_sh->prepare_exec[i_exec][0], mini_sh->prepare_exec[i_exec], mini_sh->env);
-	else if (cmd_abs_path != NULL)
+		// if execve then free; exit status
+	}
+	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
+	if (cmd_abs_path != NULL)
 	{
 		free(mini_sh->prepare_exec[i_exec][0]);
 		mini_sh->prepare_exec[i_exec][0] = cmd_abs_path;
@@ -135,70 +139,83 @@ void	print_sep(t_mini_sh *mini_sh)
 
 int	child_process(t_mini_sh *mini_sh, int i_exec)
 {
+	int	i_close;
+
+	i_close = 0;
+	
 	// print_sep(mini_sh);
-	printf(BACK_PURPLE"sep > 0     : %i"RST"\n", mini_sh->sep_type[i_exec] > 0);
-	printf(BACK_PURPLE"!sep_type   : %i"RST"\n", !mini_sh->sep_type[i_exec]);
-	printf(BOLD_PURPLE"i_exec      : %i"RST"\n", mini_sh->sep_type[i_exec]);
+	// printf(BACK_PURPLE"sep > 0     : %i"RST"\n", mini_sh->sep_type[i_exec] > 0);
+	// printf(BACK_PURPLE"!sep_type   : %i"RST"\n", !mini_sh->sep_type[i_exec]);
+	// printf(BOLD_PURPLE"i_exec      : %i"RST"\n", mini_sh->sep_type[i_exec]);
 	if (mini_sh->sep_type[i_exec] && i_exec == 0)
 	{
-		printf(BACK_RED"start"RST"\n");
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
+			// i_close = 0;
+			// while (mini_sh->exec->tab_fd[i_close])
+			// {
+			// 	if (i_exec != i_close)
+			// 	{
+			// 		close(mini_sh->exec->tab_fd[i_close][0]);
+			// 		close(mini_sh->exec->tab_fd[i_close][1]);
+			// 	}
+			// 	i_close++;
+			// }
+			// close(mini_sh->exec->tab_fd[i_exec][0]);
+			
+			fprintf(stderr, BOLD_YELLOW"start	"YELLOW"dup(%i, %i)\n"RST, mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
 			dup2(mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
-			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec][1]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec][1]);
-			close(mini_sh->exec->tab_fd[i_exec][0]);
-			close(mini_sh->exec->tab_fd[i_exec][1]);
-		 	exec_cmd(mini_sh, i_exec);
+			exec_cmd(mini_sh, i_exec);
 		}
-		// else if (mini_sh->sep_type[i_exec] == REDIR_R)
-		// else if (mini_sh->sep_type[i_exec] == REDIR_L)
-		// else if (mini_sh->sep_type[i_exec] == APPEND)
-		// else if (mini_sh->sep_type[i_exec] == HR_DOC)
 	}
 	else if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] > 0)
 	{
-		printf(BACK_RED"middle"RST"\n");
-		printf(BACK_PURPLE"mini_sh->sep_type[i_exec + 1]: %i"RST"\n", mini_sh->sep_type[i_exec + 1]);
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
-			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec - 1][0]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0]);
-			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec][1]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec][1]);
-			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
-			dup2(mini_sh->exec->tab_fd[i_exec][1], mini_sh->exec->tab_fd[i_exec - 1][1]);
-			exit(1);
+			// i_close = 0;
+			// while (mini_sh->exec->tab_fd[i_close])
+			// {
+			// 	if (i_exec != i_close)
+			// 	{
+			// 		close(mini_sh->exec->tab_fd[i_close][0]);
+			// 		close(mini_sh->exec->tab_fd[i_close][1]);
+			// 	}
+			// 	i_close++;
+			// }
+			// close(mini_sh->exec->tab_fd[i_exec][0]);
+			
+			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], 0);
+			dup2(mini_sh->exec->tab_fd[i_exec][1], 1);
+			fprintf(stderr, BOLD_YELLOW"middle	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], 0, mini_sh->prepare_exec[i_exec][0]);
+			fprintf(stderr, BOLD_YELLOW"middle	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec][1], 1, mini_sh->prepare_exec[i_exec][0]);
+			exec_cmd(mini_sh, i_exec);
 		}
-		// else if (mini_sh->sep_type[i_exec] == REDIR_R)
-		// else if (mini_sh->sep_type[i_exec] == REDIR_L)
-		// else if (mini_sh->sep_type[i_exec] == APPEND)
-		// else if (mini_sh->sep_type[i_exec] == HR_DOC)
 	}
 	else if (!mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec - 1])
 	{
-		printf(BACK_RED"end"RST"\n");
 		if (mini_sh->sep_type[i_exec - 1] == PIPE)
 		{
-			fprintf(stderr, BACK_YELLOW"mini_sh->exec->tab_fd[i_exec - 1][0]: %i"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0]);
+			// i_close = 0;
+			// while (mini_sh->exec->tab_fd[i_close])
+			// {
+			// 	close(mini_sh->exec->tab_fd[i_close][0]);
+			// 	close(mini_sh->exec->tab_fd[i_close][1]);
+			// 	i_close++;
+			// }
+			
+			fprintf(stderr, BOLD_YELLOW"end	"YELLOW"dup(%i, %i)"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
 			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
-			close(mini_sh->exec->tab_fd[i_exec - 1][0]);
-			close(mini_sh->exec->tab_fd[i_exec - 1][1]);
 			exec_cmd(mini_sh, i_exec);
 		}
-		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_R)
-		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_L)
-		// else if (mini_sh->sep_type[i_exec - 1] == APPEND)
-		// else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
 	}
 	else
 	{
 		printf(BACK_RED"alone"RST"\n");
-		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_R)
-		// else if (mini_sh->sep_type[i_exec - 1] == REDIR_L)
-		// else if (mini_sh->sep_type[i_exec - 1] == APPEND)
-		// else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
 		exec_cmd(mini_sh, i_exec);
 	}
 	// if (do_built_in(mini_sh) == FAIL)
 	return (SUCCESS);
+	(void)i_close;
 }
 
 int	start_exec(t_mini_sh *mini_sh)
@@ -211,27 +228,36 @@ int	start_exec(t_mini_sh *mini_sh)
 		return (FAIL_MALLOC);
 	while (mini_sh->prepare_exec[i_exec])
 	{
+		if (is_built_in_2(mini_sh->prepare_exec[i_exec], mini_sh) == SUCCESS && (!mini_sh->prepare_exec[i_exec + 1]))
+		{
+			do_built_in(mini_sh);
+			break ;
+		}
 		mini_sh->pids[i_exec] = fork();
+		fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
 		if (mini_sh->pids[i_exec] == -1)
 			return (FAIL);
 		if (mini_sh->pids[i_exec] == 0)
 			child_process(mini_sh, i_exec);
-		else
-			waitpid(mini_sh->pids[i_exec], NULL, 0);
-		
+		// else
+		// 	waitpid(mini_sh->pids[i_exec], NULL, 0);
 
-		fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
 		if (mini_sh->prepare_exec[i_exec + 1])
 			printf("\n.....................................\n\n");
 		i_exec++;
 	}
-	i_exec = 0;
-	while (mini_sh->pids[i_exec + 1])
+	if (mini_sh->sep_2 >= 1)
 	{
-		close(mini_sh->exec->tab_fd[i_exec][0]);
-		close(mini_sh->exec->tab_fd[i_exec][1]);
-		// waitpid(mini_sh->pids[i_exec], NULL, 0);
-		i_exec++;
+		i_exec = 0;
+		while (mini_sh->sep_type[i_exec] != 0)
+		{
+			// if (mini_sh->exec->tab_fd[i_exec][0])
+			// 	close(mini_sh->exec->tab_fd[i_exec][0]);
+			// if (mini_sh->exec->tab_fd[i_exec][1])
+			// 	close(mini_sh->exec->tab_fd[i_exec][1]);
+			waitpid(mini_sh->pids[i_exec], NULL, 0);
+			i_exec++;
+		}
 	}
 	return (SUCCESS);
 	// function while tous est 0
@@ -239,3 +265,8 @@ int	start_exec(t_mini_sh *mini_sh)
 }
 
 // char ** -> {PIPE, PIPE, REDIR_R, PIPE}
+// STDOUT_FILENO	1	affichage	
+// STDIN_FILENO		0	prompt		
+
+// fd[0] lecture	dans le pipe
+// fd[1] écriture	dans le pipe
