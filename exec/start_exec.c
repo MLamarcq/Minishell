@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/22 14:33:45 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/22 16:22:57 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,20 +151,17 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	{
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
-			// i_close = 0;
-			// while (mini_sh->exec->tab_fd[i_close])
-			// {
-			// 	if (i_exec != i_close)
-			// 	{
-			// 		close(mini_sh->exec->tab_fd[i_close][0]);
-			// 		close(mini_sh->exec->tab_fd[i_close][1]);
-			// 	}
-			// 	i_close++;
-			// }
-			// close(mini_sh->exec->tab_fd[i_exec][0]);
 			
 			fprintf(stderr, BOLD_YELLOW"start	"YELLOW"dup(%i, %i)\n"RST, mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
 			dup2(mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
+			dup2(0, 0);
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
 			exec_cmd(mini_sh, i_exec);
 		}
 	}
@@ -172,22 +169,17 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	{
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
-			// i_close = 0;
-			// while (mini_sh->exec->tab_fd[i_close])
-			// {
-			// 	if (i_exec != i_close)
-			// 	{
-			// 		close(mini_sh->exec->tab_fd[i_close][0]);
-			// 		close(mini_sh->exec->tab_fd[i_close][1]);
-			// 	}
-			// 	i_close++;
-			// }
-			// close(mini_sh->exec->tab_fd[i_exec][0]);
-			
 			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], 0);
 			dup2(mini_sh->exec->tab_fd[i_exec][1], 1);
 			fprintf(stderr, BOLD_YELLOW"middle	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], 0, mini_sh->prepare_exec[i_exec][0]);
 			fprintf(stderr, BOLD_YELLOW"middle	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec][1], 1, mini_sh->prepare_exec[i_exec][0]);
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
 			exec_cmd(mini_sh, i_exec);
 		}
 	}
@@ -195,22 +187,25 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	{
 		if (mini_sh->sep_type[i_exec - 1] == PIPE)
 		{
-			// i_close = 0;
-			// while (mini_sh->exec->tab_fd[i_close])
-			// {
-			// 	close(mini_sh->exec->tab_fd[i_close][0]);
-			// 	close(mini_sh->exec->tab_fd[i_close][1]);
-			// 	i_close++;
-			// }
 			
 			fprintf(stderr, BOLD_YELLOW"end	"YELLOW"dup(%i, %i)"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
 			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
+			dup2(1, 1);
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
 			exec_cmd(mini_sh, i_exec);
 		}
 	}
 	else
 	{
 		printf(BACK_RED"alone"RST"\n");
+		dup2(0, 0);
+		dup2(1, 1);
 		exec_cmd(mini_sh, i_exec);
 	}
 	// if (do_built_in(mini_sh) == FAIL)
@@ -228,11 +223,11 @@ int	start_exec(t_mini_sh *mini_sh)
 		return (FAIL_MALLOC);
 	while (mini_sh->prepare_exec[i_exec])
 	{
-		if (is_built_in_2(mini_sh->prepare_exec[i_exec], mini_sh) == SUCCESS && (!mini_sh->prepare_exec[i_exec + 1]))
-		{
-			do_built_in(mini_sh);
-			break ;
-		}
+		// if (is_built_in_2(mini_sh->prepare_exec[i_exec], mini_sh) == SUCCESS && (!mini_sh->prepare_exec[i_exec + 1]))
+		// {
+		// 	do_built_in(mini_sh);
+		// 	break ;
+		// }
 		mini_sh->pids[i_exec] = fork();
 		fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
 		if (mini_sh->pids[i_exec] == -1)
@@ -246,19 +241,24 @@ int	start_exec(t_mini_sh *mini_sh)
 			printf("\n.....................................\n\n");
 		i_exec++;
 	}
-	if (mini_sh->sep_2 >= 1)
+	i_exec = 0;
+	while (i_exec < mini_sh->sep_2)
 	{
+		if (mini_sh->exec->tab_fd[i_exec][0] > 2)
+			close(mini_sh->exec->tab_fd[i_exec][0]);
+		if (mini_sh->exec->tab_fd[i_exec][1] > 2)
+			close(mini_sh->exec->tab_fd[i_exec][1]);
+		i_exec++;
+	}
+	// if (mini_sh->sep_2 >= 0)
+	// {
 		i_exec = 0;
-		while (mini_sh->sep_type[i_exec] != 0)
+		while (mini_sh->prepare_exec[i_exec])
 		{
-			// if (mini_sh->exec->tab_fd[i_exec][0])
-			// 	close(mini_sh->exec->tab_fd[i_exec][0]);
-			// if (mini_sh->exec->tab_fd[i_exec][1])
-			// 	close(mini_sh->exec->tab_fd[i_exec][1]);
 			waitpid(mini_sh->pids[i_exec], NULL, 0);
 			i_exec++;
 		}
-	}
+	// }
 	return (SUCCESS);
 	// function while tous est 0
 	// 
