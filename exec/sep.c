@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/03/15 23:35:35 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/23 11:41:53 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	is_sep(char *word)
 		return (SUCCESS);
 	else if (ft_strncmp(word, ">>", ft_strlen(word)) == 0)
 		return (SUCCESS);
-	else if (ft_strncmp(word, "<<", ft_strlen(word)) == 0)
-		return (SUCCESS);
+	// else if (ft_strncmp(word, "<<", ft_strlen(word)) == 0)
+	// 	return (SUCCESS);
 	return (FAIL);
 }
 

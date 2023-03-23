@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/22 16:06:39 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/23 12:06:30 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ int		if_arg(char **argv, t_mini_sh *mini_sh);
 int		init_env_sorted(t_mini_sh *mini_sh);
 int		realloc_tab(int *i, t_mini_sh *mini_sh);
 //built_in/is_built_in.c
-int		do_built_in(t_mini_sh *mini_sh);
+int		do_built_in(t_mini_sh *mini_sh, int i);
 int		init_env(t_mini_sh *mini_sh);
 int		is_built_in_2(char **exec, t_mini_sh *mini_sh);
 //built_in/env.c

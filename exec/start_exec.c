@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/22 16:50:26 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/23 12:08:31 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	i_close = 0;
 	
 	// print_sep(mini_sh);
+	//printf(RED"nbr_sep = %d\n"RST, mini_sh->sep_2);
 	// printf(BACK_PURPLE"sep > 0     : %i"RST"\n", mini_sh->sep_type[i_exec] > 0);
 	// printf(BACK_PURPLE"!sep_type   : %i"RST"\n", !mini_sh->sep_type[i_exec]);
 	// printf(BOLD_PURPLE"i_exec      : %i"RST"\n", mini_sh->sep_type[i_exec]);
@@ -162,7 +163,10 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 				close(mini_sh->exec->tab_fd[i_close][1]);
 				i_close++;
 			}
-			exec_cmd(mini_sh, i_exec);
+			if (do_built_in(mini_sh, i_exec) == FAIL)
+				exec_cmd(mini_sh, i_exec);
+			else
+				exit(1);
 		}
 	}
 	else if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] > 0)
@@ -180,7 +184,10 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 				close(mini_sh->exec->tab_fd[i_close][1]);
 				i_close++;
 			}
-			exec_cmd(mini_sh, i_exec);
+			if (do_built_in(mini_sh, i_exec) == FAIL)
+				exec_cmd(mini_sh, i_exec);
+			else
+				exit(1);
 		}
 	}
 	else if ((mini_sh->sep_type[i_exec + 1] > 1024 || !mini_sh->sep_type[i_exec + 1]) && mini_sh->sep_type[i_exec - 1])
@@ -198,7 +205,10 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 				close(mini_sh->exec->tab_fd[i_close][1]);
 				i_close++;
 			}
-			exec_cmd(mini_sh, i_exec);
+			if (do_built_in(mini_sh, i_exec) == FAIL)
+				exec_cmd(mini_sh, i_exec);
+			else
+				exit(1);
 		}
 	}
 	else
@@ -212,6 +222,19 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	// if (do_built_in(mini_sh) == FAIL)
 	return (SUCCESS);
 	(void)i_close;
+}
+
+int	exec_builtin(t_mini_sh *mini_sh, int i)
+{
+	//printf(BACK_PURPLE"len = %d\n"RST, mini_sh->len_prepare_exec);
+	if (mini_sh->len_prepare_exec == 1)
+	{
+		if (do_built_in(mini_sh, i) == FAIL)
+			return (FAIL);
+		else
+			return (SUCCESS);
+	}
+	return (FAIL);
 }
 
 int	start_exec(t_mini_sh *mini_sh)
@@ -229,12 +252,18 @@ int	start_exec(t_mini_sh *mini_sh)
 		// 	do_built_in(mini_sh);
 		// 	break ;
 		// }
-		mini_sh->pids[i_exec] = fork();
-		fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
-		if (mini_sh->pids[i_exec] == -1)
-			return (FAIL);
-		if (mini_sh->pids[i_exec] == 0)
-			child_process(mini_sh, i_exec);
+		//printf(BACK_BLUE"res = %d"RST"\n", exec_builtin(mini_sh));
+		if (exec_builtin(mini_sh, i_exec) == FAIL)
+		{
+			printf(YELLOW"C1\n");
+			mini_sh->pids[i_exec] = fork();
+			fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
+			if (mini_sh->pids[i_exec] == -1)
+				return (FAIL);
+			if (mini_sh->pids[i_exec] == 0)
+				child_process(mini_sh, i_exec);
+		}
+		printf(BACK_GREEN"on est a : %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 		// else
 		// 	waitpid(mini_sh->pids[i_exec], NULL, 0);
 
