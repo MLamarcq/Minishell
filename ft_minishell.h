@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/23 12:06:30 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/24 15:49:44 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_arr_output
 	char				*word;
 	int					type;
 	struct s_arr_output	*next;
+	struct s_arr_output *prev;
 }		t_parse;
 
 // typedef struct s_mini_sh
@@ -110,12 +111,15 @@ typedef struct s_env
 
 typedef struct s_mini_sh
 {
+	char			*file_heredoc;
+	int				*hr_doc_tab;
 	char			*output;
 	char			**env;
 	char			***prepare_exec;
 	int				len_prepare_exec;
 	int				is_dquote;
 	int				is_squote;
+	int				check_redir;
 	int				sep;
 	int				flag;
 	int				sep_2;
@@ -277,5 +281,13 @@ int		export_cd(char **str, t_mini_sh *mini_sh);
 void	export_home(char *home, t_mini_sh *mini_sh);
 int		ft_cd(char **str, t_mini_sh *mini_sh);
 void	replace_pwd(t_mini_sh *mini_sh, int *is_exist, char *oldpwd);
+int	there_is_a_heredoc(t_mini_sh *mini_sh, int i_exec);
+//int	create_heredoc(t_mini_sh *mini_sh, int i);
+int	ft_itoa_len(int n);
+char	*ft_itoa(int n);
+int	do_simple_heredoc(t_mini_sh *mini_sh, int i_exec);
+void	ft_putstr_fd(char *s, int fd);
+void	if_hr_doc(t_mini_sh *mini_sh);
+
 
 #endif

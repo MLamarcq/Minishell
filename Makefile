@@ -26,6 +26,8 @@ lib/ft_split.c \
 lib/ft_strdup.c \
 lib/ft_strjoin.c \
 lib/ft_strlen.c \
+lib/ft_itoa.c \
+lib/ft_putstr_fd.c \
 built_in/echo.c \
 built_in/cd.c \
 built_in/pwd.c \
@@ -51,7 +53,9 @@ exec/sep.c \
 exec/which_sep.c \
 exec/start_exec.c \
 exec/exec_utils.c \
-exec/child_process.c 
+exec/child_process.c \
+exec/heredoc.c \
+exec/sep_test.c \
 
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/03/23 11:41:53 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/24 13:50:58 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	is_sep(char *word)
 		return (SUCCESS);
 	else if (ft_strncmp(word, ">>", ft_strlen(word)) == 0)
 		return (SUCCESS);
-	// else if (ft_strncmp(word, "<<", ft_strlen(word)) == 0)
-	// 	return (SUCCESS);
+	else if (ft_strncmp(word, "<<", ft_strlen(word)) == 0)
+		return (SUCCESS);
 	return (FAIL);
 }
 
@@ -92,8 +92,14 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	tmp = tmp->next;
 	while (tmp && tmp->next != NULL)
 	{
+		if (is_sep(tmp->word) == SUCCESS && is_sep(tmp->next->word) == SUCCESS)
+		{
+			printf(RED"Type"RST"\n");
+			tmp = tmp->next;
+		}
 		if (is_sep(tmp->word) == SUCCESS)
 			mini_sh->sep_2++;
+		//printf(BLUE"%s"RST"\n", tmp->next->word);
 		if (tmp)
 			tmp = tmp->next;
 	}

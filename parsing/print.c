@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/03/15 23:54:44 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/24 11:34:54 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,30 @@ void	print_word2(char *new_w)
 void	print_type(int type)
 {
 	if (type == CMD)
-		printf(BLUE"CMD"RST"\n");
-	if (type == CMD_ABS)
-		printf(BLUE"CMD_ABS"RST"\n");
-	if (type == PIPE)
-		printf(BLUE"PIPE"RST"\n");
-	if (type == ARG)
-		printf(BLUE"ARG"RST"\n");
-	if (type == REDIR_L)
-		printf(BLUE"REDIR_L"RST"\n");
-	if (type == APPEND)
-		printf(BLUE"APPEND"RST"\n");
-	if (type == HR_DOC)
-		printf(BLUE"HR_DOC"RST"\n");
-	if (type == REDIR_R)
-		printf(BLUE"REDIR_R"RST"\n");
-	if (type == OPTION)
-		printf(BLUE"OPTION"RST"\n");
-	if (type == _FILE)
-		printf(BLUE"_FILE"RST"\n");
-	if (type == BUILT_IN)
-		printf(BLUE"BUILT_IN"RST"\n");
-	printf("\n");
+		fprintf(stderr, BLUE"CMD"RST"\n");
+	else if (type == CMD_ABS)
+		fprintf(stderr, BLUE"CMD_ABS"RST"\n");
+	else if (type == PIPE)
+		fprintf(stderr, BLUE"PIPE"RST"\n");
+	else if (type == ARG)
+		fprintf(stderr, BLUE"ARG"RST"\n");
+	else if (type == REDIR_L)
+		fprintf(stderr, BLUE"REDIR_L"RST"\n");
+	else if (type == APPEND)
+		fprintf(stderr, BLUE"APPEND"RST"\n");
+	else if (type == HR_DOC)
+		fprintf(stderr, BLUE"HR_DOC"RST"\n");
+	else if (type == REDIR_R)
+		fprintf(stderr, BLUE"REDIR_R"RST"\n");
+	else if (type == OPTION)
+		fprintf(stderr, BLUE"OPTION"RST"\n");
+	else if (type == _FILE)
+		fprintf(stderr, BLUE"_FILE"RST"\n");
+	else if (type == BUILT_IN)
+		fprintf(stderr, BLUE"BUILT_IN"RST"\n");
+	else
+		fprintf(stderr, BACK_RED"0"RST"\n");
+	fprintf(stderr, "\n");
 }
 
 void	ft_print_rl_out(t_mini_sh *mini_sh)

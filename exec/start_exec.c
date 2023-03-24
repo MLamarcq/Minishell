@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/23 12:08:31 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/24 16:44:53 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 	if (!mini_sh->exec->tab_fd)
 		return (FAIL_MALLOC);
 	mini_sh->exec->tab_fd[mini_sh->len_prepare_exec] = 0;
-	while (mini_sh->prepare_exec[i_init_fd + 1])
+	while (i_init_fd < mini_sh->sep_2)
 	{
 		mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
 		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
@@ -148,12 +148,15 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 	// printf(BACK_PURPLE"sep > 0     : %i"RST"\n", mini_sh->sep_type[i_exec] > 0);
 	// printf(BACK_PURPLE"!sep_type   : %i"RST"\n", !mini_sh->sep_type[i_exec]);
 	// printf(BOLD_PURPLE"i_exec      : %i"RST"\n", mini_sh->sep_type[i_exec]);
+	// fprintf(stderr, BACK_BLUE"sep type[%d] = "RST, i_exec);
+	/// print_type(mini_sh->sep_type[i_exec]);
+	//printf(BACK_GREEN"on est a : %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 	if (mini_sh->sep_type[i_exec] && i_exec == 0)
 	{
+		fprintf(stderr, BACK_PURPLE"START"RST"\n");
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
-			
-			fprintf(stderr, BOLD_YELLOW"start	"YELLOW"dup(%i, %i)\n"RST, mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
+			//fprintf(stderr, BOLD_YELLOW"start	"YELLOW"dup(%i, %i)\n"RST, mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
 			dup2(mini_sh->exec->tab_fd[i_exec][1], STDOUT_FILENO);
 			dup2(0, 0);
 			i_close = 0;
@@ -168,15 +171,40 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 			else
 				exit(1);
 		}
+		else if (mini_sh->sep_type[i_exec] == HR_DOC)
+		{
+			there_is_a_heredoc(mini_sh, i_exec);
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
+			exit(1);
+		}
+		else
+		{
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
+			exit(1);
+		}
 	}
 	else if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] > 0)
 	{
+		fprintf(stderr, BACK_PURPLE"MIDDLE"RST"\n");
+		//  mini_sh->sep_type[i_exec] > 0
 		if (mini_sh->sep_type[i_exec] == PIPE)
 		{
 			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], 0);
 			dup2(mini_sh->exec->tab_fd[i_exec][1], 1);
-			fprintf(stderr, BOLD_YELLOW"middle	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], 0, mini_sh->prepare_exec[i_exec][0]);
-			fprintf(stderr, BOLD_YELLOW"middle	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec][1], 1, mini_sh->prepare_exec[i_exec][0]);
+			fprintf(stderr, BOLD_YELLOW"middle    	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], 0, mini_sh->prepare_exec[i_exec][0]);
+			fprintf(stderr, BOLD_YELLOW"middle_bis	"YELLOW"dup(%i, %i) %s"RST"\n", mini_sh->exec->tab_fd[i_exec][1], 1, mini_sh->prepare_exec[i_exec][0]);
 			i_close = 0;
 			while (mini_sh->exec->tab_fd[i_close])
 			{
@@ -189,12 +217,38 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 			else
 				exit(1);
 		}
-	}
-	else if ((mini_sh->sep_type[i_exec + 1] > 1024 || !mini_sh->sep_type[i_exec + 1]) && mini_sh->sep_type[i_exec - 1])
-	{
-		if (mini_sh->sep_type[i_exec - 1] == PIPE)
+		else if (mini_sh->sep_type[i_exec] == HR_DOC)
 		{
-			
+			there_is_a_heredoc(mini_sh, i_exec);
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
+			if (do_built_in(mini_sh, i_exec) == FAIL)
+				exec_cmd(mini_sh, i_exec);
+			else
+				exit(1);
+		}
+		else
+		{
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
+			exit(1);
+		}
+	}
+	else if ((mini_sh->sep_type[i_exec] > 1024 || !mini_sh->sep_type[i_exec]) && mini_sh->sep_type[i_exec - 1])
+	{
+		fprintf(stderr, BACK_PURPLE"END"RST"\n");
+		if (mini_sh->sep_type[i_exec - 1] == PIPE)
+		{		
 			fprintf(stderr, BOLD_YELLOW"end	"YELLOW"dup(%i, %i)"RST"\n", mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
 			dup2(mini_sh->exec->tab_fd[i_exec - 1][0], STDIN_FILENO);
 			dup2(1, 1);
@@ -209,6 +263,32 @@ int	child_process(t_mini_sh *mini_sh, int i_exec)
 				exec_cmd(mini_sh, i_exec);
 			else
 				exit(1);
+		}
+		else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
+		{
+			// there_is_a_heredoc(mini_sh, i_exec);
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
+			if (do_built_in(mini_sh, i_exec) == FAIL)
+				exec_cmd(mini_sh, i_exec);
+			else
+				exit(1);
+		}
+		else
+		{
+			i_close = 0;
+			while (mini_sh->exec->tab_fd[i_close])
+			{
+				close(mini_sh->exec->tab_fd[i_close][0]);
+				close(mini_sh->exec->tab_fd[i_close][1]);
+				i_close++;
+			}
+			exit(1);
 		}
 	}
 	else
@@ -253,22 +333,26 @@ int	start_exec(t_mini_sh *mini_sh)
 		// 	break ;
 		// }
 		//printf(BACK_BLUE"res = %d"RST"\n", exec_builtin(mini_sh));
+		// if (there_is_a_heredoc(mini_sh, i_exec) == FAIL)
+		// {
+		// 	return (FAIL);
+		// }
+		printf(BACK_GREEN"on est a : %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 		if (exec_builtin(mini_sh, i_exec) == FAIL)
 		{
-			printf(YELLOW"C1\n");
+			//printf(YELLOW"C1\n");
 			mini_sh->pids[i_exec] = fork();
-			fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
+			//fprintf(stderr, CYAN"mini_sh->pids[%i]: %i"RST"\n", i_exec, mini_sh->pids[i_exec]);
 			if (mini_sh->pids[i_exec] == -1)
 				return (FAIL);
 			if (mini_sh->pids[i_exec] == 0)
 				child_process(mini_sh, i_exec);
 		}
-		printf(BACK_GREEN"on est a : %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 		// else
 		// 	waitpid(mini_sh->pids[i_exec], NULL, 0);
 
-		if (mini_sh->prepare_exec[i_exec + 1])
-			printf("\n.....................................\n\n");
+		// if (mini_sh->prepare_exec[i_exec + 1])
+		// 	printf("\n.....................................\n\n");
 		i_exec++;
 	}
 	i_exec = 0;

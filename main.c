@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/03/22 14:11:14 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/23 18:27:52 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_env_2(char **envp, t_mini_sh *mini_sh)
 
 void	init_rl(t_mini_sh *mini_sh)
 {
-	mini_sh->output = readline(RED"minishell>"RST);
+	mini_sh->output = readline("minishell>");
 	mini_sh->sep = 0;
 	mini_sh->sep_2 = 0;
 	(void)mini_sh;
@@ -55,8 +55,11 @@ int	main(int argc, char *argv[], char **envp)
 		{
 			init_sep_type(&mini_sh);
 			init_exec(&mini_sh);
-			if (mini_sh.sep_2 > 0)
-				init_tab_fd(&mini_sh);
+			// if (mini_sh.sep_2 > 0)
+			// {
+			// 	printf("hehe22\n");
+			// }
+			init_tab_fd(&mini_sh);
 			start_exec(&mini_sh);
 			// if (do_built_in(&mini_sh) == FAIL)
 			// 	exec_cmd(&mini_sh);
