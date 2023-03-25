@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:06:13 by mael              #+#    #+#             */
-/*   Updated: 2023/03/24 16:42:58 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/25 14:35:22 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	fill_little_tab(t_mini_sh *mini_sh, int trple)
 	int	dble;
 
 	dble = 0;
-//	mini_sh->nbr_word = 0;
-	while (mini_sh->rl_out && mini_sh->rl_out->type != PIPE)
+	mini_sh->nbr_word = 0;
+	while (mini_sh->rl_out && is_sep(mini_sh->rl_out->word) == FAIL)
 	{
 		mini_sh->prepare_exec[trple][dble] = ft_strdup(mini_sh->rl_out->word);
 		dble++;
@@ -40,8 +40,8 @@ int	init_big_tab(t_mini_sh *mini_sh)
 	if (count_sep_2(mini_sh) == FAIL)
 		return (FAIL);
 	// printf("nb sep = %d\n", mini_sh->sep_2);
-	if_hr_doc(mini_sh);
-	printf(YELLOW"nbr_sep = %d"RST"\n", mini_sh->sep_2);
+	//if_hr_doc(mini_sh);
+	//printf(YELLOW"nbr_sep = %d"RST"\n", mini_sh->sep_2);
 	mini_sh->prepare_exec = (char ***)malloc((sizeof (char **)) * \
 	(mini_sh->sep_2 + 2));
 	if (!mini_sh->prepare_exec)

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/25 11:35:06 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/25 14:53:34 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
+		if (mini_sh->sep_type[i_exec] != PIPE)
+			return ;
 		printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
 		exit (127);
 	}
@@ -93,6 +95,21 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 	return (FAIL);
 }
 
+int	if_redir(t_mini_sh *mini_sh, int i_exec)
+{
+	printf("i_exec before if = %i\n", i_exec);
+	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_R)
+	{
+		printf("i_exec after if = %d\n", i_exec);
+		mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
+		if (!mini_sh->exec->fd_r)
+			return (printf("Failure during opening redir_r file\n"), FAIL);
+		close(mini_sh->exec->tab_fd[i_exec][1]);
+		mini_sh->exec->fd_out = mini_sh->exec->fd_r;
+	}
+	return (SUCCESS);
+}
+
 int	init_fd_exec(t_mini_sh *mini_sh, int i_exec)
 {
 	if (i_exec == 0)
@@ -103,6 +120,7 @@ int	init_fd_exec(t_mini_sh *mini_sh, int i_exec)
 		mini_sh->exec->fd_out = 1;
 	else
 		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec][1];
+	if_redir(mini_sh, i_exec);
 	return (SUCCESS);
 }
 

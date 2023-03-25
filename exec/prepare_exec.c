@@ -6,36 +6,18 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/24 16:26:02 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/25 14:36:12 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-int	count_double_arr(t_mini_sh *mini_sh)
-{
-	t_mini_sh	*mn_tmp;
-	int			len_double_arr;
-
-	len_double_arr = 0;
-	mn_tmp = mini_sh;
-	mn_tmp->rl_out = mini_sh->rl_out_head;
-	while (mn_tmp->rl_out)
-	{
-		if (mn_tmp->rl_out->type == PIPE || mn_tmp->rl_out->type == REDIR_L || \
-			mn_tmp->rl_out->type == REDIR_R)
-			len_double_arr++;
-		mn_tmp->rl_out = mn_tmp->rl_out->next;
-	}
-	return (len_double_arr);
-}
-
 int	count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout)
 {
 	t_parse	*tmp;
 
-	if (is_sep(mini_sh->rl_out->word) == SUCCESS)
-		mini_sh->rl_out = mini_sh->rl_out->next;
+	// if (is_sep(mini_sh->rl_out->word) == SUCCESS)
+	// 	mini_sh->rl_out = mini_sh->rl_out->next;
 	tmp = rlout;
 	mini_sh->nbr_word = 0;
 	//mini_sh->check_redir = 0;
@@ -99,7 +81,7 @@ int	prepare_exec(t_mini_sh *mini_sh)
 	if (init_big_tab(mini_sh) == FAIL)
 		return (FAIL);
 	triple = 0;
-	mini_sh->rl_out = mini_sh->rl_out_head;
+	//mini_sh->rl_out = mini_sh->rl_out_head;
 	while (mini_sh->rl_out)
 	{
 		if (count_word_for_alloc(mini_sh, mini_sh->rl_out) == FAIL)
@@ -117,7 +99,7 @@ int	prepare_exec(t_mini_sh *mini_sh)
 				mini_sh->rl_out = mini_sh->rl_out->next;
 		}
 		// if (mini_sh->check_redir == 1)
-		printf("test = %s\n", mini_sh->rl_out->word);
+		//printf("test = %s\n", mini_sh->rl_out->word);
 		//mini_sh->rl_out = mini_sh->rl_out->next;
 		printf("\n.....................................\n\n");
 	}
