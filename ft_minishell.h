@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/24 15:49:44 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/24 19:15:10 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ enum e_type
 typedef struct s_exec_tools
 {
 	int	pipe_id;
+	int	fd_in;
+	int	fd_out;
 	int	fd_r;
 	int	fd_l;
 	int	fd_hr;
@@ -111,6 +113,7 @@ typedef struct s_env
 
 typedef struct s_mini_sh
 {
+	int 			sep_id;
 	char			*file_heredoc;
 	int				*hr_doc_tab;
 	char			*output;
@@ -184,7 +187,7 @@ int		count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout);
 void	free_exec(t_mini_sh *mini_sh);
 int		prepare_exec(t_mini_sh *mini_sh);
 //exec/start_exec.c
-int		child_process(t_mini_sh *mini_sh, int i_exec);
+void		child_process(t_mini_sh *mini_sh, int i_exec);
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);
 int		init_tab_fd(t_mini_sh *mini_sh);

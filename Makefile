@@ -51,7 +51,7 @@ parsing/print.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
-exec/start_exec.c \
+exec/start_exec_2.c \
 exec/exec_utils.c \
 exec/child_process.c \
 exec/heredoc.c \

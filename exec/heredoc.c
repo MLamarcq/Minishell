@@ -61,7 +61,7 @@ int	init_heredoc(t_mini_sh *mini_sh)
 			j++;
 		i++;
 	}
-	printf(RED"j = %d"RST"\n", j);
+	// printf(RED"j = %d"RST"\n", j);
 	mini_sh->hr_doc_tab = (int *)malloc(sizeof(int) * j + 1);
 	if (!mini_sh->hr_doc_tab)
 		return (FAIL_MALLOC);
@@ -71,7 +71,7 @@ int	init_heredoc(t_mini_sh *mini_sh)
 	{
 		mini_sh->file_heredoc = ft_strjoin_rfree(".heredoc", ft_itoa(i));
 		mini_sh->hr_doc_tab[i] = open(mini_sh->file_heredoc, O_CREAT | O_RDWR, 0777);
-		printf(BACK_BLUE"hr_doc = %d"RST"\n", mini_sh->hr_doc_tab[i]);
+		// printf(BACK_BLUE"hr_doc = %d"RST"\n", mini_sh->hr_doc_tab[i]);
 		if (!mini_sh->hr_doc_tab[i])
 			return (FAIL_MALLOC);
 		i++;
