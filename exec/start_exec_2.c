@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/25 14:53:34 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/25 16:16:03 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,21 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
-		if (mini_sh->sep_type[i_exec] != PIPE)
+		if (mini_sh->len_prepare_exec == 1)
+		{
+			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
+			exit (127);
+		}
+		else if (mini_sh->sep_type[i_exec - 1] != PIPE)
+		{
+			printf("C1\n");
 			return ;
-		printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
-		exit (127);
+		}
+		else
+		{
+			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
+			exit (127);
+		}
 	}
 }
 
@@ -97,13 +108,45 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 
 int	if_redir(t_mini_sh *mini_sh, int i_exec)
 {
+	//struct stat st;
+	
 	printf("i_exec before if = %i\n", i_exec);
 	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_R)
 	{
-		printf("i_exec after if = %d\n", i_exec);
-		mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
-		if (!mini_sh->exec->fd_r)
-			return (printf("Failure during opening redir_r file\n"), FAIL);
+		if (mini_sh->len_prepare_exec == 1)
+		{
+			printf("if i_exec after if = %d\n", i_exec);
+			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
+			if (!mini_sh->exec->fd_r)
+				return (printf("Failure during opening redir_r file\n"), FAIL);
+		}
+		// else if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == PIPE)
+		// {
+		// 	printf("elif i_exec after if = %d\n", i_exec);
+		// 	mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
+		// 	// printf(RED"mini_sh->exec->fd_r = %d\n"RST, mini_sh->exec->fd_r);
+		// 	if (!mini_sh->exec->fd_r)
+		// 		return (printf("Failure during opening redir_r file\n"), FAIL);
+		// }
+		else
+		{
+			if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == PIPE)
+			{
+				printf("elif i_exec after if = %d\n", i_exec);
+				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
+				// printf(RED"mini_sh->exec->fd_r = %d\n"RST, mini_sh->exec->fd_r);
+				if (!mini_sh->exec->fd_r)
+					return (printf("Failure during opening redir_r file\n"), FAIL);
+			}
+			//printf("else i_exec after if = %d\n", i_exec);
+			else
+			{
+				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
+				printf(RED"mini_sh->exec->fd_r = %d\n"RST, mini_sh->exec->fd_r);
+				if (mini_sh->exec->fd_r == FAIL)
+					return (printf("Failure during opening redir_r file\n"), FAIL);
+			}
+		}
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 		mini_sh->exec->fd_out = mini_sh->exec->fd_r;
 	}
