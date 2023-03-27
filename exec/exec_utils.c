@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:06:13 by mael              #+#    #+#             */
-/*   Updated: 2023/03/25 14:35:22 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/26 14:21:34 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	init_big_tab(t_mini_sh *mini_sh)
 	mini_sh->rl_out = mini_sh->rl_out_head;
 	if (count_sep_2(mini_sh) == FAIL)
 		return (FAIL);
-	// printf("nb sep = %d\n", mini_sh->sep_2);
+	//printf("nb sep = %d\n", mini_sh->sep_2);
 	//if_hr_doc(mini_sh);
 	//printf(YELLOW"nbr_sep = %d"RST"\n", mini_sh->sep_2);
 	mini_sh->prepare_exec = (char ***)malloc((sizeof (char **)) * \

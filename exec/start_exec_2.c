@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/25 16:31:05 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/26 20:31:19 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 		// if execve then free; exit status
 	}
 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
+	// printf(YELLOW"mini_sh->prepare_exec[i_exec][0] = %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
+	// printf(YELLOW"cmd_abs_path = %s"RST"\n", cmd_abs_path);
 	if (cmd_abs_path != NULL)
 	{
 		free(mini_sh->prepare_exec[i_exec][0]);
@@ -57,7 +59,7 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	{
 		if (mini_sh->len_prepare_exec == 1)
 		{
-			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
+			printf(" ->minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
 			exit (127);
 		}
 		else if (mini_sh->sep_type[i_exec - 1] != PIPE)
@@ -106,34 +108,44 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 	return (FAIL);
 }
 
+// int	if_redir(t_mini_sh *mini_sh, int i_exec)
+// {
+// 	// if (if_redir_r(mini_sh) == FAIL)
+// 	// 	return (FAIL);
+// 	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_R)
+// 	{
+// 		if (mini_sh->len_prepare_exec == 1)
+// 		{
+// 			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
+// 			if (!mini_sh->exec->fd_r)
+// 				return (printf("Failure during opening redir_r file\n"), FAIL);
+// 		}
+// 		else
+// 		{
+// 			if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == PIPE)
+// 			{
+// 				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
+// 				if (!mini_sh->exec->fd_r)
+// 					return (printf("Failure during opening redir_r file\n"), FAIL);
+// 			}
+// 			else
+// 			{
+// 				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
+// 				if (mini_sh->exec->fd_r == FAIL)
+// 					return (printf("Failure during opening redir_r file\n"), FAIL);
+// 			}
+// 		}
+// 		close(mini_sh->exec->tab_fd[i_exec][1]);
+// 		mini_sh->exec->fd_out = mini_sh->exec->fd_r;
+// 	}
+// 	return (SUCCESS);
+// }
 int	if_redir(t_mini_sh *mini_sh, int i_exec)
 {
-	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_R)
-	{
-		if (mini_sh->len_prepare_exec == 1)
-		{
-			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
-			if (!mini_sh->exec->fd_r)
-				return (printf("Failure during opening redir_r file\n"), FAIL);
-		}
-		else
-		{
-			if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == PIPE)
-			{
-				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0777);
-				if (!mini_sh->exec->fd_r)
-					return (printf("Failure during opening redir_r file\n"), FAIL);
-			}
-			else
-			{
-				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
-				if (mini_sh->exec->fd_r == FAIL)
-					return (printf("Failure during opening redir_r file\n"), FAIL);
-			}
-		}
-		close(mini_sh->exec->tab_fd[i_exec][1]);
-		mini_sh->exec->fd_out = mini_sh->exec->fd_r;
-	}
+	if (do_redir_r(mini_sh, i_exec) == FAIL)
+		return (FAIL);
+	else if (do_redir_l(mini_sh, i_exec) == FAIL)
+		return (FAIL);
 	return (SUCCESS);
 }
 
@@ -147,7 +159,11 @@ int	init_fd_exec(t_mini_sh *mini_sh, int i_exec)
 		mini_sh->exec->fd_out = 1;
 	else
 		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec][1];
-	if_redir(mini_sh, i_exec);
+	// if (check_redir_l_error(mini_sh) == FAIL)
+	// 	return (FAIL);
+	if (if_redir(mini_sh, i_exec) == FAIL)
+		return (FAIL);
+	//when_arg_after_file(mini_sh, i_exec);
 	return (SUCCESS);
 }
 
@@ -169,7 +185,8 @@ void	close_all(t_mini_sh *mini_sh)
 
 void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
-	init_fd_exec(mini_sh, i_exec);
+	if (init_fd_exec(mini_sh, i_exec) == FAIL)
+		exit (1);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);

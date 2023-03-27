@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/03/24 13:50:58 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/26 20:06:39 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	{
 		if (is_sep(tmp->word) == SUCCESS && is_sep(tmp->next->word) == SUCCESS)
 		{
-			printf(RED"Type"RST"\n");
+			//printf(RED"Type"RST"\n");
 			tmp = tmp->next;
 		}
 		if (is_sep(tmp->word) == SUCCESS)

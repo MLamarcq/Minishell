@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/25 15:52:38 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/26 19:25:20 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void	init_env_2(char **envp, t_mini_sh *mini_sh);
 void	init_rl(t_mini_sh *mini_sh);
 //exec/which_sep.c
 int		if_redir_l(t_mini_sh *mini_sh);
-int		if_redir_r(t_mini_sh *mini_sh);
+int		if_redir_r(t_mini_sh *mini_sh, int i_exec);
 int		init_exec(t_mini_sh *mini_sh);
 //exec/sep.c
 int		check_first_is_sep(t_mini_sh *mini_sh);
@@ -291,6 +291,10 @@ char	*ft_itoa(int n);
 int	do_simple_heredoc(t_mini_sh *mini_sh, int i_exec);
 void	ft_putstr_fd(char *s, int fd);
 void	if_hr_doc(t_mini_sh *mini_sh);
-
+int	do_redir_r(t_mini_sh *mini_sh, int i_exec);
+int	if_redir(t_mini_sh *mini_sh, int i_exec);
+int	when_arg_after_file(t_mini_sh *mini_sh, int i_exec);
+int	check_redir_l_error(t_mini_sh *mini_sh);
+int	do_redir_l(t_mini_sh *mini_sh, int i_exec);
 
 #endif

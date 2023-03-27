@@ -56,6 +56,8 @@ exec/exec_utils.c \
 exec/child_process.c \
 exec/heredoc.c \
 exec/sep_test.c \
+exec/redir_r.c \
+exec/redir_l.c \
 
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def
