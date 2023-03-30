@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/26 19:25:20 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/30 15:49:10 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ enum e_type
 	_FILE,
 	APPEND,
 	HR_DOC,
-	BUILT_IN
+	BUILT_IN,
+	EOFL,
+	_DIR,
 };
 
 typedef struct s_exec_tools
@@ -113,11 +115,13 @@ typedef struct s_env
 
 typedef struct s_mini_sh
 {
+	int				check;
 	int 			sep_id;
 	char			*file_heredoc;
 	int				*hr_doc_tab;
 	char			*output;
 	char			**env;
+	int				**prepare_exec_type;
 	char			***prepare_exec;
 	int				len_prepare_exec;
 	int				is_dquote;
@@ -296,5 +300,9 @@ int	if_redir(t_mini_sh *mini_sh, int i_exec);
 int	when_arg_after_file(t_mini_sh *mini_sh, int i_exec);
 int	check_redir_l_error(t_mini_sh *mini_sh);
 int	do_redir_l(t_mini_sh *mini_sh, int i_exec);
+int	check_redi_r_error(t_mini_sh *mini_sh);
+void    print_prep_exec(t_mini_sh *mini_sh);
+void    free_exectype(t_mini_sh *mini_sh);
+int print_error(int index, t_parse *tmp);
 
 #endif

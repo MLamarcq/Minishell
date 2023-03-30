@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_find_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:57 by ggosse            #+#    #+#             */
-/*   Updated: 2023/03/17 13:27:31 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/30 12:33:05 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,10 @@ int	ft_find_env(t_mini_sh *mini_sh)
 {
 	if (!mini_sh->rl_out->word)
 		return (FAIL);
-	if ((!access(mini_sh->rl_out->word, X_OK)) == 0)
+	if (access(mini_sh->rl_out->word, X_OK) != 0)
 	{
 		if (mini_sh->env[0])
 			return (ft_find_path(mini_sh));
 	}
-	else
-		return (SUCCESS);
 	return (FAIL);
 }

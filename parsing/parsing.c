@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 14:13:51 by gael             ###   ########.fr       */
+/*   Updated: 2023/03/30 12:16:56 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,6 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 		}
 		put_word_in_minish(mini_sh, line, &save, &ite);
 	}
-	expand(mini_sh);
-	if (set_type(mini_sh) == FAIL)
-		return (FAIL);
-	remove_quote_2(mini_sh);
-	if (prepare_exec(mini_sh) < 0)
-		return (FAIL);
 	return (SUCCESS);
 }
 
@@ -95,6 +89,14 @@ int	ft_parsing(t_mini_sh *mini_sh)
 	if (check_quote_is_closed(mini_sh->output) > 0)
 	{
 		if (build_result_output(mini_sh, mini_sh->output) < 0)
+			return (FAIL);
+		expand(mini_sh);
+		if (set_type(mini_sh) == FAIL)
+			return (FAIL);
+		remove_quote_2(mini_sh);
+		if (check_redi_r_error(mini_sh) == FAIL)
+			return (FAIL);
+		if (prepare_exec(mini_sh) < 0)
 			return (FAIL);
 	}
 	else

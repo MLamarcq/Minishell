@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/26 20:31:19 by mael             ###   ########.fr       */
+/*   Updated: 2023/03/30 14:09:04 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,12 @@ int	init_sep_type(t_mini_sh *mini_sh)
 
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 {
-	char *cmd_abs_path;
+	char	*cmd_abs_path;
 
 	cmd_abs_path = NULL;
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
-	{
 		execve(mini_sh->prepare_exec[i_exec][0], mini_sh->prepare_exec[i_exec], mini_sh->env);
-		// if execve then free; exit status
-	}
 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
-	// printf(YELLOW"mini_sh->prepare_exec[i_exec][0] = %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
-	// printf(YELLOW"cmd_abs_path = %s"RST"\n", cmd_abs_path);
 	if (cmd_abs_path != NULL)
 	{
 		free(mini_sh->prepare_exec[i_exec][0]);
@@ -57,16 +52,8 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
-		if (mini_sh->len_prepare_exec == 1)
-		{
-			printf(" ->minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
-			exit (127);
-		}
-		else if (mini_sh->sep_type[i_exec - 1] != PIPE)
-		{
-			printf("C1\n");
+		if (mini_sh->sep_type[i_exec - 1] != PIPE)
 			return ;
-		}
 		else
 		{
 			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
@@ -95,6 +82,7 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 	return (SUCCESS);
 	(void)i_init_fd;
 }
+
 
 int	exec_builtin(t_mini_sh *mini_sh, int i)
 {

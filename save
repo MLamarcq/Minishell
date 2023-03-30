@@ -1,0 +1,93 @@
+opening redir r,, redir_r.c
+
+		// else if (mini_sh->check == 1)
+		// {
+		// 	printf("check = %d\n", mini_sh->check);
+		// 	printf(BLUE"i_exec = %d"RST"\n", i_exec);
+		// 	// printf(BACK_YELLOW"%s"RST"\n", mini_sh->prepare_exec[i_exec + 1][simple]);
+		// 	mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
+		// 	if (mini_sh->exec->fd_r == FAIL)
+		// 		return (printf("Failure during opening redir_r file\n"), FAIL);
+		// 	while (mini_sh->prepare_exec[i_exec + 1][simple])
+		// 	{
+		// 		printf(BACK_YELLOW"%s"RST"\n", mini_sh->prepare_exec[i_exec + 1][simple]);
+		// 		ft_putstr_fd(mini_sh->prepare_exec[i_exec + 1][simple], mini_sh->exec->fd_r);
+		// 		simple++;
+		// 	}
+		// 	int temp;
+		// 	temp = open("temp", O_CREAT | O_RDWR, 0644);
+		// 	close(mini_sh->exec->tab_fd[i_exec][1]);
+		// 	mini_sh->exec->fd_out = temp;
+		// 	return (2);
+		// }
+		// {
+		// 	mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
+		// 	if (mini_sh->exec->fd_r == FAIL)
+		// 		return (printf("Failure during opening redir_r file\n"), FAIL);
+		// 	while (mini_sh->prepare_exec[i_exec][simple])
+		// 	{
+		// 		ft_putstr_fd(mini_sh->prepare_exec[i_exec][simple], mini_sh->exec->fd_r);
+		// 		simple++;
+		// 	}
+		// }
+
+			// else if (mini_sh->sep_type[i_exec] == REDIR_R && mini_sh->prepare_exec[i_exec][0])
+	// {
+	// 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
+	// 	printf(BACK_PURPLE"mini_sh->prepare_exec[i_exec][0] = %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
+	// 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == -1 && (access(cmd_abs_path, X_OK) == -1))
+	// 	{
+	// 		printf("Command '%s' not found\n", mini_sh->prepare_exec[i_exec][0]);
+	// 		return (FAIL);
+	// 	}
+	// 	else
+	// 	{
+	// 		mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
+	// 		if (!mini_sh->exec->fd_r)
+	// 			return (printf("Failure during opening redir_r file\n"), FAIL);
+	// 		// close(mini_sh->exec->tab_fd[i_exec][1]);
+	// 		// mini_sh->exec->fd_out = mini_sh->exec->fd_r;
+	// 		//execve(mini_sh->prepare_exec[i_exec][1], mini_sh->prepare_exec[i_exec], mini_sh->env);
+	// 	}
+	// }
+
+
+
+	// int	opening_redir_r_file_2(t_mini_sh *mini_sh, int i_exec)
+// {
+// 	if (opening_redir_r_file(mini_sh, i_exec) == FAIL)
+// 		return (FAIL);
+// 	if ()
+// }
+
+// int	check_before_redir_r(t_mini_sh *mini_sh, int i_exec)
+// {
+// 	mini_sh->check = 0;
+// 	int j = 0;
+// 	printf(RED"i_exec = %d"RST"\n", i_exec);
+// 	if (mini_sh->sep_type[i_exec] == REDIR_R)
+// 	{
+// 		// printf(RED"i_exec = %d"RST"\n", i_exec);
+// 		while (mini_sh->prepare_exec[i_exec])
+// 		{
+// 			j = 0;
+// 			while (mini_sh->prepare_exec_type[i_exec][j])
+// 			{
+// 				if (mini_sh->prepare_exec_type[i_exec][j] == _FILE)
+// 				{
+// 					printf(BOLD_PURPLE"ici"RST"\n");
+// 					if (mini_sh->prepare_exec_type[i_exec][1])
+// 					{
+// 						printf("bon\n");
+// 						mini_sh->check = 1;
+// 					}
+// 				}
+// 				fprintf(stderr, BACK_BLUE"mini_sh->prepare_exec_type[%i][%i] = %s    "RST, i_exec, j, mini_sh->prepare_exec[i_exec][j]);
+// 				print_type(mini_sh->prepare_exec_type[i_exec][j]);
+// 				j++;
+// 			}
+// 			i_exec++;
+// 		}
+// 	}
+// 	return (SUCCESS);
+// }
