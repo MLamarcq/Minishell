@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/31 11:46:27 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:17:42 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int		realloc_tab(int *i, t_mini_sh *mini_sh);
 //built_in/is_built_in.c
 int		do_built_in(t_mini_sh *mini_sh, int i);
 int		init_env(t_mini_sh *mini_sh);
-int		is_built_in_2(char **exec, t_mini_sh *mini_sh);
+int		is_built_in_2(int i, t_mini_sh *mini_sh);
 //built_in/env.c
 int		env(char **argv, t_mini_sh *mini_sh);
 //built_in/unset.c
@@ -306,5 +306,10 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh);
 void    print_prep_exec(t_mini_sh *mini_sh);
 void    free_exectype(t_mini_sh *mini_sh);
 int print_error(int index, t_parse *tmp);
+void	do_append(t_mini_sh *mini_sh, int i_exec);
+int if_append(t_mini_sh *mini_sh, int i_init_fd);
+int	opening_redir_r_file(t_mini_sh *mini_sh);
+int if_redir_r(t_mini_sh *mini_sh, int i_init_fd);
+
 
 #endif

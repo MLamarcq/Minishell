@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/31 12:12:34 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:23:54 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 
 	i_init_fd = 0;
 	if (mini_sh->sep_2 == 0)
-		return (if_redir(mini_sh, i_init_fd));
+		return (opening_redir_r_file(mini_sh));
 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->exec->tab_fd)
 		return (FAIL_MALLOC);
@@ -79,9 +79,10 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
 		if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
 			return (printf(BACK_RED"pipe not working"RST"\n"), FAIL);
-		if_redir(mini_sh, i_init_fd);
+		//if_redir(mini_sh, i_init_fd);
 		i_init_fd++;
 	}
+	opening_redir_r_file(mini_sh);
 	return (SUCCESS);
 	(void)i_init_fd;
 }
@@ -104,8 +105,8 @@ int	exec_redir(t_mini_sh *mini_sh, int i_exec)
 {
 	if (mini_sh->sep_type[i_exec] == REDIR_R)
 		do_redir_r(mini_sh, i_exec);
-	// if (do_redir_l(mini_sh, i_exec) == FAIL)
-	// 	return (FAIL);
+	if (mini_sh->sep_type[i_exec] == APPEND)
+		do_append(mini_sh, i_exec);
 	(void)i_exec;
 	(void)mini_sh;
 	return (SUCCESS);
@@ -146,6 +147,8 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
+	fprintf(stderr, "fd_in: %i\n", mini_sh->exec->fd_in);
+	fprintf(stderr, "fd_out: %i\n\n", mini_sh->exec->fd_out);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);
@@ -172,6 +175,8 @@ int	start_exec(t_mini_sh *mini_sh)
 			if (mini_sh->pids[i_exec] == 0)
 				child_process(mini_sh, i_exec);
 		}
+		else
+			mini_sh->pids[i_exec] = FAIL;
 		i_exec++;
 	}
 	i_exec = 0;
@@ -186,7 +191,8 @@ int	start_exec(t_mini_sh *mini_sh)
 	i_exec = 0;
 	while (mini_sh->prepare_exec[i_exec])
 	{
-		waitpid(mini_sh->pids[i_exec], NULL, 0);
+		if (mini_sh->pids[i_exec] != FAIL)
+			waitpid(mini_sh->pids[i_exec], NULL, 0);
 		i_exec++;
 	}
 	return (SUCCESS);

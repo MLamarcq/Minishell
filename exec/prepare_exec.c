@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/30 12:07:57 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:53:28 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int    prepare_exec(t_mini_sh *mini_sh)
 	{
 		if (count_word_for_alloc(mini_sh, mini_sh->rl_out) == FAIL)
 			return (FAIL);
-		mini_sh->prepare_exec[triple] = (char **)malloc((sizeof (char)) * \
+		mini_sh->prepare_exec[triple] = (char **)malloc((sizeof (char *)) * \
 		(mini_sh->nbr_word + 1));
 		mini_sh->prepare_exec_type[triple] = malloc((sizeof (int )) * \
 		(mini_sh->nbr_word + 1));

@@ -7,7 +7,7 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_R)
+		if (tmp->type == REDIR_R || tmp->type == APPEND)
 		{
 			tmp = tmp->next;
 			if (opendir(tmp->word) != NULL)
@@ -36,10 +36,10 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_R)
+		if (tmp->type == REDIR_R || tmp->type == APPEND)
 		{
 			tmp = tmp->next;
-			if (tmp->type == _FILE && (access(tmp->word, W_OK) == 0))
+			if ((tmp->type == _FILE && (access(tmp->word, W_OK) == 0)) || tmp->type == ARG)
 			{
 				if (tmp->next && (is_sep(tmp->next->word) == FAIL))
 				{
