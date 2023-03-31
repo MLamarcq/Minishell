@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/03/30 14:09:04 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:12:34 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 	int	i_init_fd;
 
 	i_init_fd = 0;
+	if (mini_sh->sep_2 == 0)
+		return (if_redir(mini_sh, i_init_fd));
 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->exec->tab_fd)
 		return (FAIL_MALLOC);
@@ -77,6 +79,7 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
 		if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
 			return (printf(BACK_RED"pipe not working"RST"\n"), FAIL);
+		if_redir(mini_sh, i_init_fd);
 		i_init_fd++;
 	}
 	return (SUCCESS);
@@ -96,44 +99,15 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 	return (FAIL);
 }
 
-// int	if_redir(t_mini_sh *mini_sh, int i_exec)
-// {
-// 	// if (if_redir_r(mini_sh) == FAIL)
-// 	// 	return (FAIL);
-// 	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_R)
-// 	{
-// 		if (mini_sh->len_prepare_exec == 1)
-// 		{
-// 			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
-// 			if (!mini_sh->exec->fd_r)
-// 				return (printf("Failure during opening redir_r file\n"), FAIL);
-// 		}
-// 		else
-// 		{
-// 			if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == PIPE)
-// 			{
-// 				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
-// 				if (!mini_sh->exec->fd_r)
-// 					return (printf("Failure during opening redir_r file\n"), FAIL);
-// 			}
-// 			else
-// 			{
-// 				mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
-// 				if (mini_sh->exec->fd_r == FAIL)
-// 					return (printf("Failure during opening redir_r file\n"), FAIL);
-// 			}
-// 		}
-// 		close(mini_sh->exec->tab_fd[i_exec][1]);
-// 		mini_sh->exec->fd_out = mini_sh->exec->fd_r;
-// 	}
-// 	return (SUCCESS);
-// }
-int	if_redir(t_mini_sh *mini_sh, int i_exec)
+
+int	exec_redir(t_mini_sh *mini_sh, int i_exec)
 {
-	if (do_redir_r(mini_sh, i_exec) == FAIL)
-		return (FAIL);
-	else if (do_redir_l(mini_sh, i_exec) == FAIL)
-		return (FAIL);
+	if (mini_sh->sep_type[i_exec] == REDIR_R)
+		do_redir_r(mini_sh, i_exec);
+	// if (do_redir_l(mini_sh, i_exec) == FAIL)
+	// 	return (FAIL);
+	(void)i_exec;
+	(void)mini_sh;
 	return (SUCCESS);
 }
 
@@ -147,11 +121,8 @@ int	init_fd_exec(t_mini_sh *mini_sh, int i_exec)
 		mini_sh->exec->fd_out = 1;
 	else
 		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec][1];
-	// if (check_redir_l_error(mini_sh) == FAIL)
-	// 	return (FAIL);
-	if (if_redir(mini_sh, i_exec) == FAIL)
+	if (exec_redir(mini_sh, i_exec) == FAIL)
 		return (FAIL);
-	//when_arg_after_file(mini_sh, i_exec);
 	return (SUCCESS);
 }
 

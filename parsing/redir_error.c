@@ -1,6 +1,6 @@
 #include "../ft_minishell.h"
 
-int	check_redi_r_error(t_mini_sh *mini_sh)
+int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
 
@@ -23,26 +23,44 @@ int	check_redi_r_error(t_mini_sh *mini_sh)
 						return (FAIL);
 				}
 			}
-			if (tmp->type == _FILE && (access(tmp->word, W_OK) == 0))
-			{
-				if (tmp->next && (tmp->next->type != CMD_ABS && tmp->next->type != _FILE && !is_sep(tmp->next->word)))
-				{
-					if (print_error(3, tmp) == FAIL)
-						return (FAIL);
-				}
-				else if (tmp->next && !is_sep(tmp->next->word))
-				{
-					if (print_error(4, tmp) == FAIL)
-						return (FAIL);
-				}
-			}
-
 		}
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }
 
+int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
+{
+	t_parse *tmp;
+
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		if (tmp->type == REDIR_R)
+		{
+			tmp = tmp->next;
+			if (tmp->type == _FILE && (access(tmp->word, W_OK) == 0))
+			{
+				if (tmp->next && (is_sep(tmp->next->word) == FAIL))
+				{
+					if (print_error(4, tmp) == FAIL)
+						return (FAIL);
+				}
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
+}
+
+int	check_redi_r_append_error(t_mini_sh *mini_sh)
+{
+	if (check_redi_r_append_error_1(mini_sh) == FAIL)
+		return (FAIL);
+	else if (check_redi_r_append_error_2(mini_sh) == FAIL)
+		return (FAIL);
+	return (SUCCESS);
+}
 
 int print_error(int index, t_parse *tmp)
 {
@@ -65,7 +83,7 @@ int print_error(int index, t_parse *tmp)
 	else if (index == 4)
 	{
 		printf("minishell: syntax error near unexpected token '%s'\n", \
-		tmp->next->word);
+		tmp->word);
 		return (FAIL);
 	}
 	return (SUCCESS);

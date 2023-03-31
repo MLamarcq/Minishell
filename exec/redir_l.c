@@ -28,11 +28,14 @@ int	check_redir_l_error(t_mini_sh *mini_sh)
 
 int	do_redir_l(t_mini_sh *mini_sh, int i_exec)
 {
-	if (check_redir_l_error(mini_sh) == FAIL)
-		return (FAIL);
-	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_L)
+	// if (check_redir_l_error(mini_sh) == FAIL)
+	// 	return (FAIL);
+	if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_L)
 	{
+		printf("salut\n");
+		printf("%d\n", i_exec);
 		mini_sh->exec->fd_l = open(mini_sh->prepare_exec[i_exec][0], O_RDONLY);
+		printf(GREEN"word = %s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 		if (mini_sh->exec->fd_l == -1)
 			return (FAIL);
 		close(mini_sh->exec->tab_fd[i_exec][0]);

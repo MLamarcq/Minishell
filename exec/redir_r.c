@@ -1,27 +1,26 @@
 #include "../ft_minishell.h"
 
-int	opening_redir_r_file(t_mini_sh *mini_sh, int i_exec)
+
+int	opening_redir_r_file(t_mini_sh *mini_sh, int i_init_fd)
 {
-	if (mini_sh->len_prepare_exec == 1 && !mini_sh->prepare_exec[0][1])
+	if (mini_sh->len_prepare_exec == 1)
 	{
-		printf(BACK_PURPLE"i_exec = %d"RST"\n", i_exec);
-		mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
+		mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_init_fd][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
 		if (!mini_sh->exec->fd_r)
 			return (printf("Failure during opening redir_r file\n"), FAIL);
 	}
 	else
 	{
-		if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] \
-		== PIPE && i_exec == mini_sh->sep_2)
+		if (mini_sh->sep_type[i_init_fd + 1] && mini_sh->sep_type[i_init_fd] 
+		== PIPE)
 		{
-			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
+			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_init_fd + 1][0], O_CREAT | O_TRUNC | O_RDWR, 0644);
 			if (!mini_sh->exec->fd_r)
 				return (printf("Failure during opening redir_r file\n"), FAIL);
 		}
 		else
 		{
-			printf("i_exec = %d\n", i_exec);
-			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_exec + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
+			mini_sh->exec->fd_r = open(mini_sh->prepare_exec[i_init_fd + 1][0], O_CREAT | O_TRUNC| O_RDWR, 0644);
 			if (mini_sh->exec->fd_r == FAIL)
 				return (printf("Failure during opening redir_r file\n"), FAIL);
 		}
@@ -29,15 +28,24 @@ int	opening_redir_r_file(t_mini_sh *mini_sh, int i_exec)
 	return (SUCCESS);
 }
 
-int	do_redir_r(t_mini_sh *mini_sh, int i_exec)
+int if_redir(t_mini_sh *mini_sh, int i_init_fd)
 {
-	if (mini_sh->sep_type[i_exec] && mini_sh->sep_type[i_exec] == REDIR_R)
+	if (mini_sh->sep_type[i_init_fd] == REDIR_R)
 	{
-		printf(GREEN"la"RST"\n");
-		if (opening_redir_r_file(mini_sh, i_exec) == FAIL)
+		if (opening_redir_r_file(mini_sh, i_init_fd) == FAIL)
 			return (FAIL);
-		close(mini_sh->exec->tab_fd[i_exec][1]);
-		mini_sh->exec->fd_out = mini_sh->exec->fd_r;
+	}
+	else if (mini_sh->sep_type[i_init_fd] == PIPE && mini_sh->sep_type[i_init_fd + 1] == REDIR_R)
+	{
+		if (opening_redir_r_file(mini_sh, i_init_fd) == FAIL)
+			return (FAIL);
 	}
 	return (SUCCESS);
+}
+
+void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
+{
+	if (mini_sh->sep_2 != 0)
+		close(mini_sh->exec->tab_fd[i_exec][1]);
+	mini_sh->exec->fd_out = mini_sh->exec->fd_r;
 }

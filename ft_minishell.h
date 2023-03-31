@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/30 15:49:10 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:46:27 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,12 +295,14 @@ char	*ft_itoa(int n);
 int	do_simple_heredoc(t_mini_sh *mini_sh, int i_exec);
 void	ft_putstr_fd(char *s, int fd);
 void	if_hr_doc(t_mini_sh *mini_sh);
-int	do_redir_r(t_mini_sh *mini_sh, int i_exec);
+void	do_redir_r(t_mini_sh *mini_sh, int i_exec);
 int	if_redir(t_mini_sh *mini_sh, int i_exec);
 int	when_arg_after_file(t_mini_sh *mini_sh, int i_exec);
 int	check_redir_l_error(t_mini_sh *mini_sh);
 int	do_redir_l(t_mini_sh *mini_sh, int i_exec);
-int	check_redi_r_error(t_mini_sh *mini_sh);
+int	check_redi_r_append_error(t_mini_sh *mini_sh);
+int	check_redi_r_append_error_2(t_mini_sh *mini_sh);
+int	check_redi_r_append_error_1(t_mini_sh *mini_sh);
 void    print_prep_exec(t_mini_sh *mini_sh);
 void    free_exectype(t_mini_sh *mini_sh);
 int print_error(int index, t_parse *tmp);

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/30 12:16:56 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:43:44 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		if (set_type(mini_sh) == FAIL)
 			return (FAIL);
 		remove_quote_2(mini_sh);
-		if (check_redi_r_error(mini_sh) == FAIL)
+		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
 		if (prepare_exec(mini_sh) < 0)
 			return (FAIL);
