@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/03/26 20:06:39 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/03 17:03:04 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ int	is_sep(char *word)
 	else if (ft_strncmp(word, ">>", ft_strlen(word)) == 0)
 		return (SUCCESS);
 	else if (ft_strncmp(word, "<<", ft_strlen(word)) == 0)
+		return (SUCCESS);
+	return (FAIL);
+}
+
+int	is_sep_int(int type)
+{
+	if (type == REDIR_R)
+		return (SUCCESS);
+	else if (type == REDIR_L)
+		return (SUCCESS);
+	else if (type == APPEND)
+		return (SUCCESS);
+	else if (type == HR_DOC)
+		return (SUCCESS);
+	else if (type == PIPE)
 		return (SUCCESS);
 	return (FAIL);
 }
@@ -113,4 +128,20 @@ int	count_sep_2(t_mini_sh *mini_sh)
 			unexpected token 'newline'\n"), FAIL);
 	}
 	return (SUCCESS);
+}
+
+void	count_real_sep(t_mini_sh *mini_sh)
+{
+	t_parse	*tmp;
+
+	tmp = mini_sh->rl_out_head;
+	check_first_sep_error_2(mini_sh);
+	tmp = tmp->next;
+	while (tmp && tmp->next != NULL)
+	{
+		if (is_sep(tmp->word) == SUCCESS)
+			mini_sh->real_sep++;
+		if (tmp)
+			tmp = tmp->next;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/03/31 16:17:42 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:59:55 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,21 @@ typedef struct s_exec_tools
 	int	pipe_id;
 	int	fd_in;
 	int	fd_out;
-	int	fd_r;
-	int	fd_l;
-	int	fd_hr;
-	int	fd_app;
+	int	nbr_fd_r;
+	int	nbr_fd_l;
+	int	nbr_fd_hr;
+	int	nbr_fd_app;
+	int	*fd_r;
+	int	ana_r;
+	int	check_r;
+	int	*fd_l;
+	int	check_l;
+	int	*fd_app;
+	int	ana_app;
+	int	check_app;
+	int	*fd_hr;
+	char	**hr_name;
+	int	check_hr;
 	int	fd[2];
 	int	**tab_fd;
 } t_exec_t;
@@ -130,6 +141,7 @@ typedef struct s_mini_sh
 	int				sep;
 	int				flag;
 	int				sep_2;
+	int				real_sep;
 	int				nbr_word;
 	int				*sep_type;
 	pid_t			*pids;
@@ -299,7 +311,7 @@ void	do_redir_r(t_mini_sh *mini_sh, int i_exec);
 int	if_redir(t_mini_sh *mini_sh, int i_exec);
 int	when_arg_after_file(t_mini_sh *mini_sh, int i_exec);
 int	check_redir_l_error(t_mini_sh *mini_sh);
-int	do_redir_l(t_mini_sh *mini_sh, int i_exec);
+void	do_redir_l(t_mini_sh *mini_sh, int i_exec);
 int	check_redi_r_append_error(t_mini_sh *mini_sh);
 int	check_redi_r_append_error_2(t_mini_sh *mini_sh);
 int	check_redi_r_append_error_1(t_mini_sh *mini_sh);
@@ -308,8 +320,19 @@ void    free_exectype(t_mini_sh *mini_sh);
 int print_error(int index, t_parse *tmp);
 void	do_append(t_mini_sh *mini_sh, int i_exec);
 int if_append(t_mini_sh *mini_sh, int i_init_fd);
-int	opening_redir_r_file(t_mini_sh *mini_sh);
+int	opening_redir_r_file(t_mini_sh *mini_sh, t_parse *tmp, int i_init_fd);
 int if_redir_r(t_mini_sh *mini_sh, int i_init_fd);
-
+int	is_sep_int(int type);
+int	init_redir_r_tab(t_mini_sh *mini_sh);
+void	count_real_sep(t_mini_sh *mini_sh);
+int	init_append_tab(t_mini_sh *mini_sh);
+void	count_redir_for_alloc(t_parse *tmp, t_mini_sh *mini_sh);
+void	init_redir_fd(t_mini_sh *mini_sh);
+int	init_hr_dc_tab(t_mini_sh *mini_sh);
+void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp);
+int	exec_all_hr_doc(t_mini_sh *mini_sh);
+void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec);
+void	unlink_hr_dc(t_mini_sh *mini_sh);
+int	init_redir_l_tab(t_mini_sh *mini_sh);
 
 #endif

@@ -60,6 +60,8 @@ exec/sep_test.c \
 exec/redir_r.c \
 exec/redir_l.c \
 exec/append.c \
+exec/init_fd.c \
+exec/heredoc_2.c
 
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def

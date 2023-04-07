@@ -1,0 +1,55 @@
+a.out
+built_in
+color.h
+eof
+exec
+free
+ft_minishell.h
+grep
+lib
+main.c
+main.o
+Makefile
+minishell
+parsing
+README.md
+save
+signal
+test
+test1
+test2
+test3
+test4
+test5
+total 680
+drwxrwxr-x  9 mael mael   4096 avril  6 14:25 .
+drwxr-x--- 46 mael mael   4096 avril  5 18:33 ..
+-rw-rw-r--  1 mael mael  16704 mars  30 02:44 a.out
+drwxrwxr-x  2 mael mael   4096 avril  6 14:13 built_in
+-rw-rw-r--  1 mael mael   2423 mars  30 02:44 color.h
+-rw-r--r--  1 mael mael      0 avril  5 18:44 eof
+drwxrwxr-x  2 mael mael   4096 avril  6 14:13 exec
+drwxrwxr-x  2 mael mael   4096 avril  6 14:13 free
+-rw-rw-r--  1 mael mael  10456 avril  6 14:12 ft_minishell.h
+-rw-rw-r--  1 mael mael      0 avril  4 03:02 grep
+-rwxrwxr-x  1 mael mael     33 avril  6 14:19 .heredoc0
+-rwxrwxr-x  1 mael mael     12 avril  6 13:58 .heredoc1
+-rwxrwxr-x  1 mael mael      0 avril  6 14:22 .heredoc2
+-rwxrwxr-x  1 mael mael      0 avril  6 14:22 .heredoc3
+-rwxrwxr-x  1 mael mael      0 avril  6 14:22 .heredoc4
+-rwxrwxr-x  1 mael mael      0 avril  6 14:22 .heredoc5
+drwxrwxr-x  2 mael mael   4096 avril  6 14:13 lib
+-rw-rw-r--  1 mael mael   2206 avril  3 08:02 main.c
+-rw-rw-r--  1 mael mael 208848 avril  6 14:13 main.o
+-rw-rw-r--  1 mael mael   2386 avril  5 18:40 Makefile
+-rwxrwxr-x  1 mael mael 370824 avril  6 14:13 minishell
+drwxrwxr-x  2 mael mael   4096 avril  6 14:13 parsing
+-rw-rw-r--  1 mael mael     52 mars  30 02:44 README.md
+-rw-rw-r--  1 mael mael   3253 mars  30 06:38 save
+drwxrwxr-x  2 mael mael   4096 avril  6 14:13 signal
+drwxrwxr-x  2 mael mael   4096 avril  5 02:28 test
+-rw-r--r--  1 mael mael      0 avril  6 14:00 test1
+-rw-r--r--  1 mael mael    141 avril  6 14:00 test2
+-rw-r--r--  1 mael mael     74 avril  6 14:19 test3
+-rw-r--r--  1 mael mael   2206 avril  6 14:19 test4
+-rw-r--r--  1 mael mael    159 avril  6 14:25 test5

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/03/31 14:53:28 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/03 15:55:43 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void    print_prep_exec(t_mini_sh *mini_sh)
 		j = 0;
 		while (mini_sh->prepare_exec[i][j])
 		{
-			printf(BACK_CYAN"%s\n", mini_sh->prepare_exec[i][j]);
+			printf(BACK_CYAN"%s"RST"\n", mini_sh->prepare_exec[i][j]);
 			print_type(mini_sh->prepare_exec_type[i][j]);
 			printf("\n");
 			j++;

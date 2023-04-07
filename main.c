@@ -56,6 +56,7 @@ int	main(int argc, char *argv[], char **envp)
 		exec_signal(1);
 		if (ft_parsing(&mini_sh) == SUCCESS)
 		{
+			count_real_sep(&mini_sh);
 			init_sep_type(&mini_sh);
 			init_exec(&mini_sh);
 			// if (mini_sh.sep_2 > 0)
@@ -76,3 +77,5 @@ int	main(int argc, char *argv[], char **envp)
 	(void)argv;
 	return (0);
 }
+
+// ls -la > test12 | > test11 | > test10 | ls > test13
