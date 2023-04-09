@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/07 16:59:55 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/09 19:49:09 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,5 +334,6 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh);
 void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec);
 void	unlink_hr_dc(t_mini_sh *mini_sh);
 int	init_redir_l_tab(t_mini_sh *mini_sh);
+int	redir_l_error(t_mini_sh *mini_sh);
 
 #endif

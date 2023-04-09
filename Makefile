@@ -48,7 +48,8 @@ parsing/remove_quote_2.c \
 parsing/find_var_env.c \
 parsing/ft_find_path.c \
 parsing/print.c \
-parsing/redir_error.c \
+parsing/redir_error_1.c \
+parsing/redir_error_2.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \

@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/07 17:22:56 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/09 19:33:22 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
-		if (mini_sh->sep_type[i_exec - 1] != PIPE)
-			return ;
-		else
-		{
+		// if (mini_sh->sep_type[i_exec - 1] != PIPE)
+		// 	return ;
+	//	else
+	//	{
 			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
 			exit (127);
-		}
+		//}
 	}
 }
 

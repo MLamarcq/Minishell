@@ -85,7 +85,7 @@ void	do_redir_l(t_mini_sh *mini_sh, int i_exec)
 	if (mini_sh->sep_2 == 1)
 	{
 		close(mini_sh->exec->tab_fd[i_exec][1]);
-	//	close(mini_sh->exec->tab_fd[i_exec][0]);
+		close(mini_sh->exec->tab_fd[i_exec][0]);
 	}
 	fprintf(stderr, GREEN"%s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 	// if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_R)
@@ -97,7 +97,12 @@ void	do_redir_l(t_mini_sh *mini_sh, int i_exec)
 	fprintf(stderr, BOLD_GREEN"mini_sh->exec->check_l = %d"RST"\n", mini_sh->exec->check_l);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
 	if (mini_sh->sep_type[i_exec + 1])
-		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
+	{
+		if (mini_sh->sep_type[i_exec + 1] == PIPE)
+			mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
+		else if (mini_sh->sep_type[i_exec + 1] == REDIR_R)
+			mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
+	}
 	// if (mini_sh->exec->check_l < mini_sh->exec->nbr_fd_l)
 	// 	mini_sh->exec->check_l++;
 	//fprintf(stderr, BOLD_GREEN"%i\t%i"RST"\n", mini_sh->exec->check_l, mini_sh->exec->nbr_fd_l);
