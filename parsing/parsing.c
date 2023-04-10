@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/31 16:03:40 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:17:59 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 	mini_sh->rl_out = NULL;
 	save = 0;
 	ite = 0;
+	if (!mini_sh->output[0])
+		return (FAIL);
 	while (line[ite])
 	{
 		while (ft_is_sep_parse(line[ite]) == SUCCESS)
@@ -73,8 +75,7 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 		save = ite;
 		while (line[ite] != '\0' && ft_is_sep_parse(line[ite]) == FAIL)
 		{
-			count_quote_arg(line, &ite, D_QUOTE);
-			count_quote_arg(line, &ite, S_QUOTE);
+			count_quote_arg(line, &ite);
 			ite++;
 		}
 		put_word_in_minish(mini_sh, line, &save, &ite);
@@ -88,6 +89,7 @@ int	ft_parsing(t_mini_sh *mini_sh)
 	mini_sh->is_squote = FAIL;
 	if (check_quote_is_closed(mini_sh->output) > 0)
 	{
+		is_glue(mini_sh);
 		if (build_result_output(mini_sh, mini_sh->output) < 0)
 			return (FAIL);
 		expand(mini_sh);
@@ -104,3 +106,5 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		return (FAIL);
 	return (SUCCESS);
 }
+
+// ls -l -a|grep -io  "$USER"|wc -l

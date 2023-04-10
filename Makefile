@@ -11,7 +11,7 @@ NC = \033[0m
 
 ##### VAR #####
 NAME   = minishell
-CC     = gcc -Wall -Werror -Wextra -g3 
+CC     = gcc -Wall -Werror -Wextra -g3
 # -MMD -MP
 
 SRC  := main.c \
@@ -40,9 +40,13 @@ built_in/built_in_utils.c \
 signal/exec_signal.c \
 signal/handle_ctrl_c.c \
 free/free_parsing.c \
+free/free_exec.c \
+free/free_env.c \
+free/free_all.c \
 parsing/expand.c \
 parsing/parsing.c \
 parsing/set_type.c \
+parsing/glue.c \
 parsing/quote.c \
 parsing/remove_quote_2.c \
 parsing/find_var_env.c \
@@ -64,7 +68,7 @@ exec/append.c \
 exec/init_fd.c \
 exec/heredoc_2.c
 
-# ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile 
+# ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def
 # echo abc'" $USER$$ic$TERM"'def$mp
 # echo abc"' $USER$$ic$TERM'"def$xe
@@ -83,7 +87,7 @@ $(NAME) : $(OBJ)
 	@echo
 	@echo -e "${CYAN} ----- compile -----${NC}"
 	@echo
-	$(CC) $(OBJ) -lreadline -o $(NAME) 
+	$(CC) $(OBJ) -lreadline -o $(NAME)
 
 # ${OBJ_DIR}%.o : %.c
 
@@ -117,7 +121,7 @@ fclean :
 	@echo -e "${CYAN} ----- ✅ fclean done -----${NC}"
 	@echo
 
-re : fclean all 
+re : fclean all
 
 # -include ${DEPS}
 

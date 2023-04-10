@@ -53,7 +53,7 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 			if (print_error(4, tmp) == FAIL)
 				return (FAIL);
 		}
-		
+
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
@@ -61,7 +61,9 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 
 int	check_redi_r_append_error(t_mini_sh *mini_sh)
 {
-	if (check_redi_r_append_error_1(mini_sh) == FAIL)
+	if (check_redir_follow(mini_sh) == FAIL)
+		return (FAIL);
+	else if (check_redi_r_append_error_1(mini_sh) == FAIL)
 		return (FAIL);
 	else if (check_redi_r_append_error_2(mini_sh) == FAIL)
 		return (FAIL);

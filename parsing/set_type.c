@@ -3,25 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   set_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/03/30 12:32:11 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/10 16:52:48 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void    type_utils_1(t_mini_sh *mini_sh)
+void	type_utils_1(t_mini_sh *mini_sh)
 {
 	if (is_built_in(mini_sh) == SUCCESS)
 		mini_sh->rl_out->type = BUILT_IN;
 	else if (ft_find_env(mini_sh) == SUCCESS)
 		mini_sh->rl_out->type = CMD;
-	else if (access(mini_sh->rl_out->word, X_OK) == 0 && opendir(mini_sh->rl_out->word) == NULL)
+	else if (access(mini_sh->rl_out->word, X_OK) == 0 \
+	&& opendir(mini_sh->rl_out->word) == NULL)
 		mini_sh->rl_out->type = CMD_ABS;
 }
-int    type_utils_2(t_mini_sh *mini_sh)
+
+int	type_utils_2(t_mini_sh *mini_sh)
 {
 	if (ft_strncmp(">>", mini_sh->rl_out->word, 1) == 0
 		&& mini_sh->rl_out->type == FAIL)
@@ -29,7 +31,7 @@ int    type_utils_2(t_mini_sh *mini_sh)
 		if (ft_strlen(mini_sh->rl_out->word) == 2)
 			mini_sh->rl_out->type = APPEND;
 		else
-			return (printf("minishell: syntax error with >>"), FAIL);
+			return (printf("minishell: syntax error with >>\n"), FAIL);
 	}
 	else if (ft_strncmp("<<", mini_sh->rl_out->word, 1) == 0
 		&& mini_sh->rl_out->type == FAIL)
@@ -37,10 +39,10 @@ int    type_utils_2(t_mini_sh *mini_sh)
 		if (ft_strlen(mini_sh->rl_out->word) == 2)
 			mini_sh->rl_out->type = HR_DOC;
 		else
-			return (printf("minishell: syntax error with <<"), FAIL);
+			return (printf("minishell: syntax error with <<\n"), FAIL);
 	}
-	if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->type == HR_DOC)
-		mini_sh->rl_out->type = EOFL;
+	// if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->type == HR_DOC)
+	// 	mini_sh->rl_out->type = EOFL;
 	return (SUCCESS);
 }
 
@@ -52,15 +54,15 @@ int	type_utils_3(t_mini_sh *mini_sh)
 		if (ft_strlen(mini_sh->rl_out->word) == 1)
 			mini_sh->rl_out->type = REDIR_R;
 		else
-			return (printf("minishell: syntax error with >"), FAIL);
+			return (printf("minishell: syntax error with >\n"), FAIL);
 	}
 	else if (ft_strncmp("<", mini_sh->rl_out->word, 0) == 0
 		&& mini_sh->rl_out->type == FAIL)
 	{
 		if (ft_strlen(mini_sh->rl_out->word) == 1)
 			mini_sh->rl_out->type = REDIR_L;
-		else 
-			return (printf("minishell: syntax error with <"), FAIL);
+		else
+			return (printf("minishell: syntax error with <\n"), FAIL);
 	}
 	return (SUCCESS);
 }
@@ -72,8 +74,6 @@ int	type_utils_4(t_mini_sh *mini_sh)
 	{
 		if (ft_strlen(mini_sh->rl_out->word) == 1)
 			mini_sh->rl_out->type = PIPE;
-		else
-			return (printf("minishell: syntax error with |"), FAIL);
 	}
 	else if (ft_strncmp("-", mini_sh->rl_out->word, 0) == 0
 		&& mini_sh->rl_out->type == FAIL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quote_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 23:19:01 by gael              #+#    #+#             */
-/*   Updated: 2023/03/16 14:36:17 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/10 16:55:12 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,43 @@
 char	*write_without_qt_2(char *str)
 {
 	char	*str_wo_qt;
-	int		i_write;
-	int		i_copy;
+	int		i_act;
+	int		last_qt;
+	int		i_start;
+	int		i_end;
 
-	str_wo_qt = malloc(sizeof (char) * (ft_strlen(str) - 1));
-	str_wo_qt[(ft_strlen(str) - 1)] = '\0';
-	i_write = 0;
-	i_copy = 0;
-	while (str[i_write])
+	i_end = 0;
+	i_start = 0;
+	last_qt = 0;
+	i_act = 0;
+	str_wo_qt = NULL;
+	while (str[i_act])
 	{
-		if ((str[i_write] == S_QUOTE || str[i_write] == D_QUOTE))
-			i_write++;
+		i_start = i_act;
+		while (str[i_act] && (str[i_act] != D_QUOTE && str[i_act] != S_QUOTE))
+			i_act++;
+		i_end = i_act;
+		last_qt = str[i_act];
+		if (str[i_act])
+			i_act++;
+		if (str_wo_qt == NULL)
+			str_wo_qt = ft_strdup_len(str, i_start, i_end);
 		else
-		{
-			str_wo_qt[i_copy] = str[i_write];
-			i_write++;
-			i_copy++;
-		}
+			str_wo_qt = ft_strjoin_dfree(str_wo_qt, ft_strdup_len(str, i_start, i_end));
+		i_start = i_act;
+		while (str[i_act] && str[i_act] != last_qt)
+			i_act++;
+		i_end = i_act;
+		if (str_wo_qt == NULL)
+			str_wo_qt = ft_strdup_len(str, i_start, i_end);
+		else
+			str_wo_qt = ft_strjoin_dfree(str_wo_qt, ft_strdup_len(str, i_start, i_end));
+		if (str[i_act])
+			i_act++;
 	}
-	printf(BACK_GREEN"str_wo_qt: %s"RST"\n", str_wo_qt);
+	if (str_wo_qt == NULL)
+		str_wo_qt = str;
+	(void)last_qt;
 	return (str_wo_qt);
 }
 
@@ -66,7 +84,7 @@ void	remove_quote_2(t_mini_sh *mini_sh)
 			save = ft_strdup(mini_tmp->rl_out->word);
 			free(mini_tmp->rl_out->word);
 			mini_tmp->rl_out->word = write_without_qt_2(save);
-			// free(save);
+			free(save);
 		}
 		mini_tmp->rl_out = mini_sh->rl_out->next;
 	}

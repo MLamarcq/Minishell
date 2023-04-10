@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_error_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/10 16:50:30 by ggosse            #+#    #+#             */
+/*   Updated: 2023/04/10 16:50:52 by ggosse           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
 int	redir_l_error(t_mini_sh *mini_sh)
@@ -24,6 +36,24 @@ int	redir_l_error(t_mini_sh *mini_sh)
 				printf("minishell: %s: No such file or directory\n", tmp->next->word);
 				return (FAIL);
 			}
+		}
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
+}
+
+int	check_redir_follow(t_mini_sh *mini_sh)
+{
+	t_parse *tmp;
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		if (is_sep_int(tmp->type) == SUCCESS)
+		{
+			if (tmp->next && is_sep_int(tmp->next->type) == SUCCESS)
+				return (print_error(4, tmp), FAIL);
+			// else if (tmp->next && tmp->next->next && is_sep_int(tmp->next->next->type) == FAIL)
+			// 	return (print_error_2(1, tmp), FAIL);
 		}
 		tmp = tmp->next;
 	}

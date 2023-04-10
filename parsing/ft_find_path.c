@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_find_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:57 by ggosse            #+#    #+#             */
-/*   Updated: 2023/03/30 12:33:05 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:00:06 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	ft_find_cmd(t_mini_sh *mini_sh, int ite_env)
 			ft_free_all(cmd, path_cmd);
 			return (SUCCESS);
 		}
-		// else
-		// 	free(cmd_path_absolue);
+		else
+			free(cmd_path_absolue);
 	}
 	ft_free_all(cmd, path_cmd);
 	return (FAIL);

@@ -19,7 +19,6 @@ char	*ft_find_cmd_2(t_mini_sh *mini_sh, int ite_env, char *cmd_to_find)
 		if (access(cmd_path_absolue, X_OK) == 0)
 		{
 			ft_free_all(cmd, path_cmd);
-			//printf(GREEN"cmd = %s\n"RST, cmd_path_absolue);
 			return (cmd_path_absolue);
 		}
 		else

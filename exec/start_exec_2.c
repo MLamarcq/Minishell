@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/10 15:52:08 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:03:50 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,17 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	int		i;
 
 	tmp = mini_sh->rl_out_head;
-	// mini_sh->sep_type = (int*)malloc(sizeof(int) * (mini_sh->sep_2 + 1));
-	mini_sh->sep_type = (int*)malloc(sizeof(int) * (mini_sh->real_sep + 1));
+	if (mini_sh->sep_type)
+	{
+		free(mini_sh->sep_type);
+		mini_sh->sep_type = NULL;
+	}
+	mini_sh->sep_type = (int*)malloc(sizeof(int) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->sep_type)
 		return (FAIL_MALLOC);
 	i = 0;
 	while (tmp)
 	{
-		// if (is_sep(tmp->word) == SUCCESS && (is_sep(tmp->next->word) == SUCCESS))
-		// {
-		// 	mini_sh->sep_type[i] = tmp->type;
-		// 	tmp = tmp->next;
-		// 	i++;
-		// }
-		// else 
 		if (is_sep(tmp->word) == SUCCESS)
 		{
 			mini_sh->sep_type[i] = tmp->type;
@@ -49,14 +46,6 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	char	*cmd_abs_path;
 
 	cmd_abs_path = NULL;
-	// if (mini_sh->prepare_exec[i_exec][1])
-	// {
-	// 	if (mini_sh->prepare_exec_type[i_exec][1] == CMD || mini_sh->prepare_exec_type[i_exec][1] == CMD_ABS)
-	// 	{
-	// 		printf("salut toi\n");
-	// 		execve(mini_sh->prepare_exec[i_exec][1], mini_sh->prepare_exec[i_exec], mini_sh->env);
-	// 	}
-	// }
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
 		execve(mini_sh->prepare_exec[i_exec][0], mini_sh->prepare_exec[i_exec], mini_sh->env);
 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
@@ -72,7 +61,9 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 			return ;
 		else
 		{
-			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
+			printf("minishell:%s: command not found\n", \
+			mini_sh->prepare_exec[i_exec][0]);
+			free_all(mini_sh);
 			exit (127);
 		}
 	}
@@ -132,7 +123,7 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 // 		i++;
 // 	}
 // 	return (SUCCESS);
-	
+
 // }
 
 int	init_tab_fd(t_mini_sh *mini_sh)
@@ -146,6 +137,8 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 	// 	return (opening_redir_r_file(mini_sh, tmp, i_init_fd));
 	// if (mini_sh->sep_2 == 0)
 	// 	return (init_redir_r_tab(mini_sh));
+	free_tab_fd(mini_sh);
+	mini_sh->exec->tab_fd = NULL;
 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->exec->tab_fd)
 		return (FAIL_MALLOC);
@@ -238,7 +231,7 @@ void	close_all(t_mini_sh *mini_sh)
 
 	i = 0;
 	while (i < mini_sh->sep_2)
-	{	
+	{
 		if (mini_sh->exec->tab_fd[i][0] > 2)
 			close(mini_sh->exec->tab_fd[i][0]);
 		if (mini_sh->exec->tab_fd[i][1] > 2)
@@ -252,14 +245,13 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
-	// printf(GREEN"i_exec = %d"RST"\n", i_exec);
 	fprintf(stderr, BACK_PURPLE"mini_sh->prepare_exec[%d][0] = %s"RST"\n"PURPLE"fd_in: %i\nfd_out %d\n\n"RST, i_exec, mini_sh->prepare_exec[i_exec][0], mini_sh->exec->fd_in, mini_sh->exec->fd_out);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);
-//	printf("hihi\n");
 	if (exec_builtin(mini_sh, i_exec) == FAIL)
 		exec_cmd(mini_sh, i_exec);
+	free_all(mini_sh);
 	exit (1);
 }
 
@@ -295,24 +287,10 @@ int	start_exec(t_mini_sh *mini_sh)
 		}
 		else
 			mini_sh->pids[i_exec] = FAIL;
-		// fprintf(stderr, BOLD_CYAN"%i\t"RST, mini_sh->exec->check_r);
-		// print_type(mini_sh->sep_type[i_exec]);
-		// if (mini_sh->sep_type[i_exec] != PIPE ) //|| (mini_sh->sep_type[i_exec] == PIPE && mini_sh->sep_type[i_exec + 1] != PIPE))
-		// 	mini_sh->exec->check_r++;
-		//increase_check(mini_sh, i_exec);
 		increase_check(mini_sh, i_exec);
 		i_exec++;
 	}
-	printf(RED"nbr sep = %d\n"RST, mini_sh->sep_2);
-	i_exec = 0;
-	while (i_exec < mini_sh->sep_2)
-	{
-		if (mini_sh->exec->tab_fd[i_exec][0] > 2)
-			close(mini_sh->exec->tab_fd[i_exec][0]);
-		if (mini_sh->exec->tab_fd[i_exec][1] > 2)
-			close(mini_sh->exec->tab_fd[i_exec][1]);
-		i_exec++;
-	}
+	close_all(mini_sh);
 	i_exec = 0;
 	while (mini_sh->prepare_exec[i_exec])
 	{
