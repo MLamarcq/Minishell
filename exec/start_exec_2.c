@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/09 19:33:22 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/10 15:52:08 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,14 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	char	*cmd_abs_path;
 
 	cmd_abs_path = NULL;
+	// if (mini_sh->prepare_exec[i_exec][1])
+	// {
+	// 	if (mini_sh->prepare_exec_type[i_exec][1] == CMD || mini_sh->prepare_exec_type[i_exec][1] == CMD_ABS)
+	// 	{
+	// 		printf("salut toi\n");
+	// 		execve(mini_sh->prepare_exec[i_exec][1], mini_sh->prepare_exec[i_exec], mini_sh->env);
+	// 	}
+	// }
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
 		execve(mini_sh->prepare_exec[i_exec][0], mini_sh->prepare_exec[i_exec], mini_sh->env);
 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
@@ -60,13 +68,13 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
-		// if (mini_sh->sep_type[i_exec - 1] != PIPE)
-		// 	return ;
-	//	else
-	//	{
+		if (mini_sh->sep_type[i_exec - 1] != PIPE)
+			return ;
+		else
+		{
 			printf("minishell:%s: command not found\n", mini_sh->prepare_exec[i_exec][0]);
 			exit (127);
-		//}
+		}
 	}
 }
 
@@ -198,7 +206,10 @@ int	exec_redir(t_mini_sh *mini_sh, int i_exec)
 		do_append(mini_sh, i_exec);
 	}
 	else if (mini_sh->sep_type[i_exec] == HR_DOC)
+	{
+		printf(YELLOW"on est bien dans le hr"RST"\n");
 		do_heredoc_redir(mini_sh, i_exec);
+	}
 	else if (mini_sh->sep_type[i_exec] == REDIR_L)
 		do_redir_l(mini_sh, i_exec);
 	(void)i_exec;
@@ -242,13 +253,11 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
 	// printf(GREEN"i_exec = %d"RST"\n", i_exec);
-	fprintf(stderr, BACK_PURPLE"mini_sh->prepare_exec[%d][0] = %s"RST"\n", i_exec, mini_sh->prepare_exec[i_exec][0]);
-	fprintf(stderr, BACK_PURPLE"fd_in: %i"RST"\n"RST, mini_sh->exec->fd_in);
-	fprintf(stderr, BACK_PURPLE"fd_out %d at : %i"RST"\n\n"RST, mini_sh->exec->fd_out, i_exec);
+	fprintf(stderr, BACK_PURPLE"mini_sh->prepare_exec[%d][0] = %s"RST"\n"PURPLE"fd_in: %i\nfd_out %d\n\n"RST, i_exec, mini_sh->prepare_exec[i_exec][0], mini_sh->exec->fd_in, mini_sh->exec->fd_out);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);
-	printf("hihi\n");
+//	printf("hihi\n");
 	if (exec_builtin(mini_sh, i_exec) == FAIL)
 		exec_cmd(mini_sh, i_exec);
 	exit (1);

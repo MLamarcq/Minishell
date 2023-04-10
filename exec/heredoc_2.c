@@ -26,7 +26,7 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 			{
 				//analyse_redir_before_alloc(mini_sh, tmp);
 				mini_sh->exec->hr_name[i] = ft_strjoin_rfree(".heredoc", ft_itoa(i));
-				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_CREAT | O_RDWR, 0777);
+				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT , 0644);
 				printf(GREEN"fd_hr[%i] == %d\t%s"RST"\n", i, mini_sh->exec->fd_hr[i], tmp->next->word);
 				if (mini_sh->exec->fd_hr[i] == -1)
 					return (FAIL);
@@ -51,8 +51,8 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 		input = readline("&>");
 		if (ft_strncmp(input, tmp->next->word, ft_strlen(tmp->next->word)) == 0)
 		{
-			printf("word = %s\n", tmp->next->word);
-			printf("input = %s\n", input);
+			// printf("word = %s\n", tmp->next->word);
+			// printf("input = %s\n", input);
 			// i_close = 0;
 			// while (mini_sh->exec->tab_fd[i_close])
 			// {
@@ -92,13 +92,18 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 
 void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 {
-	if (mini_sh->sep_2 == 1)
+	printf(BOLD_RED"before mini_sh->exec->fd_hr[%d] = %d "RST"\n", mini_sh->exec->check_hr, mini_sh->exec->fd_hr[mini_sh->exec->check_hr]);
+	close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr]);
+	mini_sh->exec->fd_hr[mini_sh->exec->check_hr] = open(mini_sh->exec->hr_name[mini_sh->exec->check_hr], O_RDONLY, 0644);
+	printf(BOLD_RED"after  mini_sh->exec->fd_hr[%d] = %d "RST"\n", mini_sh->exec->check_hr, mini_sh->exec->fd_hr[mini_sh->exec->check_hr]);
+	if (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1])
 	{
-		//close(mini_sh->exec->tab_fd[i_exec][0]);
+		//printf(RED"tab_fd_hr_out = %d"RST"\n", mini_sh->exec->tab_fd[i_exec][1]);
+
 		close(mini_sh->exec->tab_fd[i_exec][1]);
+		// close(mini_sh->exec->tab_fd[i_exec][0]);
 	}
 	// printf("fd->app = %d\n", mini_sh->exec->fd_app[mini_sh->exec->check_app]);
-	printf(RED"i_exec inside app = %d"RST"\n", i_exec);
 	// if (mini_sh->sep_2 != 0)
 	// {
 	// 	close(mini_sh->exec->tab_fd[i_exec][1]);
@@ -110,10 +115,20 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 	// 	printf(RED"salut"RST"\n");
 	// 	mini_sh->exec->fd_in = 0;
 	// }
-	printf(BOLD_GREEN"mini_sh->exec->check_hr = %d"RST"\n", mini_sh->exec->check_hr);
+	// fprintf(stderr, BOLD_GREEN"%i\t%i"RST"\n", mini_sh->exec->check_hr, mini_sh->exec->nbr_fd_hr);
+	// // fprintf(stderr, BOLD_GREEN"mini_sh->exec->check_hr = %d"RST"\n", mini_sh->exec->check_hr);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
 	if (mini_sh->sep_type[i_exec + 1])
-		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
+	{
+		if (mini_sh->sep_type[i_exec + 1] == PIPE)
+			mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
+		else if (mini_sh->sep_type[i_exec + 1] == REDIR_R)
+			mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
+		else if (mini_sh->sep_type[i_exec + 1] == APPEND)
+			mini_sh->exec->fd_out = mini_sh->exec->fd_app[mini_sh->exec->check_app];
+	}
+	// if (mini_sh->sep_type[i_exec + 1] == PIPE)
+	// 	mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
 }
 
 void	unlink_hr_dc(t_mini_sh *mini_sh)
