@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 23:08:55 by gael              #+#    #+#             */
-/*   Updated: 2023/03/31 14:48:24 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:53:00 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*ft_strdup_len(char *str, int start, int end)
 	if (end > ite_str)
 		return (NULL);
 	res = malloc(sizeof (char) * (end - start + 1));
-	// printf(GREEN"%i\n"RST, (end - start + 1));
 	if (!res)
 		return (NULL);
 	ite_str = start;

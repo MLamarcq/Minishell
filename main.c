@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/10 17:05:02 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 17:08:13 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	init_rl(t_mini_sh *mini_sh)
 	mini_sh->exec = NULL;
 	mini_sh->pids = NULL;
 	mini_sh->rl_out = NULL;
-	(void)mini_sh;
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -54,7 +53,7 @@ int	main(int argc, char *argv[], char **envp)
 		init_rl(&mini_sh);
 		if (!mini_sh.output)
 		{
-			printf("@exit\n");
+			printf("exit\n");
 			free_all(&mini_sh);
 			exit (0);
 		}

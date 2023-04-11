@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/10 17:04:46 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 16:54:28 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,9 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	while (tmp && tmp->next != NULL)
 	{
 		if (is_sep(tmp->word) == SUCCESS && is_sep(tmp->next->word) == SUCCESS)
-		{
-			//printf(RED"Type"RST"\n");
 			tmp = tmp->next;
-		}
 		if (is_sep(tmp->word) == SUCCESS)
 			mini_sh->sep_2++;
-		//printf(BLUE"%s"RST"\n", tmp->next->word);
 		if (tmp)
 			tmp = tmp->next;
 	}

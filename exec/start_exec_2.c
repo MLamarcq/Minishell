@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/10 17:03:50 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 16:56:28 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 
 	cmd_abs_path = NULL;
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
-		execve(mini_sh->prepare_exec[i_exec][0], mini_sh->prepare_exec[i_exec], mini_sh->env);
+		execve(mini_sh->prepare_exec[i_exec][0], \
+		mini_sh->prepare_exec[i_exec], mini_sh->env);
 	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
 	if (cmd_abs_path != NULL)
 	{
@@ -69,63 +70,6 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 }
 
-// int	init_tab_fd(t_mini_sh *mini_sh)
-// {
-// 	int	i_init_fd;
-
-// 	i_init_fd = 0;
-// 	if (mini_sh->sep_2 == 0)
-// 		return (opening_redir_r_file(mini_sh));
-// 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
-// 	if (!mini_sh->exec->tab_fd)
-// 		return (FAIL_MALLOC);
-// 	mini_sh->exec->tab_fd[mini_sh->sep_2] = 0;
-// 	while (i_init_fd < mini_sh->sep_2)
-// 	{
-// 		mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
-// 		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
-// 		if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
-// 			return (printf(BACK_RED"pipe not working"RST"\n"), FAIL);
-// 		//if_redir(mini_sh, i_init_fd);
-// 		// opening_redir_r_file(mini_sh, i_init_fd);
-// 		i_init_fd++;
-// 	}
-// 	// opening_redir_r_file(mini_sh);
-// 	return (SUCCESS);
-// 	(void)i_init_fd;
-// }
-
-
-// int	init_redir_r_tab(t_mini_sh *mini_sh)
-// {
-// 	int i;
-// 	t_parse *tmp;
-
-// 	tmp = mini_sh->rl_out_head;
-// 	i = 0;
-// 	if (mini_sh->exec->nbr_fd_r == 0)
-// 		return (FAIL);
-// 	mini_sh->exec->fd_r = malloc(sizeof(int) * mini_sh->exec->nbr_fd_r + 1);
-// 	mini_sh->exec->fd_r[mini_sh->exec->nbr_fd_r] = 0;
-// 	while (i < mini_sh->exec->nbr_fd_r)
-// 	{
-// 		while (tmp)
-// 		{
-// 			if (tmp->type == REDIR_R)
-// 			{
-// 				mini_sh->exec->fd_r[i] = open(tmp->next->word, O_CREAT | O_TRUNC| O_RDWR, 0644);
-// 				if (mini_sh->exec->fd_r[i] == -1)
-// 					return (FAIL);
-// 				break ;
-// 			}
-// 			tmp = tmp->next;
-// 		}
-// 		i++;
-// 	}
-// 	return (SUCCESS);
-
-// }
-
 int	init_tab_fd(t_mini_sh *mini_sh)
 {
 	int		i_init_fd;
@@ -133,10 +77,6 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 
 	tmp = mini_sh->rl_out_head;
 	i_init_fd = 0;
-	// if (mini_sh->sep_2 == 0)
-	// 	return (opening_redir_r_file(mini_sh, tmp, i_init_fd));
-	// if (mini_sh->sep_2 == 0)
-	// 	return (init_redir_r_tab(mini_sh));
 	free_tab_fd(mini_sh);
 	mini_sh->exec->tab_fd = NULL;
 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
@@ -157,7 +97,6 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 			return (printf(BACK_RED"pipe not working"RST"\n"), FAIL);
 		if (tmp && tmp->type == PIPE && is_sep_int(tmp->next->type) == SUCCESS)
 		{
-			// write 0 on [0 or 1]
 			close(mini_sh->exec->tab_fd[i_init_fd][0]);
 			mini_sh->exec->tab_fd[i_init_fd][0] = 0;
 			tmp = tmp->next;
@@ -167,10 +106,7 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 		i_init_fd++;
 		tmp = tmp->next;
 	}
-	// printf("jrughrujghnrgoirj\n");
 	init_redir_fd(mini_sh);
-	// printf("jrughrujghnrgoirj\n");
-	// printf(RED"nbr redir_r = %d"RST"\n", mini_sh->exec->nbr_fd_r);
 	return (SUCCESS);
 	(void)i_init_fd;
 }
@@ -190,7 +126,6 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 
 int	exec_redir(t_mini_sh *mini_sh, int i_exec)
 {
-	//printf(YELLOW"ici"RST"\n");
 	if (mini_sh->sep_type[i_exec] == REDIR_R)
 		do_redir_r(mini_sh, i_exec);
 	else if (mini_sh->sep_type[i_exec] == APPEND)
@@ -240,12 +175,10 @@ void	close_all(t_mini_sh *mini_sh)
 	}
 }
 
-
 void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
-	fprintf(stderr, BACK_PURPLE"mini_sh->prepare_exec[%d][0] = %s"RST"\n"PURPLE"fd_in: %i\nfd_out %d\n\n"RST, i_exec, mini_sh->prepare_exec[i_exec][0], mini_sh->exec->fd_in, mini_sh->exec->fd_out);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);

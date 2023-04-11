@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/10 18:07:23 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 17:09:20 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,15 @@ typedef struct s_list
 	char				*line;
 	int					index;
 	struct s_list		*next;
-}   t_list;
+}						t_list;
 
 typedef struct s_arr_output
 {
 	char				*word;
 	int					type;
 	struct s_arr_output	*next;
-	struct s_arr_output *prev;
-}		t_parse;
-
-// typedef struct s_mini_sh
-// {
-// 	char			*output;
-// 	char			**env;
-// 	char			***prepare_exec;
-// 	t_parse	*rl_out;
-// 	t_parse	*rl_out_head;
-// }					t_mini_sh;
+	struct s_arr_output	*prev;
+}						t_parse;
 
 enum e_type
 {
@@ -91,26 +82,26 @@ enum e_type
 
 typedef struct s_exec_tools
 {
-	int	pipe_id;
-	int	fd_in;
-	int	fd_out;
-	int	nbr_fd_r;
-	int	nbr_fd_l;
-	int	nbr_fd_hr;
-	int	nbr_fd_app;
-	int	*fd_r;
-	int	ana_r;
-	int	check_r;
-	int	*fd_l;
-	int	check_l;
-	int	*fd_app;
-	int	ana_app;
-	int	check_app;
-	int	*fd_hr;
+	int		pipe_id;
+	int		fd_in;
+	int		fd_out;
+	int		nbr_fd_r;
+	int		nbr_fd_l;
+	int		nbr_fd_hr;
+	int		nbr_fd_app;
+	int		*fd_r;
+	int		ana_r;
+	int		check_r;
+	int		*fd_l;
+	int		check_l;
+	int		*fd_app;
+	int		ana_app;
+	int		check_app;
+	int		*fd_hr;
 	char	**hr_name;
-	int	check_hr;
-	int	fd[2];
-	int	**tab_fd;
+	int		check_hr;
+	int		fd[2];
+	int		**tab_fd;
 } t_exec_t;
 
 typedef struct s_env
@@ -122,32 +113,32 @@ typedef struct s_env
 	int		size;
 	int 	count;
 	int		ite_genv;
-}   t_env;
+}			t_env;
 
 typedef struct s_mini_sh
 {
-	int				check;
-	int 			sep_id;
-	char			*file_heredoc;
-	int				*hr_doc_tab;
-	char			*output;
-	char			**env;
-	char			***prepare_exec;
-	int				len_prepare_exec;
-	int				is_dquote;
-	int				is_squote;
-	int				check_redir;
-	int				sep;
-	int				flag;
-	int				sep_2;
-	int				nbr_word;
-	int				*sep_type;
-	pid_t			*pids;
-	t_env			*data;
-	t_exec_t		*exec;
-	t_parse	*rl_out;
-	t_parse	*rl_out_head;
-}	t_mini_sh;
+	int			check;
+	int 		sep_id;
+	char		*file_heredoc;
+	int			*hr_doc_tab;
+	char		*output;
+	char		**env;
+	char		***prepare_exec;
+	int			len_prepare_exec;
+	int			is_dquote;
+	int			is_squote;
+	int			check_redir;
+	int			sep;
+	int			flag;
+	int			sep_2;
+	int			nbr_word;
+	int			*sep_type;
+	pid_t		*pids;
+	t_env		*data;
+	t_exec_t	*exec;
+	t_parse		*rl_out;
+	t_parse		*rl_out_head;
+}				t_mini_sh;
 // ---------------------------- end struct ---------------------------------- //
 
 //signal/exec_signal.c

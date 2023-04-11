@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/04/10 16:35:09 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 16:52:55 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,20 @@ int	init_env(t_mini_sh *mini_sh)
 
 int	is_built_in_2(int i, t_mini_sh *mini_sh)
 {
-	if (ft_strncmp(mini_sh->prepare_exec[i][0], "echo", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+	if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"echo", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 		return (ft_echo(mini_sh->prepare_exec[i]), SUCCESS);
-	else if (ft_strncmp(mini_sh->prepare_exec[i][0], "pwd", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"pwd", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 		return (ft_pwd(mini_sh->prepare_exec[i]), SUCCESS);
-	else if (ft_strncmp(mini_sh->prepare_exec[i][0], "cd", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"cd", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 		return (ft_cd(mini_sh->prepare_exec[i], mini_sh), SUCCESS);
-	else if (ft_strncmp(mini_sh->prepare_exec[i][0], "unset", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"unset", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 		return (exec_unset(mini_sh->prepare_exec[i], mini_sh), SUCCESS);
-	else if (ft_strncmp(mini_sh->prepare_exec[i][0], "export", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"export", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 	{
 		if (!mini_sh->prepare_exec[i][1])
 			print_export(mini_sh->prepare_exec[i], mini_sh);
@@ -44,53 +49,23 @@ int	is_built_in_2(int i, t_mini_sh *mini_sh)
 			export_arg(mini_sh->prepare_exec[i], mini_sh);
 		return (SUCCESS);
 	}
-	else if (ft_strncmp(mini_sh->prepare_exec[i][0], "env", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"env", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 		return (env(mini_sh->prepare_exec[i], mini_sh), SUCCESS);
 	return (FAIL);
 }
 
 int	do_built_in(t_mini_sh *mini_sh, int i)
 {
-//	int	i;
 	free_env_sorted(mini_sh);
 	free_data(mini_sh);
 	init_env(mini_sh);
 	init_env_sorted(mini_sh);
-//	i = 0;
-//	while (mini_sh->prepare_exec[i])
-//	{
-		if (is_built_in_2(i, mini_sh) == FAIL)
-		{
-			free_env_sorted(mini_sh);
-			free_data(mini_sh);
-			return (FAIL);
-		}
-//		i++;
-//	}
-	 //exit(1);
+	if (is_built_in_2(i, mini_sh) == FAIL)
+	{
+		free_env_sorted(mini_sh);
+		free_data(mini_sh);
+		return (FAIL);
+	}
 	return (SUCCESS);
 }
-
-
-// int	is_built_in_2(char **exec, t_mini_sh *mini_sh)
-// {
-// 	if (ft_strncmp(exec[0], "echo", ft_strlen(exec[0])) == 0)
-// 		return (ft_echo(exec), SUCCESS);
-// 	else if (ft_strncmp(exec[0], "pwd", ft_strlen(exec[0])) == 0)
-// 		return (ft_pwd(exec), SUCCESS);
-// 	else if (ft_strncmp(exec[0], "cd", ft_strlen(exec[0])) == 0)
-// 		return (ft_cd(exec, mini_sh), SUCCESS);
-// 	else if (ft_strncmp(exec[0], "unset", ft_strlen(exec[0])) == 0)
-// 		return (exec_unset(exec, mini_sh), SUCCESS);
-// 	else if (ft_strncmp(exec[0], "export", ft_strlen(exec[0])) == 0)
-// 	{
-// 		if (!exec[1])
-// 			print_export(exec, mini_sh);
-// 		else
-// 			export_arg(exec, mini_sh);
-// 		return (SUCCESS);
-// 	}
-// 	else if (ft_strncmp(exec[0], "env", ft_strlen(exec[0])) == 0)
-// 		return (env(exec, mini_sh), SUCCESS);
-// 	return (FAIL);
-// }

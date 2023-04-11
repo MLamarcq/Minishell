@@ -6,15 +6,15 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:06:13 by mael              #+#    #+#             */
-/*   Updated: 2023/04/10 16:40:01 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 16:57:06 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void    fill_little_tab(t_mini_sh *mini_sh, int trple)
+void	fill_little_tab(t_mini_sh *mini_sh, int trple)
 {
-	int    dble;
+	int	dble;
 
 	dble = 0;
 	mini_sh->nbr_word = 0;

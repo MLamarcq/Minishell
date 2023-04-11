@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:50:30 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/10 16:50:52 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 17:00:23 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,24 @@
 
 int	redir_l_error(t_mini_sh *mini_sh)
 {
-	t_parse *tmp;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
 		if (tmp->type == PIPE && tmp->next->type == REDIR_L)
-		{
-			print_error(4, tmp);
-			return (FAIL);
-		}
+			return (print_error(4, tmp), FAIL);
 		if (tmp->type == REDIR_L)
 		{
 			if (opendir(tmp->next->word) != NULL)
 			{
-				printf("minishell: %s: Is a directory\n", tmp->next->word);
-				return (FAIL);
+				return (printf("minishell: %s: Is a directory\n", \
+				tmp->next->word), FAIL);
 			}
 			else if (tmp->next->type != _FILE && tmp->next->type != CMD_ABS)
 			{
-				printf("minishell: %s: No such file or directory\n", tmp->next->word);
-				return (FAIL);
+				return (printf("minishell: %s: No such file or directory\n", \
+				tmp->next->word), FAIL);
 			}
 		}
 		tmp = tmp->next;
@@ -52,8 +49,6 @@ int	check_redir_follow(t_mini_sh *mini_sh)
 		{
 			if (tmp->next && is_sep_int(tmp->next->type) == SUCCESS)
 				return (print_error(4, tmp), FAIL);
-			// else if (tmp->next && tmp->next->next && is_sep_int(tmp->next->next->type) == FAIL)
-			// 	return (print_error_2(1, tmp), FAIL);
 		}
 		tmp = tmp->next;
 	}

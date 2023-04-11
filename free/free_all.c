@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:16 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/10 10:43:13 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 16:53:45 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	free_each_prpt(t_mini_sh *mini_sh)
 
 void	free_all(t_mini_sh *mini_sh)
 {
-	// printf(RED"free_all"RESET"\n");
 	free_each_prpt(mini_sh);
 	free_env(mini_sh);
 	free_env_sorted(mini_sh);

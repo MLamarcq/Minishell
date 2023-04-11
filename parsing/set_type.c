@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/04/10 16:52:48 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 16:59:12 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	type_utils_2(t_mini_sh *mini_sh)
 		else
 			return (printf("minishell: syntax error with <<\n"), FAIL);
 	}
-	// if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->type == HR_DOC)
-	// 	mini_sh->rl_out->type = EOFL;
 	return (SUCCESS);
 }
 

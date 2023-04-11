@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_error_1.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
+/*   Updated: 2023/04/11 17:00:42 by ggosse           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
 int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
@@ -31,7 +43,7 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 
 int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 {
-	t_parse *tmp;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
@@ -53,7 +65,6 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 			if (print_error(4, tmp) == FAIL)
 				return (FAIL);
 		}
-
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
@@ -98,9 +109,3 @@ int print_error(int index, t_parse *tmp)
 	}
 	return (SUCCESS);
 }
-
-
-// int redir_error(t_mini_sh *mini_sh)
-// {
-
-// }

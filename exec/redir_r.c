@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_r.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
+/*   Updated: 2023/04/11 16:58:40 by ggosse           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_minishell.h"
 
 void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
@@ -8,10 +20,8 @@ void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 	if (temp->type == REDIR_R)
 	{
 		temp = temp->next;
-		//printf("temp->word 1 = %s\n", temp->word);
 		while (temp)
 		{
-			//printf("temp->word = %s\n", temp->word);
 			if (temp->type == REDIR_R || temp->type == APPEND)
 			{
 				printf(RED"ici"RST"\n");
@@ -64,104 +74,14 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-
-
-
-// int	rdr_r(t_parse *tmp, t_mini_sh *mini_sh)
-// {
-// 	if (tmp->type == REDIR_R)
-// 	{
-// 		// printf("salut\n");
-// 		// close()
-// 		mini_sh->exec->fd_r = open(tmp->next->word, O_CREAT | O_TRUNC| O_RDWR, 0644);
-// 		// printf(BOLD_RED"	%s\n"RST"---\n", tmp->next->word);
-// 		if (mini_sh->exec->fd_r == FAIL)
-// 			return (printf("Failure during opening redir_r file\n"), FAIL);
-// 	}
-// 	return (SUCCESS);
-// }
-
-// int	rdr_app(t_parse *tmp, t_mini_sh *mini_sh)
-// {
-// 	if (tmp->type == APPEND)
-// 	{
-// 		*mini_sh->exec->fd_app = open(tmp->next->word, O_CREAT | O_APPEND | O_RDWR, 0644);
-// 		if (*mini_sh->exec->fd_app == FAIL)
-// 			return (printf("Failure during opening redir_r file\n"), FAIL);
-// 	}
-// 	return (SUCCESS);
-// }
-
-// int	rdr_l(t_parse *tmp, t_mini_sh *mini_sh)
-// {
-// 	if (tmp->type == REDIR_L)
-// 	{
-// 		*mini_sh->exec->fd_l = open(tmp->next->word, O_RDONLY, 0644);
-// 		if (*mini_sh->exec->fd_l == FAIL)
-// 			return (printf("Failure during opening redir_r file\n"), FAIL);
-// 	}
-// 	return (SUCCESS);
-// }
-
-// int	opening_redir_r_file(t_mini_sh *mini_sh, t_parse *tmp, int i_init_fd)
-// {
-// 	// t_parse *tmp;
-
-// 	tmp = mini_sh->rl_out_head;
-// 	while (tmp)
-// 	{
-// 		// printf(BOLD_RED"	%s\n"RST"---\n", tmp->word);
-// 		// if (rdr_r(tmp, mini_sh) == FAIL)
-// 		// 	return (FAIL);
-// 		// if (rdr_app(tmp, mini_sh) == FAIL)
-// 		// 	return (FAIL);
-// 		// if (rdr_l(tmp, mini_sh) == FAIL)
-// 		// 	return (FAIL);
-// 		//rdr_r(tmp, mini_sh);
-// 		rdr_app(tmp, mini_sh);
-// 		rdr_l(tmp, mini_sh);
-// 		tmp = tmp->next;
-// 	}
-// 	(void)i_init_fd;
-// 	return (SUCCESS);
-// }
-
-
-// int if_redir_r(t_mini_sh *mini_sh, int i_init_fd)
-// {
-// 	printf("here\n");
-// 	if (mini_sh->sep_type[i_init_fd] == REDIR_R)
-// 	{
-// 		if (opening_redir_r_file(mini_sh) == FAIL)
-// 			return (FAIL);
-// 	}
-// 	else if (mini_sh->sep_type[i_init_fd] == PIPE && mini_sh->sep_type[i_init_fd + 1] == REDIR_R)
-// 	{
-// 		printf(RED"ici\n"RST);
-// 		if (opening_redir_r_file(mini_sh) == FAIL)
-// 			return (FAIL);
-// 	}
-// 	return (SUCCESS);
-// }
-
 void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
 {
-	printf(RED"i_exec inside redir = %d"RST"\n", i_exec);
 	if (mini_sh->sep_2 != 0)
 	{
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 		close(mini_sh->exec->tab_fd[i_exec][0]);
 	}
-	fprintf(stderr, GREEN"%s"RST"\n", mini_sh->prepare_exec[i_exec][0]);
 	if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_R)
-	{
-		printf(RED"salut"RST"\n");
 		mini_sh->exec->fd_in = 0;
-	}
-	fprintf(stderr, BOLD_GREEN"%i\t%i"RST"\n", mini_sh->exec->check_r, mini_sh->exec->nbr_fd_r);
-	printf(BOLD_GREEN"mini_sh->exec->check_r = %d"RST"\n", mini_sh->exec->check_r);
 	mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
-	// if (mini_sh->exec->check_r < mini_sh->exec->nbr_fd_r)
-	// 	mini_sh->exec->check_r++;
-	//fprintf(stderr, BOLD_GREEN"%i\t%i"RST"\n", mini_sh->exec->check_r, mini_sh->exec->nbr_fd_r);
 }

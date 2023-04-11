@@ -6,12 +6,11 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 01:53:30 by gael              #+#    #+#             */
-/*   Updated: 2023/04/10 16:44:03 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/11 17:00:59 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
-
 
 void	count_quote_arg(char *line, int *ite)
 {
@@ -76,21 +75,3 @@ void	init_quote(t_mini_sh *mini_sh)
 	mini_sh->is_squote = FAIL;
 	mini_sh->is_dquote = FAIL;
 }
-
-// void	toggle_quote(t_mini_sh *mini_sh, char chr)
-// {
-// 	if (chr == S_QUOTE)
-// 	{
-// 		if (mini_sh->is_squote == FAIL)
-// 			mini_sh->is_squote = SUCCESS;
-// 		else
-// 			mini_sh->is_squote = FAIL;
-// 	}
-// 	else if (chr == D_QUOTE && mini_sh->is_squote == FAIL)
-// 	{
-// 		if (mini_sh->is_dquote == FAIL)
-// 			mini_sh->is_dquote = SUCCESS;
-// 		else
-// 			mini_sh->is_dquote = FAIL;
-// 	}
-// }
