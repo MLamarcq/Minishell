@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/11 17:15:54 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/09 19:56:14 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ void	analyse_append_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 	}
 }
 
-void	init_fd_app(t_mini_sh *mini_sh, t_parse **tmp, int *i)
+int	init_fd_app(t_mini_sh *mini_sh, t_parse **tmp, int *i)
 {
 	*tmp = mini_sh->rl_out_head;
 	*i = 0;
 	mini_sh->exec->fd_app = malloc(sizeof(int) * mini_sh->exec->nbr_fd_app + 1);
 	if (!mini_sh->exec->fd_app)
 		return (FAIL_MALLOC);
+	return (SUCCESS);
 }
 
 int	init_append_tab(t_mini_sh *mini_sh)
@@ -52,7 +53,7 @@ int	init_append_tab(t_mini_sh *mini_sh)
 	int		i;
 	t_parse	*tmp;
 
-	init_fd_app(mini_sh, &tmp, &i)
+	init_fd_app(mini_sh, &tmp, &i);
 	mini_sh->exec->fd_app[mini_sh->exec->nbr_fd_app] = 0;
 	while (i < mini_sh->exec->nbr_fd_app)
 	{

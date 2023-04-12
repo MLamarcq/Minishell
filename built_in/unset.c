@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/03/14 15:40:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/12 11:58:37 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	int		i;
 	int		len;
 	char	*env_content;
-
+	char *dest;
+	int j;
+	
+	j = 0;
 	i = 0;
 	env_content = ft_find_var_env(mini_sh->env, argv[1]);
 	while (mini_sh->env[i])
@@ -25,15 +28,20 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 		if (ft_strncmp(mini_sh->env[i], argv[1], ft_strlen(argv[1]) - 1) == 0)
 		{
 			len = ft_strlen(argv[1]) + 1;
+			dest = malloc(sizeof(char) * ft_strlen(env_content));
 			while (mini_sh->env[i][len] == env_content[mini_sh->data->ite_genv])
 			{
 				mini_sh->data->ite_genv++;
+				dest[j] = mini_sh->env[i][len];
 				len++;
 				mini_sh->data->count++;
+				j++;
 			}
-			if ((mini_sh->data->count - 1) == ft_strlen(env_content))
+			dest[j] = '\0';
+			if (ft_strncmp(dest, env_content, ft_strlen(dest)) == 0)
 			{
 				ft_bzero(mini_sh->env[i], ft_strlen(mini_sh->env[i]));
+				free(dest);
 				break ;
 			}
 		}
