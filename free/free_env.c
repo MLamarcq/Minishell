@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 19:58:25 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/03 10:31:32 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/12 17:26:33 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ void	free_env_sorted(t_mini_sh *mini_sh)
 			mini_sh->data->env_sorted = NULL;
 		}
 	}
-	printf("\n");
+	//printf("\n");
 }

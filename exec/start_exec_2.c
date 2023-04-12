@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/11 16:56:28 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/12 17:00:06 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 			return (FAIL);
 		else
 			return (SUCCESS);
-	}
+}
 	return (FAIL);
 }
 
@@ -182,7 +182,7 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);
-	if (exec_builtin(mini_sh, i_exec) == FAIL)
+	if (do_built_in(mini_sh, i_exec) == FAIL)
 		exec_cmd(mini_sh, i_exec);
 	free_all(mini_sh);
 	exit (1);

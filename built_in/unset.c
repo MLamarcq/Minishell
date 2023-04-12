@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/12 11:58:37 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/12 12:50:21 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 		{
 			len = ft_strlen(argv[1]) + 1;
 			dest = malloc(sizeof(char) * ft_strlen(env_content));
+			if (!dest)
+				return ;
 			while (mini_sh->env[i][len] == env_content[mini_sh->data->ite_genv])
 			{
 				mini_sh->data->ite_genv++;
@@ -49,9 +51,35 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	}
 }
 
+int	check_unset_error(char **argv)
+{
+	if (ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
+	{
+		printf("argv[1] = %s\n", argv[1]);
+		int i;
+
+		i = 0;
+		while (argv[1][i])
+		{
+			if (argv[1][i] == '-')
+			{
+				if (i == 0)
+				{
+					printf("minishell: unset: no option allowed\n");
+					return (FAIL);
+				}
+			}
+			i++;
+		}
+	}
+	return (SUCCESS);
+}
+
 int	unset(char **argv, t_mini_sh *mini_sh)
 {
-	if (ft_strncmp(argv[0], "unset", 5) == 0)
+	if (check_unset_error(argv) == FAIL)
+		return (FAIL);
+	if (ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
 		to_empty_line(argv, mini_sh);
 	return (SUCCESS);
 }
@@ -63,7 +91,8 @@ int	exec_unset(char **argv, t_mini_sh *mini_sh)
 
 	i = 0;
 	j = 0;
-	unset(argv, mini_sh);
+	if (unset(argv, mini_sh) == FAIL)
+		return (FAIL);
 	while (mini_sh->env[i])
 	{
 		if (mini_sh->env[i][j] == '\0')

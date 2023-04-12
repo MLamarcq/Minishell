@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:58:39 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/03/14 15:43:33 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/12 17:03:25 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	do_cd(int *i, char *home, char **str, t_mini_sh *mini_sh)
 	}
 	if ((*i) > 2)
 	{
-		printf("minishell: cd: too many arguments");
+		printf("minishell: cd: too many arguments\n");
 		return (FAIL);
 	}
 	if (export_cd(str, mini_sh) == FAIL)

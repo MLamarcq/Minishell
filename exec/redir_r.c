@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/11 16:58:40 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/12 17:23:19 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 		close(mini_sh->exec->tab_fd[i_exec][0]);
 	}
-	if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_R)
-		mini_sh->exec->fd_in = 0;
+	// if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_R)
+	// 	mini_sh->exec->fd_in = 0;
 	mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
 }
