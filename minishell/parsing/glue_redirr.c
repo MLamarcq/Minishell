@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_redirr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/13 16:07:31 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:14:12 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,15 @@
 void	detect_redirr_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
-	if (mini_sh->output[ite] == '>' && (mini_sh->output[ite + 1] != '>') && (mini_sh->output[ite - 1] == '>')
-	&& ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL)
+	if (mini_sh->output[ite] == '>' && ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL && (mini_sh->output[ite - 1] != '>' && mini_sh->output[ite + 1] != '>'))
 	{
-		printf("before\n");
-		printf("(mini_sh->output[ite] == '>'  : %i\n", (mini_sh->output[ite] == '>' ));
-		printf("(mini_sh->output[ite + 1] != '>')  : %i\n", (mini_sh->output[ite + 1] != '>') );
-		printf("(mini_sh->output[ite - 1] == '>')  : %i\n", (mini_sh->output[ite - 1] == '>') );
-		printf("ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL) : %i\n", ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL);
+		printf("left\n");
 		*glue = ite;
 		*is_did = SUCCESS;
 	}
-	else if ((mini_sh->output[ite] == '>' && (mini_sh->output[ite + 1] != '>') && (mini_sh->output[ite - 1] == '>'))
-	&& ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL)
+	else if (mini_sh->output[ite] == '>' && ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL && (mini_sh->output[ite - 1] != '>' && mini_sh->output[ite + 1] != '>'))
 	{
-		printf("after\n");
+		printf("right\n");
 		*glue = ite + 1;
 		*is_did = SUCCESS;
 	}

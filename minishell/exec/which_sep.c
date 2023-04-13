@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 13:29:33 by mael              #+#    #+#             */
-/*   Updated: 2023/04/10 16:34:15 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/13 17:18:28 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	init_exec(t_mini_sh *mini_sh)
 	mini_sh->exec->nbr_fd_app = 0;
 	mini_sh->exec->check_app = 0;
 	mini_sh->exec->ana_app = 0;
-	mini_sh->exec->fd[0] = 0;
-	mini_sh->exec->fd[1] = 0;
 	mini_sh->exec->tab_fd = NULL;
 	return (SUCCESS);
 }

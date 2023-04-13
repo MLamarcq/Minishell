@@ -1,17 +1,16 @@
-aa
-built_in
-color.h
-exec
-free
-ft_minishell.h
-leak.txt
-lib
-main.c
-main.o
-Makefile
-minishell
-parsing
-signal
-z0
-z2
-ztest
+total 760
+drwxr-xr-x 2 ggosse 2022_paris   4096 Apr 13 16:51 built_in
+-rw-r--r-- 1 ggosse 2022_paris   2423 Apr 13 16:20 color.h
+drwxr-xr-x 2 ggosse 2022_paris   4096 Apr 13 16:51 exec
+drwxr-xr-x 2 ggosse 2022_paris   4096 Apr 13 16:51 free
+-rw-r--r-- 1 ggosse 2022_paris  12332 Apr 13 17:13 ft_minishell.h
+-rw-r--r-- 1 ggosse 2022_paris    100 Apr 13 16:20 leak.txt
+drwxr-xr-x 2 ggosse 2022_paris   4096 Apr 13 16:51 lib
+-rw-r--r-- 1 ggosse 2022_paris   2220 Apr 13 16:20 main.c
+-rw-r--r-- 1 ggosse 2022_paris 203024 Apr 13 16:51 main.o
+-rw-r--r-- 1 ggosse 2022_paris   2583 Apr 13 16:20 Makefile
+-rwxr-xr-x 1 ggosse 2022_paris 509144 Apr 13 17:13 minishell
+drwxr-xr-x 2 ggosse 2022_paris   4096 Apr 13 17:13 parsing
+drwxr-xr-x 2 ggosse 2022_paris   4096 Apr 13 16:51 signal
+-rw-r--r-- 1 ggosse 2022_paris    112 Apr 13 17:01 w2
+-rw-r--r-- 1 ggosse 2022_paris      0 Apr 13 17:13 z2

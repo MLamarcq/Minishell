@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_redirl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/13 15:47:45 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:15:39 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void	detect_redirl_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
-	if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] != '<')
-	&& ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL)
+	if (mini_sh->output[ite] == '<' && ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL && (mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
 	{
+		printf("left\n");
 		*glue = ite;
 		*is_did = SUCCESS;
 	}
-	else if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] != '<')
-	&& ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL)
+	else if (mini_sh->output[ite] == '<' && ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL && (mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
 	{
+		printf("right\n");
 		*glue = ite + 1;
 		*is_did = SUCCESS;
 	}
