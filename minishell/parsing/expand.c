@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/04/11 17:07:59 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/14 11:23:02 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	replace_dollar(t_mini_sh *mini_sh, int *i_replace)
 		0, save), final_var);
 	else
 		final_var = ft_strdup_len(mini_sh->rl_out->word, 0, save);
-
 	while (mini_sh->rl_out->word[(*i_replace)])
 		(*i_replace)++;
 	final_var = ft_strjoin_dfree(final_var, \

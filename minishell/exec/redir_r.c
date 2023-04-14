@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/13 11:16:44 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:28:21 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 {
-	t_parse *temp;
+	t_parse	*temp;
 
 	temp = tmp;
 	if (temp->type == REDIR_R)
@@ -87,7 +87,6 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 				if (mini_sh->exec->fd_r[i] == -1)
 					return (FAIL);
 				tmp = tmp->next;
-				when_append_after(mini_sh, i);
 				if (mini_sh->exec->ana_r == 0)
 					break ;
 			}

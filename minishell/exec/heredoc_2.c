@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/13 17:16:51 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/14 14:31:05 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	init_hr_dc_tab(t_mini_sh *mini_sh)
 {
-	int i;
-	t_parse *tmp;
+	int		i;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	i = 0;
@@ -50,7 +50,7 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 
 void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 {
-	char *input;
+	char	*input;
 
 	while (1)
 	{
@@ -65,8 +65,8 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 
 int	exec_all_hr_doc(t_mini_sh *mini_sh)
 {
-	int i;
-	t_parse *tmp;
+	int		i;
+	t_parse	*tmp;
 
 	i = 0;
 	tmp = mini_sh->rl_out_head;
@@ -107,7 +107,7 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 
 void	unlink_hr_dc(t_mini_sh *mini_sh)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < mini_sh->exec->nbr_fd_hr)

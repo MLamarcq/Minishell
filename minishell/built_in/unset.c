@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/13 14:35:07 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:29:58 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	char	*env_content;
 	char	*dest;
 	int		j;
-	
+
 	j = 0;
-	i = 0;
+	i = -1;
 	env_content = ft_find_var_env(mini_sh->env, argv[1]);
-	while (mini_sh->env[i])
+	while (mini_sh->env[++i])
 	{
 		if (ft_strncmp(mini_sh->env[i], argv[1], ft_strlen(argv[1]) - 1) == 0)
 		{
@@ -47,7 +47,6 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 				break ;
 			}
 		}
-		i++;
 	}
 }
 

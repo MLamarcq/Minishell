@@ -3,28 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   redir_l.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/13 14:37:22 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:33:14 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-int	init_redir_l_tab(t_mini_sh *mini_sh)
+int	start_init_ltab(t_mini_sh *mini_sh)
 {
-	int		i;
-	t_parse	*tmp;
-
-	tmp = mini_sh->rl_out_head;
-	i = 0;
 	if (mini_sh->exec->nbr_fd_l == 0)
 		return (FAIL);
 	mini_sh->exec->fd_l = malloc(sizeof(int) * mini_sh->exec->nbr_fd_l + 1);
 	if (!mini_sh->exec->fd_l)
 		return (FAIL_MALLOC);
 	mini_sh->exec->fd_l[mini_sh->exec->nbr_fd_l] = 0;
+	return (1);
+}
+
+int	init_redir_l_tab(t_mini_sh *mini_sh)
+{
+	int		i;
+	t_parse	*tmp;
+
+	i = 0;
+	tmp = mini_sh->rl_out_head;
+	if (start_init_ltab(mini_sh) != SUCCESS)
+		return (FAIL);
 	while (i < mini_sh->exec->nbr_fd_l)
 	{
 		while (tmp)

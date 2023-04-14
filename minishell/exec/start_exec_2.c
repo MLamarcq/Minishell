@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/13 14:37:11 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:29:50 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 {
 	char	*cmd_abs_path;
 
-	//printf("fbfdbd\n");
 	cmd_abs_path = NULL;
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
 		execve(mini_sh->prepare_exec[i_exec][0], \
@@ -68,17 +67,11 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
-		if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] != PIPE)
+		if (mini_sh->sep_type[i_exec - 1] \
+		&& mini_sh->sep_type[i_exec - 1] != PIPE)
 			return ;
 		else
-		{
-			// printf("minishell:%s: command not found\n", 
-			// mini_sh->prepare_exec[i_exec][0]);
-			// ft_putstr_fd("command not found\n", 2);
-			// free_all(mini_sh);
-			// exit (127);
 			print_cmd_not_found(mini_sh, i_exec);
-		}
 	}
 }
 
@@ -189,6 +182,7 @@ void	close_all(t_mini_sh *mini_sh)
 
 void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
+	exec_signal(2);
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
 	dup2(mini_sh->exec->fd_in, 0);
@@ -222,6 +216,7 @@ int	start_exec(t_mini_sh *mini_sh)
 		exec_all_hr_doc(mini_sh);
 	while (mini_sh->prepare_exec[i_exec])
 	{
+		exec_signal(3);
 		if (exec_builtin(mini_sh, i_exec) == FAIL)
 		{
 			mini_sh->pids[i_exec] = fork();

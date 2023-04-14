@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_redirl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/13 17:15:39 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/14 14:30:36 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 void	detect_redirl_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
-	if (mini_sh->output[ite] == '<' && ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL && (mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
+	if (mini_sh->output[ite] == '<' && \
+	ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL && \
+	(mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
 	{
 		printf("left\n");
 		*glue = ite;
 		*is_did = SUCCESS;
 	}
-	else if (mini_sh->output[ite] == '<' && ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL && (mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
+	else if (mini_sh->output[ite] == '<' && \
+	ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL && \
+	(mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
 	{
 		printf("right\n");
 		*glue = ite + 1;
@@ -61,8 +65,6 @@ void	glue_redirl(t_mini_sh *mini_sh)
 		{
 			count_quote_arg(mini_sh->output, &ite);
 			detect_redirl_glue(mini_sh, &is_did, &glue, ite);
-			// else if (mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<')
-			// 	detect_redirl_glue(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
 				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
