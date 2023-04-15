@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quote_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 23:19:01 by gael              #+#    #+#             */
-/*   Updated: 2023/04/14 11:22:31 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/10 16:55:12 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ char	*write_without_qt_2(char *str)
 		if (str_wo_qt == NULL)
 			str_wo_qt = ft_strdup_len(str, i_start, i_end);
 		else
-			str_wo_qt = ft_strjoin_dfree(str_wo_qt, \
-			ft_strdup_len(str, i_start, i_end));
+			str_wo_qt = ft_strjoin_dfree(str_wo_qt, ft_strdup_len(str, i_start, i_end));
 		i_start = i_act;
 		while (str[i_act] && str[i_act] != last_qt)
 			i_act++;
@@ -46,8 +45,7 @@ char	*write_without_qt_2(char *str)
 		if (str_wo_qt == NULL)
 			str_wo_qt = ft_strdup_len(str, i_start, i_end);
 		else
-			str_wo_qt = ft_strjoin_dfree(str_wo_qt, \
-			ft_strdup_len(str, i_start, i_end));
+			str_wo_qt = ft_strjoin_dfree(str_wo_qt, ft_strdup_len(str, i_start, i_end));
 		if (str[i_act])
 			i_act++;
 	}

@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:34:48 by mael              #+#    #+#             */
-/*   Updated: 2023/04/13 14:34:59 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:15:29 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	check_pwd_option(char **argv)
 {
 	if (argv[1][0] == '-')
 	{
 		printf("minishell: pwd: no option allowed\n");
+		g_exit_stt = 1;
 		return (FAIL);
 	}
 	return (SUCCESS);
@@ -33,10 +36,14 @@ int	ft_pwd(char **argv)
 	{
 		str = getcwd(str, 10000);
 		if (str != NULL)
+		{
 			printf("%s\n", str);
+			g_exit_stt = 0;
+		}
 		else
 		{
 			printf("Error during path finding\n");
+			g_exit_stt = 1;
 			return (FAIL);
 		}
 		free(str);

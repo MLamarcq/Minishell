@@ -6,11 +6,13 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:57:05 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/03/14 14:32:42 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/15 18:39:21 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	ft_echo(char **str)
 {
@@ -38,5 +40,6 @@ int	ft_echo(char **str)
 	}
 	else
 		printf("%s: command not found\n", str[0]);
+	g_exit_stt = 0;
 	return (FAIL);
 }

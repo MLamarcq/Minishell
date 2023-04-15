@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/11 17:09:50 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/15 20:54:19 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	free_tab_fd(t_mini_sh *mini_sh)
 	{
 		while (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i_free_fd])
 		{
+			printf(BACK_GREEN"on free dans tab_fd"RST"\n");
 			free(mini_sh->exec->tab_fd[i_free_fd]);
 			mini_sh->exec->tab_fd = NULL;
 			i_free_fd++;
@@ -62,6 +63,7 @@ void	free_exec(t_mini_sh *mini_sh)
 	if (mini_sh->prepare_exec)
 		free_prep_exec(mini_sh);
 	free_tab_fd(mini_sh);
+	free_all_redir(mini_sh);
 	if (mini_sh->sep_type)
 	{
 		free(mini_sh->sep_type);

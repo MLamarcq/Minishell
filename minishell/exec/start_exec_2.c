@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/14 14:29:50 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/15 21:00:19 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int	g_exit_stt;
 
 int	init_sep_type(t_mini_sh *mini_sh)
 {
@@ -43,10 +45,12 @@ int	init_sep_type(t_mini_sh *mini_sh)
 
 void	print_cmd_not_found(t_mini_sh *mini_sh, int i_exec)
 {
+	//fprintf(stderr, "sep = %d\n", mini_sh->sep_type[i_exec - 1]);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(mini_sh->prepare_exec[i_exec][0], 2);
 	ft_putstr_fd(": command not found\n", 2);
-	free_all(mini_sh);
+	//free_tab_fd(mini_sh);
+	//free_all(mini_sh);
 	exit (127);
 }
 
@@ -54,6 +58,7 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 {
 	char	*cmd_abs_path;
 
+	//printf("fbfdbd\n");
 	cmd_abs_path = NULL;
 	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
 		execve(mini_sh->prepare_exec[i_exec][0], \
@@ -67,11 +72,27 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	}
 	else
 	{
-		if (mini_sh->sep_type[i_exec - 1] \
-		&& mini_sh->sep_type[i_exec - 1] != PIPE)
+		if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] != PIPE)
+		{
+			printf("oui ma gatee\n");
+			g_exit_stt = 0;
 			return ;
+		}
+		// else if (mini_sh->sep_type && mini_sh->sep_type[i_exec] != PIPE)
+		// {
+		// 	fprintf(stderr, "HAYOKEN\n");
+		// 	g_exit_stt = 0;
+		// 	return ;
+		// }
 		else
+		{
+			// printf("minishell:%s: command not found\n", 
+			// mini_sh->prepare_exec[i_exec][0]);
+			// ft_putstr_fd("command not found\n", 2);
+			// free_all(mini_sh);
+			// exit (127);
 			print_cmd_not_found(mini_sh, i_exec);
+		}
 	}
 }
 
@@ -82,7 +103,7 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 
 	tmp = mini_sh->rl_out_head;
 	i_init_fd = 0;
-	free_tab_fd(mini_sh);
+	//free_tab_fd(mini_sh);
 	mini_sh->exec->tab_fd = NULL;
 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->exec->tab_fd)
@@ -182,7 +203,6 @@ void	close_all(t_mini_sh *mini_sh)
 
 void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
-	exec_signal(2);
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
 	dup2(mini_sh->exec->fd_in, 0);
@@ -191,22 +211,27 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 	if (do_built_in(mini_sh, i_exec) == FAIL)
 		exec_cmd(mini_sh, i_exec);
 	free_all(mini_sh);
-	exit (1);
+	//exit (1);
 }
 
 void	increase_check(t_mini_sh *mini_sh, int i_exec)
 {
-	if (mini_sh->sep_type[i_exec] == REDIR_R)
-		mini_sh->exec->check_r++;
-	else if (mini_sh->sep_type[i_exec] == APPEND)
-		mini_sh->exec->check_app++;
-	else if (mini_sh->sep_type[i_exec] == HR_DOC)
-		mini_sh->exec->check_hr++;
+//	printf(RED"mini_sh->sep_type[%i] = %d"RST"\n", i_exec, mini_sh->sep_type[i_exec]);
+	if (i_exec < mini_sh->sep_2)
+	{
+		if (mini_sh->sep_type[i_exec] == REDIR_R)
+			mini_sh->exec->check_r++;
+		else if (mini_sh->sep_type[i_exec] == APPEND)
+			mini_sh->exec->check_app++;
+		else if (mini_sh->sep_type[i_exec] == HR_DOC)
+			mini_sh->exec->check_hr++;
+	}
 }
 
 int	start_exec(t_mini_sh *mini_sh)
 {
 	int i_exec;
+	int err;
 
 	i_exec = 0;
 	mini_sh->pids = (pid_t *)malloc((sizeof (pid_t)) * (mini_sh->sep_2 + 1));
@@ -216,7 +241,7 @@ int	start_exec(t_mini_sh *mini_sh)
 		exec_all_hr_doc(mini_sh);
 	while (mini_sh->prepare_exec[i_exec])
 	{
-		exec_signal(3);
+		printf(YELLOW"mini_sh->prepare_exex[%i[0] = %s"RST"\n", i_exec, mini_sh->prepare_exec[i_exec][0]);
 		if (exec_builtin(mini_sh, i_exec) == FAIL)
 		{
 			mini_sh->pids[i_exec] = fork();
@@ -225,8 +250,8 @@ int	start_exec(t_mini_sh *mini_sh)
 			if (mini_sh->pids[i_exec] == 0)
 				child_process(mini_sh, i_exec);
 		}
-		else
-			mini_sh->pids[i_exec] = FAIL;
+		// else
+		// 	mini_sh->pids[i_exec] = FAIL;
 		increase_check(mini_sh, i_exec);
 		i_exec++;
 	}
@@ -235,7 +260,15 @@ int	start_exec(t_mini_sh *mini_sh)
 	while (mini_sh->prepare_exec[i_exec])
 	{
 		if (mini_sh->pids[i_exec] != FAIL)
-			waitpid(mini_sh->pids[i_exec], NULL, 0);
+			waitpid(mini_sh->pids[i_exec], &g_exit_stt, 0);
+		if (WIFEXITED(g_exit_stt))
+		{
+			//err = WIFEXITED(g_exit_stt);
+			err = WEXITSTATUS(g_exit_stt);
+			g_exit_stt = err;
+			fprintf(stderr, "mini_sh->prepare_exec[%i][0] = %s\n", i_exec, mini_sh->prepare_exec[i_exec][0]);
+			printf("exit_status : %d\n", g_exit_stt);
+		}
 		i_exec++;
 	}
 	if (mini_sh->exec->nbr_fd_hr > 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/14 11:25:03 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/11 16:54:28 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,34 @@ int	check_first_sep_error_2(t_mini_sh *mini_sh)
 		return (FAIL);
 	if (check_first_is_sep_2(mini_sh) == FAIL)
 		return (FAIL);
+	return (SUCCESS);
+}
+
+int	count_sep_2(t_mini_sh *mini_sh)
+{
+	t_parse	*tmp;
+
+	tmp = mini_sh->rl_out_head;
+	if (check_first_sep_error_2(mini_sh) == FAIL)
+		return (FAIL);
+	tmp = tmp->next;
+	while (tmp && tmp->next != NULL)
+	{
+		if (is_sep(tmp->word) == SUCCESS && is_sep(tmp->next->word) == SUCCESS)
+			tmp = tmp->next;
+		if (is_sep(tmp->word) == SUCCESS)
+			mini_sh->sep_2++;
+		if (tmp)
+			tmp = tmp->next;
+	}
+	if (tmp && is_sep(tmp->word) == SUCCESS)
+	{
+		if (tmp->type == PIPE)
+			return (printf("minishell: syntax error near \
+			unexpected token '|'"), FAIL);
+		else
+			return (printf("minishell: syntax error near \
+			unexpected token 'newline'\n"), FAIL);
+	}
 	return (SUCCESS);
 }

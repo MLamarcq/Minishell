@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/14 14:30:23 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/13 15:19:01 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	glue_pipe(t_mini_sh *mini_sh)
 
 	is_did = FAIL;
 	glue = 0;
-	ite = -1;
-	while (mini_sh->output[++ite])
+	ite = 0;
+	while (mini_sh->output[ite])
 	{
 		while (ft_is_sep_parse(mini_sh->output[ite]) == SUCCESS)
 			ite++;
@@ -61,6 +61,8 @@ void	glue_pipe(t_mini_sh *mini_sh)
 		{
 			count_quote_arg(mini_sh->output, &ite);
 			detect_space_glue(mini_sh, &is_did, &glue, ite);
+			// else if (mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<')
+			// 	detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
 				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
@@ -68,6 +70,7 @@ void	glue_pipe(t_mini_sh *mini_sh)
 				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				ite = 0;
 			}
+			ite++;
 		}
 	}
 }

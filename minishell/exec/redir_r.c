@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/14 14:28:21 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/15 21:12:09 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 {
-	t_parse	*temp;
+	t_parse *temp;
 
 	temp = tmp;
 	if (temp->type == REDIR_R)
@@ -69,12 +69,14 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 
 	tmp = mini_sh->rl_out_head;
 	i = 0;
+	printf("nbr_redir_r = %d\n", mini_sh->exec->nbr_fd_r);
 	if (mini_sh->exec->nbr_fd_r == 0)
 		return (FAIL);
+	printf("nbr_redir_r = %d\n", mini_sh->exec->nbr_fd_r);
 	mini_sh->exec->fd_r = malloc(sizeof(int) * mini_sh->exec->nbr_fd_r + 1);
 	if (!mini_sh->exec->fd_r)
 		return (FAIL_MALLOC);
-	mini_sh->exec->fd_r[mini_sh->exec->nbr_fd_r] = 0;
+//	mini_sh->exec->fd_r[mini_sh->exec->nbr_fd_r] = 0;
 	while (i < mini_sh->exec->nbr_fd_r)
 	{
 		while (tmp)

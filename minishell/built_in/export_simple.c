@@ -6,11 +6,13 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:32:26 by mael              #+#    #+#             */
-/*   Updated: 2023/03/14 15:34:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/14 16:02:40 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	is_sorted(t_mini_sh *mini_sh)
 {
@@ -93,10 +95,12 @@ int	print_export(char **argv, t_mini_sh *mini_sh)
 				printf("declare -x %s\n", mini_sh->data->env_sorted[i]);
 				i++;
 			}
+			g_exit_stt = 0;
 			return (SUCCESS);
 		}
 		else
 			printf("Export failed\n");
+		g_exit_stt = 1;
 		return (FAIL);
 	}
 	else

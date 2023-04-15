@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:53:46 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/14 11:24:00 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/13 14:35:33 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ int	init_heredoc(t_mini_sh *mini_sh)
 	int	i;
 	int	j;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	while (mini_sh->sep_type[++i])
+	while (mini_sh->sep_type[i])
 	{
 		if (mini_sh->sep_type[i] == HR_DOC)
 			j++;
+		i++;
 	}
 	if (init_tab_hrdoc(mini_sh, j) == FAIL_MALLOC)
 		return (FAIL_MALLOC);
