@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/04/11 16:52:55 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/17 12:25:19 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_built_in_2(int i, t_mini_sh *mini_sh)
 int	do_built_in(t_mini_sh *mini_sh, int i)
 {
 	free_env_sorted(mini_sh);
-	free_data(mini_sh);
+	// free_data(mini_sh);
 	init_env(mini_sh);
 	init_env_sorted(mini_sh);
 	if (is_built_in_2(i, mini_sh) == FAIL)

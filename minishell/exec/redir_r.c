@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/15 21:12:09 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/17 13:53:58 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,36 @@ void	when_append_after(t_mini_sh *mini_sh, int i)
 	}
 }
 
+void	change_nbr_r(t_mini_sh *mini_sh)
+{
+	int check;
+	t_parse *tmp;
+	t_parse *temp;
+
+	check = 0;
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		if (tmp->type == REDIR_R)
+		{
+			temp = tmp->next;
+			while (temp)
+			{
+				if (is_sep(temp->word) == SUCCESS)
+				{
+					if (temp->type == REDIR_R)
+						check = 1;
+					if (check == 1)
+						mini_sh->exec->nbr_fd_r = mini_sh->exec->nbr_fd_r - 1;
+					break ;
+				}
+				temp = temp->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	init_redir_r_tab(t_mini_sh *mini_sh)
 {
 	int i;
@@ -72,11 +102,12 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	printf("nbr_redir_r = %d\n", mini_sh->exec->nbr_fd_r);
 	if (mini_sh->exec->nbr_fd_r == 0)
 		return (FAIL);
+	change_nbr_r(mini_sh);
 	printf("nbr_redir_r = %d\n", mini_sh->exec->nbr_fd_r);
 	mini_sh->exec->fd_r = malloc(sizeof(int) * mini_sh->exec->nbr_fd_r + 1);
 	if (!mini_sh->exec->fd_r)
 		return (FAIL_MALLOC);
-//	mini_sh->exec->fd_r[mini_sh->exec->nbr_fd_r] = 0;
+	// mini_sh->exec->fd_r[mini_sh->exec->nbr_fd_r] = 0;
 	while (i < mini_sh->exec->nbr_fd_r)
 	{
 		while (tmp)
@@ -89,6 +120,7 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 				if (mini_sh->exec->fd_r[i] == -1)
 					return (FAIL);
 				tmp = tmp->next;
+				//when_append_after(mini_sh, i);
 				if (mini_sh->exec->ana_r == 0)
 					break ;
 			}
@@ -108,6 +140,7 @@ void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
 	}
 	// if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_R)
 	// 	mini_sh->exec->fd_in = 0;
+	printf(BACK_PURPLE"mini_sh->exec->fd_r[mini_sh->exec->check_r]: %i"RST"\n", mini_sh->exec->fd_r[mini_sh->exec->check_r]);
 	mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
 }
 

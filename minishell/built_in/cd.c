@@ -6,13 +6,11 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:58:39 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/14 15:44:01 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/12 17:03:25 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
-
-extern int g_exit_stt;
 
 void	replace_pwd(t_mini_sh *mini_sh, int *is_exist, char *oldpwd)
 {
@@ -68,10 +66,7 @@ void	export_home(char *home, t_mini_sh *mini_sh)
 	if (chdir(home) == 0)
 		replace_pwd(mini_sh, &is_exist, oldpwd);
 	else
-	{
-		g_exit_stt = 1;
 		printf("bash: cd: %s: No such file or directory\n", home);
-	}
 	if (is_exist == 0)
 		export_specific(oldpwd, mini_sh);
 }
@@ -82,10 +77,7 @@ int	do_cd(int *i, char *home, char **str, t_mini_sh *mini_sh)
 	{
 		home = ft_find_var_env(mini_sh->env, "HOME");
 		if (home == NULL)
-		{
-			g_exit_stt = 1;
-			return (printf("minishell: HOME not set\n"), FAIL);
-		}
+			return (printf("minishell: HOME not set"), FAIL);
 		else
 			export_home(home, mini_sh);
 		return (FAIL);
@@ -93,13 +85,11 @@ int	do_cd(int *i, char *home, char **str, t_mini_sh *mini_sh)
 	if ((*i) > 2)
 	{
 		printf("minishell: cd: too many arguments\n");
-		g_exit_stt = 1;
 		return (FAIL);
 	}
 	if (export_cd(str, mini_sh) == FAIL)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", str[1]);
-		g_exit_stt = 1;
 		return (FAIL);
 	}
 	return (SUCCESS);
@@ -115,12 +105,11 @@ int	ft_cd(char **str, t_mini_sh *mini_sh)
 	if (ft_strncmp(str[0], "cd", 2) == 0)
 	{
 		while (str[i])
-			i++;	
+			i++;
 		if (do_cd(&i, home, str, mini_sh) == FAIL)
 			return (FAIL);
 	}
 	else
 		return (FAIL);
-	g_exit_stt = 0;
 	return (SUCCESS);
 }

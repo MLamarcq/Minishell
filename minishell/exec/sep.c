@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/11 16:54:28 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/17 13:00:46 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,10 @@ int	check_first_is_sep(t_mini_sh *mini_sh)
 			printf("minishell: syntax error near unexpected token '|'\n");
 			return (FAIL);
 		}
-		else if (tmp->type != REDIR_L)
+		else if (tmp->type != REDIR_L && !tmp->next)
 		{
-			if (!tmp->next)
-			{
-				printf("minishell: syntax error near \
-				unexpected token 'newline'");
-				return (FAIL);
-			}
+			printf("minishell: syntax error near unexpected token 'newline'");
+			return (FAIL);
 		}
 	}
 	return (SUCCESS);
@@ -97,6 +93,17 @@ int	check_first_sep_error_2(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
+void	is_redir_alone(t_mini_sh *mini_sh)
+{
+	t_parse *tmp;
+	
+	tmp = mini_sh->rl_out_head;
+	if (is_sep_int(tmp->type) == SUCCESS)
+		mini_sh->redir_alone = SUCCESS;
+	else
+		mini_sh->redir_alone = FAIL;
+}
+
 int	count_sep_2(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
@@ -104,6 +111,7 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	if (check_first_sep_error_2(mini_sh) == FAIL)
 		return (FAIL);
+	is_redir_alone(mini_sh);
 	tmp = tmp->next;
 	while (tmp && tmp->next != NULL)
 	{

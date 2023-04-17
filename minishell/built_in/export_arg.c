@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:44:47 by mael              #+#    #+#             */
-/*   Updated: 2023/04/14 16:06:15 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/03 12:24:16 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
-
-extern int g_exit_stt;
 
 int	init_env_sorted(t_mini_sh *mini_sh)
 {
@@ -97,9 +95,6 @@ int	export_arg(char **argv, t_mini_sh *mini_sh)
 		if (realloc_tab(&i, mini_sh) < 0)
 			return (FAIL);
 		export(argv, mini_sh);
-		g_exit_stt = 0;
-		return (SUCCESS);
 	}
-	g_exit_stt = 1;
 	return (FAIL);
 }

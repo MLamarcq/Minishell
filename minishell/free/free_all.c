@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:16 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/15 21:14:37 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/17 13:49:10 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void	free_each_prpt(t_mini_sh *mini_sh)
 	if (mini_sh->output && mini_sh->output[0] != 0)
 		free_parsing(mini_sh);
 	free_exec(mini_sh);
-	//free_all_redir(mini_sh);
-	printf(BACK_RED"on entre dans le free"RST"\n");
+	free_data(mini_sh);
 }
 
 void	free_all_redir(t_mini_sh *mini_sh)
 {
-	if (mini_sh->sep_2)
+	int	i;
+
+	i = -1;
+	if (mini_sh->sep_2 && mini_sh->exec)
 	{
 		if (mini_sh->exec->nbr_fd_app && mini_sh->exec->nbr_fd_app > 0)
 			free_append(mini_sh);
@@ -31,6 +33,16 @@ void	free_all_redir(t_mini_sh *mini_sh)
 			free_redir_l(mini_sh);
 		if (mini_sh->exec->nbr_fd_hr && mini_sh->exec->nbr_fd_hr > 0)
 			free_hr_doc(mini_sh);
+		if (mini_sh->exec->hr_name)
+		{
+			while (++i < mini_sh->exec->nbr_fd_hr)
+			{
+				free(mini_sh->exec->hr_name[i]);
+				mini_sh->exec->hr_name[i] = NULL;
+			}
+			free(mini_sh->exec->hr_name);
+			mini_sh->exec->hr_name = NULL;
+		}
 		if (mini_sh->exec->nbr_fd_r && mini_sh->exec->nbr_fd_r > 0)
 			free_redir_r(mini_sh);
 	}

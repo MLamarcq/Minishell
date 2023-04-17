@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_error_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:50:30 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/15 18:44:30 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/11 17:00:23 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,8 @@ int	check_redir_follow(t_mini_sh *mini_sh)
 	{
 		if (is_sep_int(tmp->type) == SUCCESS)
 		{
-			printf("salut\n");
 			if (tmp->next && is_sep_int(tmp->next->type) == SUCCESS)
-			{
-				printf("???\n");
-				return (print_error_2(4, tmp), FAIL);
-			}
+				return (print_error(4, tmp), FAIL);
 		}
 		tmp = tmp->next;
 	}

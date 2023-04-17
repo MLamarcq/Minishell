@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/13 14:35:07 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:31:58 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	env_content = ft_find_var_env(mini_sh->env, argv[1]);
 	while (mini_sh->env[i])
 	{
+		printf("%p: %s\n", mini_sh->env[i], mini_sh->env[i]);
 		if (ft_strncmp(mini_sh->env[i], argv[1], ft_strlen(argv[1]) - 1) == 0)
 		{
 			len = ft_strlen(argv[1]) + 1;
-			dest = malloc(sizeof(char) * ft_strlen(env_content));
+			dest = malloc(sizeof(char) * ft_strlen(env_content) + 1);
 			if (!dest)
 				return ;
-			while (mini_sh->env[i][len] == env_content[mini_sh->data->ite_genv])
+			while (mini_sh->env[i][len] && env_content[mini_sh->data->ite_genv] && mini_sh->env[i][len] == env_content[mini_sh->data->ite_genv])
 			{
 				mini_sh->data->ite_genv++;
 				dest[j] = mini_sh->env[i][len];
@@ -44,11 +45,17 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 			{
 				ft_bzero(mini_sh->env[i], ft_strlen(mini_sh->env[i]));
 				free(dest);
+				if (env_content)
+					free(env_content);
+				env_content = NULL;
 				break ;
 			}
 		}
 		i++;
 	}
+	if (env_content)
+		free(env_content);
+	env_content = NULL;
 }
 
 int	check_unset_error(char **argv)

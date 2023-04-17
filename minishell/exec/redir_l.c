@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_l.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/15 19:37:22 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/17 11:23:35 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	init_redir_l_tab(t_mini_sh *mini_sh)
 	mini_sh->exec->fd_l = malloc(sizeof(int) * mini_sh->exec->nbr_fd_l + 1);
 	if (!mini_sh->exec->fd_l)
 		return (FAIL_MALLOC);
-	//mini_sh->exec->fd_l[mini_sh->exec->nbr_fd_l] = 0;
+//	mini_sh->exec->fd_l[mini_sh->exec->nbr_fd_l] = 0;
 	while (i < mini_sh->exec->nbr_fd_l)
 	{
 		while (tmp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/12 17:38:19 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/17 12:35:36 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	init_fd_app(t_mini_sh *mini_sh, t_parse **tmp, int *i)
 {
 	*tmp = mini_sh->rl_out_head;
 	*i = 0;
-	mini_sh->exec->fd_app = malloc(sizeof(int) * mini_sh->exec->nbr_fd_app + 1);
+	mini_sh->exec->fd_app = malloc(sizeof(int) * mini_sh->exec->nbr_fd_app);
 	if (!mini_sh->exec->fd_app)
 		return (FAIL_MALLOC);
 	return (SUCCESS);
@@ -81,7 +81,7 @@ int	init_append_tab(t_mini_sh *mini_sh)
 	t_parse	*tmp;
 
 	init_fd_app(mini_sh, &tmp, &i);
-	mini_sh->exec->fd_app[mini_sh->exec->nbr_fd_app] = 0;
+	//mini_sh->exec->fd_app[mini_sh->exec->nbr_fd_app] = 0;
 	while (i < mini_sh->exec->nbr_fd_app)
 	{
 		while (tmp)
@@ -95,7 +95,6 @@ int	init_append_tab(t_mini_sh *mini_sh)
 					return (FAIL);
 				tmp = tmp->next;
 				when_redir_r_after(mini_sh, i);
-				when_append_after(mini_sh, i);
 				if (mini_sh->exec->ana_app == 0)
 					break ;
 			}

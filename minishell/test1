@@ -1,113 +1,29 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/15 19:26:48 by mael             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "ft_minishell.h"
-
-int	g_exit_stt;
-
-void	init_env_2(char **envp, t_mini_sh *mini_sh)
-{
-	int	env_length;
-
-	env_length = 0;
-	exec_signal(1);
-	while (envp[env_length])
-		env_length++;
-	mini_sh->env = (char **)malloc((sizeof (char *)) * (env_length + 1));
-	env_length = -1;
-	while (envp[++env_length])
-		mini_sh->env[env_length] = ft_strdup(envp[env_length]);
-	mini_sh->env[env_length] = 0;
-}
-
-void	abc(t_mini_sh *mini_sh)
-{
-	mini_sh->output = readline("minishell>");
-	mini_sh->sep = 0;
-	mini_sh->sep_2 = 0;
-	mini_sh->sep_type = NULL;
-	mini_sh->prepare_exec = NULL;
-	mini_sh->data = NULL;
-	mini_sh->exec = NULL;
-	mini_sh->pids = NULL;
-	mini_sh->rl_out = NULL;
-}
-
-int	main(int argc, char *argv[], char **envp)
-{
-	t_mini_sh	mini_sh;
-
-	if (argc != 1)
-		return (printf("minishell won't take any arguments"), 2);
-	g_exit_stt = 0;
-	mini_sh.output = NULL;
-	init_env_2(envp, &mini_sh);
-	while (1)
-	{
-		abc(&mini_sh);
-		if (!mini_sh.output)
-		{
-			printf("exit\n");
-			free_all(&mini_sh);
-			exit (0);
-		}
-		if (mini_sh.output[0])
-			add_history(mini_sh.output);
-		exec_signal(1);
-		if (ft_parsing(&mini_sh) == SUCCESS)
-		{
-			init_sep_type(&mini_sh);
-			init_exec(&mini_sh);
-			init_tab_fd(&mini_sh);
-			start_exec(&mini_sh);
-			printf(GREEN"exit_status : %d"RST"\n", g_exit_stt);
-		}	
-		free_each_prpt(&mini_sh);
-	}
-	free_all(&mini_sh);
-	(void)argv;
-	return (0);
-}
-
-// ls -la > test12 | > test11 | > test10 | ls > test13
-oui ma gatee
-[0;42;30mon free dans tab_fd[0m
-[0;41;30mon entre dans le free[0m
-total 720
-drwxrwxr-x 8 mael mael   4096 avril 15 20:54 .
-drwxrwxr-x 5 mael mael   4096 avril 12 17:31 ..
-drwxrwxr-x 2 mael mael   4096 avril 15 20:54 built_in
--rw-rw-r-- 1 mael mael   2423 avril 12 17:31 color.h
-drwxrwxr-x 2 mael mael   4096 avril 15 20:54 exec
-drwxrwxr-x 2 mael mael   4096 avril 15 20:54 free
--rw-rw-r-- 1 mael mael  12365 avril 15 18:38 ft_minishell.h
--rw-rw-r-- 1 mael mael    100 avril 12 17:31 leak.txt
-drwxrwxr-x 2 mael mael   4096 avril 15 20:54 lib
--rw-rw-r-- 1 mael mael   2310 avril 15 19:26 main.c
--rw-rw-r-- 1 mael mael 209224 avril 15 20:54 main.o
--rw-rw-r-- 1 mael mael   2583 avril 12 17:31 Makefile
--rwxrwxr-x 1 mael mael 419744 avril 15 20:54 minishell
-drwxrwxr-x 2 mael mael   4096 avril 15 20:54 parsing
--rw-r--r-- 1 mael mael      0 avril 15 18:50 reg
-drwxrwxr-x 2 mael mael   4096 avril 15 20:54 signal
--rw-r--r-- 1 mael mael    160 avril 15 20:45 tes1
--rw-r--r-- 1 mael mael      0 avril 15 20:55 test
--rw-r--r-- 1 mael mael   2393 avril 15 20:57 test1
--rw-r--r-- 1 mael mael     87 avril 15 20:51 Test1
--rw-r--r-- 1 mael mael    155 avril 15 20:05 test2
--rw-r--r-- 1 mael mael      0 avril 12 17:41 test3
--rw-r--r-- 1 mael mael    290 avril 12 17:52 test4.
--rw-r--r-- 1 mael mael      0 avril 15 15:40 test5
--rw-rw-r-- 1 mael mael    112 avril 12 17:31 w2
--rw-rw-r-- 1 mael mael    884 avril 12 17:31 z2
--rw-rw-r-- 1 mael mael    112 avril 12 17:31 z3
--rw-rw-r-- 1 mael mael    575 avril 12 17:31 z4
+aa
+built_in
+color.h
+exec
+free
+ft_minishell.h
+leak.txt
+lib
+main.c
+main.o
+Makefile
+minishell
+parsing
+signal
+t1
+t2
+t22
+test
+test1
+test222
+test>test1
+y1
+z0
+Z11
+z2
+z3
+z4
+z5
+ztest

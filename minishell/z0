@@ -1,3 +1,4 @@
+aa
 built_in
 color.h
 exec
@@ -10,16 +11,6 @@ main.o
 Makefile
 minishell
 parsing
-reg
 signal
-tes1
-test
-test1
-test2
-test3
-test4.
-test5
-w2
-z2
-z3
-z4
+z0
+ztest

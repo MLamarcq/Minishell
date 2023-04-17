@@ -12,10 +12,6 @@ Makefile
 minishell
 parsing
 signal
-z0
-z2
-z3
-ztest
 aa
 built_in
 color.h
@@ -30,10 +26,6 @@ Makefile
 minishell
 parsing
 signal
-z0
-z2
-z3
-ztest
 aa
 built_in
 color.h
@@ -48,10 +40,6 @@ Makefile
 minishell
 parsing
 signal
-z0
-z2
-z3
-ztest
 aa
 built_in
 color.h
@@ -66,7 +54,3 @@ Makefile
 minishell
 parsing
 signal
-z0
-z2
-z3
-ztest

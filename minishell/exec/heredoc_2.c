@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/15 19:37:39 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/17 13:41:57 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 	mini_sh->exec->fd_hr = malloc(sizeof(int) * mini_sh->exec->nbr_fd_hr + 1);
 	if (!mini_sh->exec->fd_hr)
 		return (FAIL_MALLOC);
-//	mini_sh->exec->fd_hr[mini_sh->exec->nbr_fd_hr] = 0;
-	mini_sh->exec->hr_name = malloc(sizeof(char * ) * (mini_sh->exec->nbr_fd_hr + 1));
+	// mini_sh->exec->fd_hr[mini_sh->exec->nbr_fd_hr] = 0;
+	mini_sh->exec->hr_name = malloc(sizeof(char *) * (mini_sh->exec->nbr_fd_hr + 1));
 	if (!mini_sh->exec->hr_name)
 		return (FAIL_MALLOC);
 	mini_sh->exec->hr_name[mini_sh->exec->nbr_fd_hr] = 0;
@@ -56,9 +56,13 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 	{
 		input = readline("&>");
 		if (ft_strncmp(input, tmp->next->word, ft_strlen(tmp->next->word)) == 0)
+		{
+			free(input);
 			break ;
+		}
 		ft_putstr_fd(input, mini_sh->exec->fd_hr[i]);
 		write(mini_sh->exec->fd_hr[i], "\n", 1);
+		free(input);
 	}
 }
 

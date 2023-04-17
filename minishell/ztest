@@ -12,6 +12,4 @@ Makefile
 minishell
 parsing
 signal
-z0
-z2
 ztest
