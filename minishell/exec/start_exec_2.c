@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/20 16:19:53 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/20 18:43:12 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,8 +377,11 @@ int	start_exec(t_mini_sh *mini_sh)
 	mini_sh->rl_check_redir = mini_sh->rl_out_head;
 	if (mini_sh->exec->nbr_fd_hr > 0)
 		exec_all_hr_doc(mini_sh);
+	printf(RED"g = %d"RST"\n", g_exit_stt);
 	while (mini_sh->prepare_exec[i_exec])
 	{
+		if (g_exit_stt == 130)
+			return (FAIL);
 		if (exec_builtin(mini_sh, i_exec) == FAIL)
 		{
 			mini_sh->pids[i_exec] = fork();

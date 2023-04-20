@@ -6,11 +6,13 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/19 16:16:49 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/20 18:46:23 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 {
@@ -114,6 +116,7 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 {
 	char *input;
 
+	exec_signal(2);
 	while (1)
 	{
 		input = readline("&>");
@@ -133,20 +136,39 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 {
 	int i;
 	t_parse *tmp;
-
+	pid_t child;
+	
 	i = 0;
 	tmp = mini_sh->rl_out_head;
-	while (tmp)
+	child = fork();
+	if (child == -1)
+		return (FAIL);
+	if (child == 0)
 	{
-		if (tmp->type == HR_DOC)
+		while (tmp)
 		{
-			if (i < mini_sh->exec->nbr_fd_hr)
+			if (tmp->type == HR_DOC)
 			{
-				do_heredoc(mini_sh, i, tmp);
-				i++;
+				if (i < mini_sh->exec->nbr_fd_hr)
+				{
+					do_heredoc(mini_sh, i, tmp);
+					i++;
+				}
 			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		exit (0);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		//g_exit_stt = 130;
+		waitpid(child, &g_exit_stt, 0);
+		if (WIFEXITED(g_exit_stt))
+		{
+			g_exit_stt = WEXITSTATUS(g_exit_stt);
+		}
+		exec_signal(1);
 	}
 	return (SUCCESS);
 }

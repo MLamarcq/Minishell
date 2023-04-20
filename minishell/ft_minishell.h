@@ -6,7 +6,7 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/19 17:38:22 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/20 18:32:20 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,5 +378,6 @@ int		export_specific(char *to_export, t_mini_sh *mini_sh);
 //built_in/pwd.c
 int		check_pwd_option(char **argv);
 int		ft_pwd(char **argv);
+void	handle_sigint_2(int sig);
 
 #endif
