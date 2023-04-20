@@ -6,18 +6,20 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:58:39 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/12 17:03:25 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/20 16:04:58 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 void	replace_pwd(t_mini_sh *mini_sh, int *is_exist, char *oldpwd)
 {
 	int		i;
 	char	*new_pwd;
 
-	new_pwd = getcwd(NULL, 10000);
+	new_pwd = getcwd(NULL, 0);
 	i = 0;
 	while (mini_sh->env[i])
 	{
@@ -42,9 +44,9 @@ int	export_cd(char **str, t_mini_sh *mini_sh)
 	char	*oldpwd;
 	int		is_exist;
 
-	dest = getcwd(NULL, 10000);
+	dest = getcwd(NULL, 0);
 	is_exist = 0;
-	oldpwd = ft_strjoin("OLDPWD=", dest);
+	oldpwd = ft_strjoin_rfree("OLDPWD=", dest);
 	if (chdir(str[1]) == 0)
 		replace_pwd(mini_sh, &is_exist, oldpwd);
 	else
@@ -60,13 +62,18 @@ void	export_home(char *home, t_mini_sh *mini_sh)
 	char	*oldpwd;
 	int		is_exist;
 
-	dest = getcwd(NULL, 10000);
+	dest = getcwd(NULL, 0);
 	is_exist = 0;
-	oldpwd = ft_strjoin("OLDPWD=", dest);
+	oldpwd = ft_strjoin_rfree("OLDPWD=", dest);
 	if (chdir(home) == 0)
 		replace_pwd(mini_sh, &is_exist, oldpwd);
 	else
 		printf("bash: cd: %s: No such file or directory\n", home);
+	if (home)
+	{
+		free(home);
+		home = NULL;
+	}
 	if (is_exist == 0)
 		export_specific(oldpwd, mini_sh);
 }
@@ -80,7 +87,7 @@ int	do_cd(int *i, char *home, char **str, t_mini_sh *mini_sh)
 			return (printf("minishell: HOME not set"), FAIL);
 		else
 			export_home(home, mini_sh);
-		return (FAIL);
+		return (SUCCESS);
 	}
 	if ((*i) > 2)
 	{
@@ -107,7 +114,12 @@ int	ft_cd(char **str, t_mini_sh *mini_sh)
 		while (str[i])
 			i++;
 		if (do_cd(&i, home, str, mini_sh) == FAIL)
+		{
+			printf("salut\n");
+			g_exit_stt = 1;
 			return (FAIL);
+		}
+		g_exit_stt = 0;
 	}
 	else
 		return (FAIL);

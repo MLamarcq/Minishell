@@ -3,14 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/17 13:41:57 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:16:49 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
+{
+	t_parse *temp;
+
+	temp = tmp;
+	if (temp->type == HR_DOC)
+	{
+		temp = temp->next;
+		while (temp)
+		{
+			if (temp->type == HR_DOC)
+			{
+				printf(RED"ici"RST"\n");
+				mini_sh->exec->ana_hr = 1;
+				break ;
+			}
+			else if (temp->type == PIPE)
+			//else
+			{
+				printf(RED"la"RST"\n");
+				mini_sh->exec->ana_hr = 0;
+				break;
+			}
+			temp = temp->next;
+		}
+	}
+}
+
+void	change_hr_doc(t_mini_sh *mini_sh)
+{
+	int check;
+	t_parse *tmp;
+	t_parse *temp;
+
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		check = 0;
+		if (tmp->type == HR_DOC)
+		{
+			temp = tmp->next;
+			while (temp)
+			{
+				if (is_sep(temp->word) == SUCCESS)
+				{
+					if (temp->type == HR_DOC)
+						check = 1;
+					if (check == 1)
+						mini_sh->exec->nbr_fd_hr = mini_sh->exec->nbr_fd_hr - 1;
+					break ;
+				}
+				temp = temp->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 
 int	init_hr_dc_tab(t_mini_sh *mini_sh)
 {
@@ -22,6 +81,8 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 	mini_sh->exec->fd_hr = malloc(sizeof(int) * mini_sh->exec->nbr_fd_hr + 1);
 	if (!mini_sh->exec->fd_hr)
 		return (FAIL_MALLOC);
+	//change_hr_doc(mini_sh);
+	printf(BOLD_GREEN"nbr_hr_doc = %d"RST"\n", mini_sh->exec->nbr_fd_hr);
 	// mini_sh->exec->fd_hr[mini_sh->exec->nbr_fd_hr] = 0;
 	mini_sh->exec->hr_name = malloc(sizeof(char *) * (mini_sh->exec->nbr_fd_hr + 1));
 	if (!mini_sh->exec->hr_name)
@@ -33,6 +94,7 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 		{
 			if (tmp->type == HR_DOC)
 			{
+				analyse_hrdoc_before_alloc(mini_sh, tmp);
 				mini_sh->exec->hr_name[i] = ft_strjoin_rfree(".heredoc", ft_itoa(i));
 				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT , 0644);
 				printf(GREEN"fd_hr[%i] == %d\t%s"RST"\n", i, mini_sh->exec->fd_hr[i], tmp->next->word);
@@ -97,6 +159,8 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 	if (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1])
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
+	if (mini_sh->sep_type[i_exec + 1] == REDIR_L)
+		mini_sh->exec->fd_out = 1;
 	if (mini_sh->sep_type[i_exec + 1])
 	{
 		if (mini_sh->sep_type[i_exec + 1] == PIPE)
@@ -106,6 +170,10 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 		else if (mini_sh->sep_type[i_exec + 1] == APPEND)
 			mini_sh->exec->fd_out = \
 			mini_sh->exec->fd_app[mini_sh->exec->check_app];
+	}
+	else
+	{
+		close(mini_sh->exec->tab_fd[i_exec][1]);
 	}
 }
 

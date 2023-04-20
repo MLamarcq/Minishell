@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/04/11 16:59:12 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/20 16:27:28 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	type_utils_3(t_mini_sh *mini_sh)
 
 int	type_utils_4(t_mini_sh *mini_sh)
 {
+	printf("--------%s\n", mini_sh->rl_out->word);
 	if (ft_strncmp("|", mini_sh->rl_out->word, 0) == 0
 		&& mini_sh->rl_out->type == FAIL)
 	{

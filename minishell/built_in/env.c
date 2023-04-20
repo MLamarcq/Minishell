@@ -6,11 +6,13 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:43:53 by mael              #+#    #+#             */
-/*   Updated: 2023/04/12 17:21:13 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/20 15:15:19 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	check_env(char **argv)
 {
@@ -37,7 +39,10 @@ int	env(char **argv, t_mini_sh *mini_sh)
 	int	j;
 
 	if (check_env(argv) == FAIL)
+	{
+		g_exit_stt = 1;
 		return (FAIL);
+	}
 	if (ft_strncmp(argv[0], "env", ft_strlen(argv[0])) == 0)
 	{
 		j = 0;
@@ -46,6 +51,7 @@ int	env(char **argv, t_mini_sh *mini_sh)
 			printf("%s\n", mini_sh->env[j]);
 			j++;
 		}
+		g_exit_stt = 0;
 		return (SUCCESS);
 	}
 	else

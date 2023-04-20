@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/17 11:28:11 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:11:36 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_tab_fd(t_mini_sh *mini_sh)
 		while (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i_free_fd])
 		{
 			free(mini_sh->exec->tab_fd[i_free_fd]);
-			mini_sh->exec->tab_fd = NULL;
+			mini_sh->exec->tab_fd[i_free_fd] = NULL;
 			i_free_fd++;
 		}
 		free(mini_sh->exec->tab_fd);

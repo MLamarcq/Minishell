@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/17 13:55:14 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:19:53 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	init_sep_type(t_mini_sh *mini_sh)
 {
@@ -76,7 +78,10 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 	else
 	{
 		if ( i_exec > 0 && mini_sh->sep_type && mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] != PIPE)
-			return ;
+		{
+			g_exit_stt = 0;
+			exit (0);
+		}
 		else
 		{
 			// printf("minishell:%s: command not found\n", 
@@ -186,8 +191,20 @@ int	init_fd_exec(t_mini_sh *mini_sh, int i_exec)
 {
 	if (i_exec == 0)
 		mini_sh->exec->fd_in = 0;
-	else
+	else if (i_exec > 0 && mini_sh->len_prepare_exec - 1 != i_exec)
 		mini_sh->exec->fd_in = mini_sh->exec->tab_fd[i_exec - 1][0];
+	else
+	{
+		if (mini_sh->sep_type[i_exec - 1] != REDIR_L && mini_sh->sep_type[i_exec - 1] != HR_DOC)
+			mini_sh->exec->fd_in = mini_sh->exec->tab_fd[i_exec - 1][0];
+		else
+		{
+			if (mini_sh->sep_type[i_exec - 1] == REDIR_L)
+				mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
+			else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
+				mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
+		}
+	}
 	if (i_exec + 1 == mini_sh->len_prepare_exec)
 		mini_sh->exec->fd_out = 1;
 	else
@@ -216,6 +233,8 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
+	printf("in = %d\n", mini_sh->exec->fd_in);
+	printf("out = %d\n", mini_sh->exec->fd_out);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);
@@ -225,22 +244,21 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 	exit (1);
 }
 
-int	count_redir_in_line(t_mini_sh *mini_sh)
+int	count_redir_in_line(t_mini_sh *mini_sh, int type)
 {
-	t_parse *tmp;
 	t_parse *temp;
 	
-	tmp = mini_sh->rl_out_head;
-	while (tmp)
+	while (mini_sh->rl_check_redir)
 	{
-		if (tmp->type == REDIR_R)
+		if (mini_sh->rl_check_redir->type == type)
 		{
-			temp = tmp->next;
+			temp = mini_sh->rl_check_redir->next;
 			while (temp)
 			{
 				if (is_sep(temp->word) == SUCCESS)
 				{
-					if (temp->type == REDIR_R)
+					printf("->%s\n", mini_sh->rl_check_redir->word);
+					if (temp->type == type)
 						return(SUCCESS);
 					else
 						return (FAIL);
@@ -248,48 +266,115 @@ int	count_redir_in_line(t_mini_sh *mini_sh)
 				temp = temp->next;
 			}
 		}
-		tmp = tmp->next;
+		mini_sh->rl_check_redir = mini_sh->rl_check_redir->next;
 	}
 	return (SUCCESS);
 }
 
-void	increase_check(t_mini_sh *mini_sh, int i_exec)
+void	increase_check(t_mini_sh *mini_sh, int i_exec, int type)
 {
 	// if (mini_sh->sep_type[i_exec] == REDIR_R)
 	// 	mini_sh->exec->check_r++;
 	// else if (mini_sh->sep_type[i_exec] == APPEND)
 	// 	mini_sh->exec->check_app++;
 	// else if (mini_sh->sep_type[i_exec] == HR_DOC)
-	// 	mini_sh->exec->check_hr++;
+	// 	mini_sh->exec->check_hr+f (mini_sh->sep_type)
 	if (i_exec < mini_sh->sep_2 && i_exec < mini_sh->len_prepare_exec - 2)
 	{
-		if (mini_sh->sep_type[i_exec] == REDIR_R)
+		if (type == REDIR_R)
 		{
-			printf(PURPLE"i_exec = %d"RST"\n", i_exec);
+			//printf(PURPLE"i_exec = %d"RST"\n", i_exec);
 			if (mini_sh->exec->check_r < mini_sh->exec->nbr_fd_r)
 			{
-				printf(BACK_BLUE"-> ici, check"RST"\n");
-				if (count_redir_in_line(mini_sh) == FAIL)
+				//printf(BACK_BLUE"-> ici, check"RST"\n");
+				printf(BOLD_RED"check_r = %d"RST"\n", mini_sh->exec->check_r);
+				if (count_redir_in_line(mini_sh, type) == FAIL)
 					mini_sh->exec->check_r++;
-				else
-					mini_sh->exec->check_r = mini_sh->exec->check_r;
+				printf(BOLD_RED"after check_r = %d"RST"\n", mini_sh->exec->check_r);
+				// else
+				// 	mini_sh->exec->check_r = mini_sh->exec->check_r;
 			}
 		}
-		else if (mini_sh->sep_type[i_exec] == APPEND)
-			mini_sh->exec->check_app++;
-		else if (mini_sh->sep_type[i_exec] == HR_DOC)
-			mini_sh->exec->check_hr++;
+		else if (type == APPEND)
+		{
+			if (mini_sh->exec->check_app < mini_sh->exec->nbr_fd_app)
+			{
+				if (count_redir_in_line(mini_sh, type) == FAIL)
+					mini_sh->exec->check_app++;
+				// else
+				// 	mini_sh->exec->check_app = mini_sh->exec->check_app;
+			}
+		}
+		else if (type == HR_DOC)
+		{
+			if (mini_sh->exec->check_hr < mini_sh->exec->nbr_fd_hr)
+			{
+				if (count_redir_in_line(mini_sh, type) == FAIL)
+					mini_sh->exec->check_hr++;
+			}
+		}
+		// cat<main.c>t1|cat<Makefile>t2|cat<<eof>t3>t4
+		else if (type == REDIR_L)
+		{
+			if (mini_sh->exec->check_l < mini_sh->exec->nbr_fd_l)
+			{
+				if (count_redir_in_line(mini_sh, type) == FAIL)
+					mini_sh->exec->check_l++;
+			//mini_sh->exec->clk_l++;
+			}
+		}
 	}
 }
+
+
+
+// void	increase_check(t_mini_sh *mini_sh, int i_exec)
+// {
+// 	// if (mini_sh->sep_type[i_exec] == REDIR_R)
+// 	// 	mini_sh->exec->check_r++;
+// 	// else if (mini_sh->sep_type[i_exec] == APPEND)
+// 	// 	mini_sh->exec->check_app++;
+// 	// else if (mini_sh->sep_type[i_exec] == HR_DOC)
+// 	// 	mini_sh->exec->check_hr++;
+// 	if (i_exec < mini_sh->sep_2 && i_exec < mini_sh->len_prepare_exec - 2)
+// 	{
+// 		if (mini_sh->sep_type[i_exec] == REDIR_R)
+// 		{
+// 			printf(PURPLE"i_exec = %d"RST"\n", i_exec);
+// 			if (mini_sh->exec->check_r < mini_sh->exec->nbr_fd_r)
+// 			{
+// 				printf(BACK_BLUE"-> ici, check"RST"\n");
+// 				if (count_redir_in_line(mini_sh) == FAIL)
+// 					mini_sh->exec->check_r++;
+// 				else
+// 					mini_sh->exec->check_r = mini_sh->exec->check_r;
+// 			}
+// 		}
+// 		else if (mini_sh->sep_type[i_exec] == APPEND)
+// 		{
+// 			if (mini_sh->exec->check_app < mini_sh->exec->nbr_fd_app)
+// 			{
+// 				if (count_redir_in_line(mini_sh) == FAIL)
+// 					mini_sh->exec->check_app++;
+// 				else
+// 					mini_sh->exec->check_app = mini_sh->exec->check_app;
+// 			}
+// 		}
+// 		else if (mini_sh->sep_type[i_exec] == HR_DOC)
+// 			mini_sh->exec->check_hr++;
+// 	}
+// }
 
 int	start_exec(t_mini_sh *mini_sh)
 {
 	int i_exec;
-
+	int err;
+	
 	i_exec = 0;
 	mini_sh->pids = (pid_t *)malloc((sizeof (pid_t)) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->pids)
 		return (FAIL_MALLOC);
+	mini_sh->rl_check_redir = mini_sh->rl_out_head;
 	if (mini_sh->exec->nbr_fd_hr > 0)
 		exec_all_hr_doc(mini_sh);
 	while (mini_sh->prepare_exec[i_exec])
@@ -304,15 +389,28 @@ int	start_exec(t_mini_sh *mini_sh)
 		}
 		else
 			mini_sh->pids[i_exec] = FAIL;
-		increase_check(mini_sh, i_exec);
+		if (mini_sh->sep_type)
+			increase_check(mini_sh, i_exec, mini_sh->sep_type[i_exec]);
 		i_exec++;
 	}
 	close_all(mini_sh);
 	i_exec = 0;
 	while (mini_sh->prepare_exec[i_exec])
 	{
+		printf("g_exit_status : %d\n", g_exit_stt);
 		if (mini_sh->pids[i_exec] != FAIL)
-			waitpid(mini_sh->pids[i_exec], NULL, 0);
+			waitpid(mini_sh->pids[i_exec], &g_exit_stt, 0);
+		printf("start  err : %d\n", g_exit_stt);
+		if (WIFEXITED(g_exit_stt))
+		{
+			//err = WIFEXITED(g_exit_stt);
+			printf("bef err : %d\n", g_exit_stt);
+			err = WEXITSTATUS(g_exit_stt);
+			printf("aft err : %d\n", err);
+			g_exit_stt = err;
+			fprintf(stderr, "mini_sh->prepare_exec[%i][0] = %s\n", i_exec, mini_sh->prepare_exec[i_exec][0]);
+			printf("exit_status : %d\n", g_exit_stt);
+		}
 		i_exec++;
 	}
 	if (mini_sh->exec->nbr_fd_hr > 0)

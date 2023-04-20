@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/17 13:54:10 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:38:22 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_exec_tools
 	int		ana_r;
 	int		check_r;
 	int		*fd_l;
+	int		ana_l;
 	int		check_l;
 	int		*fd_app;
 	int		ana_app;
@@ -100,6 +101,7 @@ typedef struct s_exec_tools
 	int		*fd_hr;
 	char	**hr_name;
 	int		check_hr;
+	int		ana_hr;
 	int		fd[2];
 	int		**tab_fd;
 } t_exec_t;
@@ -137,6 +139,7 @@ typedef struct s_mini_sh
 	pid_t		*pids;
 	t_env		*data;
 	t_exec_t	*exec;
+	t_parse		*rl_check_redir;
 	t_parse		*rl_out;
 	t_parse		*rl_out_head;
 }				t_mini_sh;
@@ -251,11 +254,11 @@ int		init_redir_l_tab(t_mini_sh *mini_sh);
 //exec/start_exec_2.c
 void	child_process(t_mini_sh *mini_sh, int i_exec);
 void	close_all(t_mini_sh *mini_sh);
-int		count_redir_in_line(t_mini_sh *mini_sh);
+int		count_redir_in_line(t_mini_sh *mini_sh, int type);
 int		exec_builtin(t_mini_sh *mini_sh, int i);
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
 int		exec_redir(t_mini_sh *mini_sh, int i_exec);
-void	increase_check(t_mini_sh *mini_sh, int i_exec);
+void	increase_check(t_mini_sh *mini_sh, int i_exec, int type);
 int		init_fd_exec(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);
 int		init_tab_fd(t_mini_sh *mini_sh);
@@ -341,7 +344,7 @@ int		envp_size(char **envp);
 //built_in/unset.c
 int		check_unset_error(char **argv);
 int		exec_unset(char **argv, t_mini_sh *mini_sh);
-void	to_empty_line(char **argv, t_mini_sh *mini_sh);
+int	to_empty_line(char **argv, t_mini_sh *mini_sh);
 int		unset(char **argv, t_mini_sh *mini_sh);
 //built_in/export_arg.c
 int		export_arg(char **argv, t_mini_sh *mini_sh);

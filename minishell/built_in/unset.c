@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/17 12:31:58 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:22:53 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void	to_empty_line(char **argv, t_mini_sh *mini_sh)
+extern int g_exit_stt;
+
+int	to_empty_line(char **argv, t_mini_sh *mini_sh)
 {
 	int		i;
 	int		len;
@@ -23,6 +25,8 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	j = 0;
 	i = 0;
 	env_content = ft_find_var_env(mini_sh->env, argv[1]);
+	if (!argv || !argv[1])
+		return (FAIL);
 	while (mini_sh->env[i])
 	{
 		printf("%p: %s\n", mini_sh->env[i], mini_sh->env[i]);
@@ -31,7 +35,7 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 			len = ft_strlen(argv[1]) + 1;
 			dest = malloc(sizeof(char) * ft_strlen(env_content) + 1);
 			if (!dest)
-				return ;
+				return (FAIL_MALLOC);
 			while (mini_sh->env[i][len] && env_content[mini_sh->data->ite_genv] && mini_sh->env[i][len] == env_content[mini_sh->data->ite_genv])
 			{
 				mini_sh->data->ite_genv++;
@@ -56,17 +60,16 @@ void	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	if (env_content)
 		free(env_content);
 	env_content = NULL;
+	return (SUCCESS);
 }
 
 int	check_unset_error(char **argv)
 {
+	int i;
 	if (ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
 	{
-		printf("argv[1] = %s\n", argv[1]);
-		int i;
-
 		i = 0;
-		while (argv[1][i])
+		while (argv && argv[1] && argv[1][i])
 		{
 			if (argv[1][i] == '-')
 			{
@@ -85,9 +88,18 @@ int	check_unset_error(char **argv)
 int	unset(char **argv, t_mini_sh *mini_sh)
 {
 	if (check_unset_error(argv) == FAIL)
+	{
+		g_exit_stt = 1;
 		return (FAIL);
+	}
 	if (ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
-		to_empty_line(argv, mini_sh);
+	{
+		if (to_empty_line(argv, mini_sh) < 0)
+		{
+			g_exit_stt = 1;
+			return (FAIL);
+		}
+	}
 	return (SUCCESS);
 }
 
@@ -115,5 +127,6 @@ int	exec_unset(char **argv, t_mini_sh *mini_sh)
 		}
 		i++;
 	}
+	g_exit_stt = 0;
 	return (SUCCESS);
 }

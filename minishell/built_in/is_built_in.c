@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   is_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/04/17 12:25:19 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:43:41 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	init_env(t_mini_sh *mini_sh)
 {
@@ -63,9 +65,12 @@ int	do_built_in(t_mini_sh *mini_sh, int i)
 	init_env_sorted(mini_sh);
 	if (is_built_in_2(i, mini_sh) == FAIL)
 	{
+		//printf("hohohoho");
+		//g_exit_stt = 1;
 		free_env_sorted(mini_sh);
 		free_data(mini_sh);
 		return (FAIL);
 	}
+	// g_exit_stt = 0;
 	return (SUCCESS);
 }

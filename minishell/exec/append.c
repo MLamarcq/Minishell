@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/17 12:35:36 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/19 11:21:56 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	init_append_tab(t_mini_sh *mini_sh)
 					return (FAIL);
 				tmp = tmp->next;
 				when_redir_r_after(mini_sh, i);
+				when_append_after(mini_sh, i);
 				if (mini_sh->exec->ana_app == 0)
 					break ;
 			}

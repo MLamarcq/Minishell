@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:16 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/17 13:49:10 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:35:59 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	free_each_prpt(t_mini_sh *mini_sh)
 	if (mini_sh->output && mini_sh->output[0] != 0)
 		free_parsing(mini_sh);
 	free_exec(mini_sh);
+	if (mini_sh->data && mini_sh->data->dest)
+	{
+		free(mini_sh->data->dest);
+		mini_sh->data->dest = NULL;
+	}
 	free_data(mini_sh);
 }
 

@@ -6,11 +6,13 @@
 /*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:57:05 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/03/14 14:32:42 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/20 15:23:11 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int g_exit_stt;
 
 int	ft_echo(char **str)
 {
@@ -34,6 +36,7 @@ int	ft_echo(char **str)
 			while (str[i])
 				printf("%s ", str[i++]);
 		}
+		g_exit_stt = 0;
 		return (SUCCESS);
 	}
 	else
