@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/20 18:32:20 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 16:53:20 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,16 @@ typedef struct s_mini_sh
 
 //signal/exec_signal.c
 void	exec_signal(int index);
+void	handle_sigint_2(int sig);
 //signal/handle_ctrl_c.c
 void	handle_ctrl_c(int signal);
 //main.c
 void	init_env_2(char **envp, t_mini_sh *mini_sh);
 void	init_rl(t_mini_sh *mini_sh);
 //parsing/expand.c
+void	exit_code(t_mini_sh *mini_sh);
 void	expand(t_mini_sh *mini_sh);
 int		ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar);
-int		interpreted(t_mini_sh *mini_sh);
 void	replace_dollar(t_mini_sh *mini_sh, int *i_replace);
 void	toggle_quote(t_mini_sh *mini_sh, char chr);
 //parsing/print.c
@@ -233,6 +234,8 @@ void	free_redir_r(t_mini_sh *mini_sh);
 int		init_redir_r_tab(t_mini_sh *mini_sh);
 void	when_append_after(t_mini_sh *mini_sh, int i);
 //exec/heredoc_2.c
+void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp);
+void	change_hr_doc(t_mini_sh *mini_sh);
 void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp);
 void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec);
 int		exec_all_hr_doc(t_mini_sh *mini_sh);
@@ -248,6 +251,8 @@ void	if_hr_doc(t_mini_sh *mini_sh);
 void	fill_little_tab(t_mini_sh *mini_sh, int trple);
 int		init_big_tab(t_mini_sh *mini_sh);
 //exec/redir_l.c
+void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse *tmp);
+void	change_nbr_l(t_mini_sh *mini_sh);
 void	do_redir_l(t_mini_sh *mini_sh, int i_exec);
 void	free_redir_l(t_mini_sh *mini_sh);
 int		init_redir_l_tab(t_mini_sh *mini_sh);
@@ -318,6 +323,8 @@ char	*ft_bzero(char *str, int len);
 int		ft_strlen(char *str);
 //lib/ft_putstr_fd.c
 void	ft_putstr_fd(char *s, int fd);
+//lib/ft_atoi.c
+int		ft_atoi(char *str);
 //lib/ft_itoa.c
 char	*ft_itoa(int n);
 int		ft_itoa_len(int n);
@@ -341,10 +348,12 @@ char	*ft_strdup(char *str);
 char	*ft_strdup_len(char *str, int start, int end);
 //lib/envp_size.c
 int		envp_size(char **envp);
+//lib/ft_is_digit.c
+int		ft_isdigit(int c);
 //built_in/unset.c
 int		check_unset_error(char **argv);
 int		exec_unset(char **argv, t_mini_sh *mini_sh);
-int	to_empty_line(char **argv, t_mini_sh *mini_sh);
+int		to_empty_line(char **argv, t_mini_sh *mini_sh);
 int		unset(char **argv, t_mini_sh *mini_sh);
 //built_in/export_arg.c
 int		export_arg(char **argv, t_mini_sh *mini_sh);
@@ -352,6 +361,12 @@ void	ft_free_tab(char **tab);
 int		if_arg(char **argv, t_mini_sh *mini_sh);
 int		init_env_sorted(t_mini_sh *mini_sh);
 int		realloc_tab(int *i, t_mini_sh *mini_sh);
+//built_in/exit.c
+void	check_arg(t_mini_sh *mini_sh);
+int		check_num(char **tab);
+int		exit_len(char **tab);
+void	ft_exit(char **tab, t_mini_sh *mini_sh);
+void	ft_exit_1(char **tab, t_mini_sh *mini_sh);
 //built_in/export_simple.c
 int		export(char **argv, t_mini_sh *mini_sh);
 int		is_sorted(t_mini_sh *mini_sh);
@@ -378,6 +393,5 @@ int		export_specific(char *to_export, t_mini_sh *mini_sh);
 //built_in/pwd.c
 int		check_pwd_option(char **argv);
 int		ft_pwd(char **argv);
-void	handle_sigint_2(int sig);
 
 #endif

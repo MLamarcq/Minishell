@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/03/24 11:34:54 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 13:25:31 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	print_type(int type)
 		fprintf(stderr, BLUE"_FILE"RST"\n");
 	else if (type == BUILT_IN)
 		fprintf(stderr, BLUE"BUILT_IN"RST"\n");
+	else if (type == EOFL)
+		fprintf(stderr, BLUE"EOFL"RST"\n");
 	else
 		fprintf(stderr, BACK_RED"0"RST"\n");
 	fprintf(stderr, "\n");

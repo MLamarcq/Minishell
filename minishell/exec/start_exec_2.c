@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/20 18:43:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 17:01:48 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	{
 		if (is_sep(tmp->word) == SUCCESS && tmp->type)
 		{
-			printf("tmptype %i\n", tmp->type);
-			printf(BACK_PURPLE"i: %i"RST"\n", i + 1);
-			printf(BACK_PURPLE"mini_sh->sep_2: %i"RST"\n", mini_sh->sep_2);
 			mini_sh->sep_type[i] = tmp->type;
-			printf("sep typ %i\n", mini_sh->sep_type[i]);
 			i++;
 		}
 		tmp = tmp->next;
@@ -82,6 +78,10 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 			g_exit_stt = 0;
 			exit (0);
 		}
+		// if (i_exec > 0 && mini_sh->sep_type && mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] != PIPE)
+		// 	return ;
+		// else if (i_exec == 0 && mini_sh->sep_type && mini_sh->sep_type[i_exec] != PIPE)
+		// 	return ;
 		else
 		{
 			// printf("minishell:%s: command not found\n", 
@@ -371,6 +371,7 @@ int	start_exec(t_mini_sh *mini_sh)
 	int err;
 	
 	i_exec = 0;
+	g_exit_stt = 0;
 	mini_sh->pids = (pid_t *)malloc((sizeof (pid_t)) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->pids)
 		return (FAIL_MALLOC);

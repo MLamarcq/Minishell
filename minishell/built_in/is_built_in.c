@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/04/20 15:43:41 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 12:15:45 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int	is_built_in_2(int i, t_mini_sh *mini_sh)
 	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
 	"env", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 		return (env(mini_sh->prepare_exec[i], mini_sh), SUCCESS);
+	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
+	"exit", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
+		return (ft_exit(mini_sh->prepare_exec[i], mini_sh), SUCCESS);
 	return (FAIL);
 }
 

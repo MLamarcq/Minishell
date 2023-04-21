@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:44:47 by mael              #+#    #+#             */
-/*   Updated: 2023/04/20 15:29:49 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 15:22:38 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,19 @@ int	if_arg(char **argv, t_mini_sh *mini_sh)
 	i = 0;
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
-		mini_sh->data->dest = ft_strdup(argv[1]);
-		while (mini_sh->data->dest[i])
+		if (argv[1] && ft_isdigit(argv[1][0])== 0)
 		{
-			if (mini_sh->data->dest[i] == '=')
-				return (SUCCESS);
-			i++;
+			mini_sh->data->dest = ft_strdup(argv[1]);
+			while (mini_sh->data->dest[i])
+			{
+				if (mini_sh->data->dest[i] == '=')
+					return (SUCCESS);
+				i++;
+			}
 		}
+		else
+			printf("minishell: export: `%s' : not a valid identifier\n", \
+				argv[1]);
 	}
 	return (FAIL);
 }

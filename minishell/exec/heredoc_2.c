@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/20 18:46:23 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 12:10:41 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 	while (1)
 	{
 		input = readline("&>");
+		if (!input)
+		{
+			printf("minishell: warning: here-document delimited");
+			printf(" by end-of-file (wanted '%s')\n", tmp->next->word);
+			break ;
+		}
 		if (ft_strncmp(input, tmp->next->word, ft_strlen(tmp->next->word)) == 0)
 		{
 			free(input);

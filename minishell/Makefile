@@ -17,6 +17,8 @@ CC     = gcc -Wall -Werror -Wextra -g3
 SRC  := main.c \
 lib/bzero.c \
 lib/envp_size.c \
+lib/ft_atoi.c \
+lib/ft_is_digit.c \
 lib/ft_getenv.c \
 lib/ft_cmp.c \
 lib/ft_is_separator.c \
@@ -32,6 +34,7 @@ built_in/echo.c \
 built_in/cd.c \
 built_in/pwd.c \
 built_in/env.c \
+built_in/exit.c \
 built_in/export_arg.c \
 built_in/export_simple.c \
 built_in/unset.c \
