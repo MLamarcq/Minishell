@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:19:59 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 16:54:09 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:14:37 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 int check_num(char **tab)
 {

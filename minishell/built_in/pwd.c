@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:34:48 by mael              #+#    #+#             */
-/*   Updated: 2023/04/20 15:55:03 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 18:14:24 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 int	check_pwd_option(char **argv)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/19 16:25:33 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 18:23:41 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 {
-	t_parse *temp;
-	
+	t_parse	*temp;
+
 	temp = tmp;
 	if (temp->type == REDIR_R)
 	{
@@ -24,7 +24,6 @@ void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 		{
 			if (temp->type == REDIR_R)
 			{
-				printf(RED"ici"RST"\n");
 				mini_sh->exec->ana_r = 1;
 				break ;
 			}
@@ -37,11 +36,12 @@ void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 		}
 	}
 }
+
 void	when_append_after(t_mini_sh *mini_sh, int i)
 {
 	t_parse *tmp;
 	t_parse *temp;
-	
+
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{

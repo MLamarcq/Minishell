@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/20 15:22:53 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 18:14:44 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 int	to_empty_line(char **argv, t_mini_sh *mini_sh)
 {
@@ -21,7 +21,7 @@ int	to_empty_line(char **argv, t_mini_sh *mini_sh)
 	char	*env_content;
 	char	*dest;
 	int		j;
-	
+
 	j = 0;
 	i = 0;
 	env_content = ft_find_var_env(mini_sh->env, argv[1]);

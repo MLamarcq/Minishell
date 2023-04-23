@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:57:05 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/20 15:23:11 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 18:14:26 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 int	ft_echo(char **str)
 {
@@ -24,7 +24,7 @@ int	ft_echo(char **str)
 		if (!str[1])
 			return (printf("\n"), SUCCESS);
 		if (ft_strncmp(str[1], "-n", 2) != 0)
-		{		
+		{
 			i = 1;
 			while (str[i])
 				printf("%s ", str[i++]);

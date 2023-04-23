@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/19 11:21:56 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/21 18:17:03 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	analyse_append_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 			else if (temp->type == PIPE)
 			{
 				mini_sh->exec->ana_app = 0;
-				break;
+				break ;
 			}
 			temp = temp->next;
 		}
@@ -42,7 +42,7 @@ void	when_redir_r_after(t_mini_sh *mini_sh, int i)
 {
 	t_parse *tmp;
 	t_parse *temp;
-	
+
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{

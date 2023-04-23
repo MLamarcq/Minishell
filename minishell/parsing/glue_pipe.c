@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/13 15:19:01 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:25:39 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,9 @@ void	glue_pipe(t_mini_sh *mini_sh)
 		{
 			count_quote_arg(mini_sh->output, &ite);
 			detect_space_glue(mini_sh, &is_did, &glue, ite);
-			// else if (mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<')
-			// 	detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				set_after_glue_pipe(mini_sh, glue);
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				ite = 0;
 			}
 			ite++;

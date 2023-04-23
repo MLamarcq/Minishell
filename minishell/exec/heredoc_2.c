@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 12:10:41 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:23:33 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 {
-	t_parse *temp;
+	t_parse	*temp;
 
 	temp = tmp;
 	if (temp->type == HR_DOC)
@@ -26,16 +26,13 @@ void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 		{
 			if (temp->type == HR_DOC)
 			{
-				printf(RED"ici"RST"\n");
 				mini_sh->exec->ana_hr = 1;
 				break ;
 			}
 			else if (temp->type == PIPE)
-			//else
 			{
-				printf(RED"la"RST"\n");
 				mini_sh->exec->ana_hr = 0;
-				break;
+				break ;
 			}
 			temp = temp->next;
 		}
@@ -143,7 +140,7 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 	int i;
 	t_parse *tmp;
 	pid_t child;
-	
+
 	i = 0;
 	tmp = mini_sh->rl_out_head;
 	child = fork();

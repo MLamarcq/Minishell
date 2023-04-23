@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/13 16:07:24 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/23 17:52:59 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,15 @@ int	is_built_in(t_mini_sh *mini_sh)
 
 void	put_word_in_minish(t_mini_sh *mn_sh, char *lne, int *save, int *ite)
 {
-	t_parse	*new;
-
-	new = ft_lstnew_word(lne, (*save), (*ite));
 	if ((*ite) - (*save) > 0)
 	{
 		if (mn_sh->rl_out == NULL)
 		{
-			mn_sh->rl_out = new;
+			mn_sh->rl_out = ft_lstnew_word(lne, (*save), (*ite));
 			mn_sh->rl_out_head = mn_sh->rl_out;
 		}
 		else
-			ft_lstadd_back((&mn_sh->rl_out), new);
+			ft_lstadd_back((&mn_sh->rl_out), ft_lstnew_word(lne, (*save), (*ite)));
 	}
 }
 
@@ -100,7 +97,8 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		if (set_type(mini_sh) == FAIL)
 			return (FAIL);
 		remove_quote_2(mini_sh);
-		ft_print_rl_out(mini_sh);
+		// ft_print_rl_out(mini_sh);
+		move_redir_cmd(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
 		if (prepare_exec(mini_sh) < 0)

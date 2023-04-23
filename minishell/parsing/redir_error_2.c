@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:50:30 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/11 17:00:23 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/21 18:24:00 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	redir_l_error(t_mini_sh *mini_sh)
 
 int	check_redir_follow(t_mini_sh *mini_sh)
 {
-	t_parse *tmp;
+	t_parse	*tmp;
+
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{

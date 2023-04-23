@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_hrdoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/17 13:28:42 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/22 18:01:26 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	detect_hrdoc_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
-	if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<')
+	if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<') \
 	&& ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL)
 	{
 		*glue = ite;
 		*is_did = SUCCESS;
 	}
-	else if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<')
+	else if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<') \
 	&& ft_is_sep_parse(mini_sh->output[ite + 2]) == FAIL)
 	{
 		*glue = ite + 2;
@@ -61,13 +61,9 @@ void	glue_hrdoc(t_mini_sh *mini_sh)
 		{
 			count_quote_arg(mini_sh->output, &ite);
 			detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
-			// else if (mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<')
-			// 	detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				set_after_glue_hrdoc(mini_sh, glue);
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				ite = 0;
 			}
 			ite++;

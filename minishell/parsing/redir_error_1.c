@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/11 17:00:42 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/21 18:25:22 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,17 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 		if (tmp->type == REDIR_R || tmp->type == APPEND)
 		{
 			tmp = tmp->next;
-			if ((tmp->type == _FILE && (access(tmp->word, W_OK) == 0)) || tmp->type == ARG)
+			if ((tmp->type == _FILE && (access(tmp->word, W_OK) == 0)) \
+			|| tmp->type == ARG)
 			{
-				if (tmp->next && (is_sep(tmp->next->word) == FAIL))
-				{
-					if (print_error(4, tmp) == FAIL)
-						return (FAIL);
-				}
+				if (tmp->next && (is_sep(tmp->next->word) == FAIL) \
+				&& print_error(4, tmp) == FAIL)
+					return (FAIL);
 			}
 		}
-		if (tmp->type == PIPE && ((tmp->next->type == REDIR_R) || (tmp->next->type == APPEND)))
-		{
-			if (print_error(4, tmp) == FAIL)
-				return (FAIL);
-		}
+		if (tmp->type == PIPE && ((tmp->next->type == REDIR_R) \
+		|| (tmp->next->type == APPEND)) && print_error(4, tmp) == FAIL)
+			return (FAIL);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);

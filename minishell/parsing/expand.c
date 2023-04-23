@@ -3,53 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/04/21 13:45:32 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/23 16:56:54 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
 extern int g_exit_stt;
-
-void	replace_dollar(t_mini_sh *mini_sh, int *i_replace)
-{
-	int		save;
-	int		save2;
-	char	*var_name;
-	char	*final_var;
-
-	final_var = 0;
-	save = 0;
-	save2 = 0;
-	save = (*i_replace);
-	if (mini_sh->rl_out->word[(*i_replace)] == '$')
-		(*i_replace)++;
-	while (mini_sh->rl_out->word[(*i_replace)] && valid_id(mini_sh->rl_out->word[(*i_replace)]) == SUCCESS)
-		(*i_replace)++;
-	save2 = (*i_replace);
-	var_name = ft_strdup_len(mini_sh->rl_out->word, (save + 1), (*i_replace));
-	final_var = ft_find_var_env(mini_sh->env, var_name);
-	free(var_name);
-	
-	
-	if (final_var)
-		final_var = ft_strjoin_dfree(ft_strdup_len(mini_sh->rl_out->word, 0, save), final_var);
-	else
-		final_var = ft_strdup_len(mini_sh->rl_out->word, 0, save);
-	while (mini_sh->rl_out->word[(*i_replace)])
-		(*i_replace)++;
-
-
-	final_var = ft_strjoin_dfree(final_var, ft_strdup_len(mini_sh->rl_out->word, save2, (*i_replace)));
-	free(mini_sh->rl_out->word);
-	mini_sh->rl_out->word = ft_strdup(final_var);
-	free(final_var);
-}
-
-// echo "'$USER'"'"$USER"'$USER$USER$?$$$$USER
 
 int	ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar)
 {
@@ -139,7 +102,6 @@ void	expand(t_mini_sh *mini_sh)
 		save = i_dollar;
 		if (ft_strncmp(mini_sh->rl_out->word, "<<", ft_strlen(mini_sh->rl_out->word)) == 0)
 			dest = ft_strdup(mini_sh->rl_out->word);
-		//printf(BACK_GREEN"mini_sh->rl_out->prev->word: %s"RST"\n", mini_sh->rl_out->prev->word);
 		while (i_dollar != -1 && !dest)
 		{
 			save = i_dollar;

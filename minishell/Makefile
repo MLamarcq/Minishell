@@ -54,6 +54,7 @@ parsing/glue_hrdoc.c \
 parsing/glue_append.c \
 parsing/glue_redirr.c \
 parsing/glue_redirl.c \
+parsing/replace_dollar.c \
 parsing/quote.c \
 parsing/remove_quote_2.c \
 parsing/find_var_env.c \
@@ -61,6 +62,7 @@ parsing/ft_find_path.c \
 parsing/print.c \
 parsing/redir_error_1.c \
 parsing/redir_error_2.c \
+parsing/move_rdr_cmd.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
@@ -73,12 +75,23 @@ exec/redir_r.c \
 exec/redir_l.c \
 exec/append.c \
 exec/init_fd.c \
-exec/heredoc_2.c
+exec/first_sep.c \
+exec/heredoc_2.c \
+exec/exit.c \
 
-# ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile
+# hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
+# hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
+
 # echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def
 # echo abc'" $USER$$ic$TERM"'def$mp
 # echo abc"' $USER$$ic$TERM'"def$xe
+# echo "'$USER'"'"$USER"'$USER$USER$?$$$$USER
+
+# ls -lat|grep -ion "$USER"|wc -l>t1
+# ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile
+# cat<main.c>t1|cat<Makefile>t2|cat<<eof>t3>t4
+# ls -la > test12 | > test11 | > test10 | ls > test13
+
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)
