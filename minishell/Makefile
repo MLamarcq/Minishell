@@ -81,6 +81,8 @@ exec/init_fd.c \
 exec/first_sep.c \
 exec/heredoc_2.c \
 exec/exit.c \
+exec/expand_hrdoc.c \
+exec/expand_hrdoc_utils.c \
 
 # hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
 # hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
@@ -94,7 +96,6 @@ exec/exit.c \
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile
 # cat<main.c>t1|cat<Makefile>t2|cat<<eof>t3>t4
 # ls -la > test12 | > test11 | > test10 | ls > test13
-
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)

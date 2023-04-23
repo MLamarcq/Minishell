@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/23 22:35:19 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 23:23:21 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,15 +153,9 @@ int	exec_redir(t_mini_sh *mini_sh, int i_exec)
 	if (mini_sh->sep_type && mini_sh->sep_type[i_exec] == REDIR_R)
 		do_redir_r(mini_sh, i_exec);
 	else if (mini_sh->sep_type && mini_sh->sep_type[i_exec] == APPEND)
-	{
-		printf(BLUE"ici"RST"\n");
 		do_append(mini_sh, i_exec);
-	}
 	else if (mini_sh->sep_type && mini_sh->sep_type[i_exec] == HR_DOC)
-	{
-		printf(YELLOW"on est bien dans le hr"RST"\n");
 		do_heredoc_redir(mini_sh, i_exec);
-	}
 	else if (mini_sh->sep_type && mini_sh->sep_type[i_exec] == REDIR_L)
 		do_redir_l(mini_sh, i_exec);
 	(void)i_exec;

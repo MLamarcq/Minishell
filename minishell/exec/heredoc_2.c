@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 22:04:34 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 23:22:02 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 			free(input);
 			break ;
 		}
+		hrdoc_expand(mini_sh, &input);
 		ft_putstr_fd(input, mini_sh->exec->fd_hr[i]);
 		write(mini_sh->exec->fd_hr[i], "\n", 1);
 		free(input);
@@ -159,6 +160,7 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 			}
 			tmp = tmp->next;
 		}
+		free_all(mini_sh);
 		exit (0);
 	}
 	else

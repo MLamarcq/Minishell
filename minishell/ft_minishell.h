@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 22:47:56 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 23:23:48 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,10 @@ void		toggle_ti_pipe(t_mini_sh *mini_sh);
 //exec/prepare_exec.c
 int			count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout);
 int			prepare_exec(t_mini_sh *mini_sh);
+//exec/expand_hrdoc.c
+void		hrdoc_exit_code(char **word);
+void		hrdoc_expand(t_mini_sh *mini_sh, char **word);
+int			hrdoc_ft_isthere_dollar(t_mini_sh *mini_sh, char *word, int *i_isdollar);
 //exec/which_sep.c
 int			init_exec(t_mini_sh *mini_sh);
 //exec/first_sep.c
@@ -298,6 +302,9 @@ int			count_sep_2(t_mini_sh *mini_sh);
 void		is_redir_alone(t_mini_sh *mini_sh);
 int			is_sep(char *word);
 int			is_sep_int(int type);
+//exec/expand_hrdoc_utils.c
+void		hrdoc_replace_dollar(t_mini_sh *mini_sh, char **word, int *i_replace);
+void		hrdoc_start_rplc_dlr(char **word, int *sv, int *sv2, int *i_rplc);
 //exec/heredoc.c
 int			do_simple_heredoc(t_mini_sh *mini_sh, int i_exec);
 int			init_heredoc(t_mini_sh *mini_sh);
@@ -365,6 +372,10 @@ int			check_unset_error(char **argv);
 int			exec_unset(char **argv, t_mini_sh *mini_sh);
 int			to_empty_line(char **argv, t_mini_sh *mini_sh);
 int			unset(char **argv, t_mini_sh *mini_sh);
+//built_in/empty_line_utils.c
+void		end_empty_line(char **env_ctt);
+void		strcmp_empty_line(t_mini_sh *mini, char **dest, int *i, char **env_ctt);
+void		to_empty_line_utils(t_mini_sh *mini_sh, int *len, int *j);
 //built_in/export_arg.c
 int			export_arg(char **argv, t_mini_sh *mini_sh);
 void		ft_free_tab(char **tab);
@@ -383,13 +394,11 @@ int			is_sorted(t_mini_sh *mini_sh);
 int			print_export(char **argv, t_mini_sh *mini_sh);
 void		sort_export(t_mini_sh *mini_sh);
 void		swap_line(int i, t_mini_sh *mini_sh);
-//built_in/unset_utils.c
-void		strcmp_empty_line(t_mini_sh *mini_sh, char **dest, int *i, char **env_ctt);
-void		to_empty_line_utils(t_mini_sh *mini_sh, int *len, int *j);
 //built_in/is_built_in.c
 int			do_built_in(t_mini_sh *mini_sh, int i);
 int			init_env(t_mini_sh *mini_sh);
 int			is_built_in_2(int i, t_mini_sh *mini_sh);
+void		is_built_in_3(t_mini_sh *mini_sh, int i);
 //built_in/cd.c
 int			do_cd(int *i, char *home, char **str, t_mini_sh *mini_sh);
 int			export_cd(char **str, t_mini_sh *mini_sh);
