@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 17:38:32 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 16:56:33 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:43:28 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	replace_dollar(t_mini_sh *mini_sh, int *i_replace)
 	char	*final_var;
 
 	final_var = 0;
-	start_replace_dlr(mini_sh, i_replace, &save, &save2);
+	save = 0;
+	save2 = 0;
+	start_rplc_dlr(mini_sh, &save, &save2, i_replace);
 	var_name = ft_strdup_len(mini_sh->rl_out->word, (save + 1), (*i_replace));
 	final_var = ft_find_var_env(mini_sh->env, var_name);
 	free(var_name);
@@ -38,13 +40,13 @@ void	replace_dollar(t_mini_sh *mini_sh, int *i_replace)
 	free(final_var);
 }
 
-void	start_replace_dlr(t_mini_sh *mn_sh, int *i_rplc, int *save, int *save2)
+void	start_rplc_dlr(t_mini_sh *mini_sh, int *save, int *save2, int *i_rplc)
 {
 	*save = (*i_rplc);
-	if (mn_sh->rl_out->word[(*i_rplc)] == '$')
+	if (mini_sh->rl_out->word[(*i_rplc)] == '$')
 		(*i_rplc)++;
-	while (mn_sh->rl_out->word[(*i_rplc)] \
-	&& valid_id(mn_sh->rl_out->word[(*i_rplc)]) == SUCCESS)
+	while (mini_sh->rl_out->word[(*i_rplc)] \
+	&& valid_id(mini_sh->rl_out->word[(*i_rplc)]) == SUCCESS)
 		(*i_rplc)++;
 	*save2 = (*i_rplc);
 }

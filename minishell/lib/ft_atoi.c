@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:54:25 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 16:06:59 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/23 22:45:32 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	k = (j * sign);
-	printf(BACK_PURPLE"j: %i"RST"\n", j);
 	if (str[i] != '\0' || k > 2147483647)
 		return (-1);
 	return (j * sign);

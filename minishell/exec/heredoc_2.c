@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 18:23:33 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:04:34 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 
 void	change_hr_doc(t_mini_sh *mini_sh)
 {
-	int check;
-	t_parse *tmp;
-	t_parse *temp;
+	int		check;
+	t_parse	*tmp;
+	t_parse	*temp;
 
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
@@ -96,7 +96,6 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 				analyse_hrdoc_before_alloc(mini_sh, tmp);
 				mini_sh->exec->hr_name[i] = ft_strjoin_rfree(".heredoc", ft_itoa(i));
 				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT , 0644);
-				printf(GREEN"fd_hr[%i] == %d\t%s"RST"\n", i, mini_sh->exec->fd_hr[i], tmp->next->word);
 				if (mini_sh->exec->fd_hr[i] == -1)
 					return (FAIL);
 				tmp = tmp->next;
@@ -111,7 +110,7 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 
 void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 {
-	char *input;
+	char	*input;
 
 	exec_signal(2);
 	while (1)
@@ -137,9 +136,9 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 
 int	exec_all_hr_doc(t_mini_sh *mini_sh)
 {
-	int i;
-	t_parse *tmp;
-	pid_t child;
+	int		i;
+	pid_t	child;
+	t_parse	*tmp;
 
 	i = 0;
 	tmp = mini_sh->rl_out_head;
@@ -204,7 +203,7 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 
 void	unlink_hr_dc(t_mini_sh *mini_sh)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < mini_sh->exec->nbr_fd_hr)

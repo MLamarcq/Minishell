@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 18:23:41 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:04:41 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 
 void	when_append_after(t_mini_sh *mini_sh, int i)
 {
-	t_parse *tmp;
-	t_parse *temp;
+	t_parse	*tmp;
+	t_parse	*temp;
 
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
@@ -52,7 +52,8 @@ void	when_append_after(t_mini_sh *mini_sh, int i)
 			{
 				if (temp->type == APPEND)
 				{
-					mini_sh->exec->fd_r[i] = mini_sh->exec->fd_app[mini_sh->exec->check_app];
+					mini_sh->exec->fd_r[i] = \
+					mini_sh->exec->fd_app[mini_sh->exec->check_app];
 				}
 				temp = temp->next;
 			}

@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:33 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:51:31 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ int	is_built_in_2(int i, t_mini_sh *mini_sh)
 	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
 	"export", ft_strlen(mini_sh->prepare_exec[i][0])) == 0)
 	{
-		if (!mini_sh->prepare_exec[i][1])
-			print_export(mini_sh->prepare_exec[i], mini_sh);
-		else
-			export_arg(mini_sh->prepare_exec[i], mini_sh);
+		is_built_in_3(mini_sh, i);
 		return (SUCCESS);
 	}
 	else if (ft_strncmp(mini_sh->prepare_exec[i][0], \
@@ -60,20 +57,24 @@ int	is_built_in_2(int i, t_mini_sh *mini_sh)
 	return (FAIL);
 }
 
+void	is_built_in_3(t_mini_sh *mini_sh, int i)
+{
+	if (!mini_sh->prepare_exec[i][1])
+		print_export(mini_sh->prepare_exec[i], mini_sh);
+	else
+		export_arg(mini_sh->prepare_exec[i], mini_sh);
+}
+
 int	do_built_in(t_mini_sh *mini_sh, int i)
 {
 	free_env_sorted(mini_sh);
-	// free_data(mini_sh);
 	init_env(mini_sh);
 	init_env_sorted(mini_sh);
 	if (is_built_in_2(i, mini_sh) == FAIL)
 	{
-		//printf("hohohoho");
-		//g_exit_stt = 1;
 		free_env_sorted(mini_sh);
 		free_data(mini_sh);
 		return (FAIL);
 	}
-	// g_exit_stt = 0;
 	return (SUCCESS);
 }

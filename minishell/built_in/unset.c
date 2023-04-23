@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:44 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:48:14 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,56 +16,47 @@ extern int	g_exit_stt;
 
 int	to_empty_line(char **argv, t_mini_sh *mini_sh)
 {
-	int		i;
-	int		len;
-	char	*env_content;
+	char	*env_ctt;
 	char	*dest;
+	int		len;
 	int		j;
+	int		i;
 
 	j = 0;
-	i = 0;
-	env_content = ft_find_var_env(mini_sh->env, argv[1]);
+	i = -1;
+	env_ctt = ft_find_var_env(mini_sh->env, argv[1]);
 	if (!argv || !argv[1])
 		return (FAIL);
-	while (mini_sh->env[i])
+	while (mini_sh->env[++i])
 	{
-		printf("%p: %s\n", mini_sh->env[i], mini_sh->env[i]);
 		if (ft_strncmp(mini_sh->env[i], argv[1], ft_strlen(argv[1]) - 1) == 0)
 		{
 			len = ft_strlen(argv[1]) + 1;
-			dest = malloc(sizeof(char) * ft_strlen(env_content) + 1);
+			dest = malloc(sizeof(char) * ft_strlen(env_ctt) + 1);
 			if (!dest)
 				return (FAIL_MALLOC);
-			while (mini_sh->env[i][len] && env_content[mini_sh->data->ite_genv] && mini_sh->env[i][len] == env_content[mini_sh->data->ite_genv])
+			while (mini_sh->env[i][len] && env_ctt[mini_sh->data->ite_genv] \
+			&& mini_sh->env[i][len] == env_ctt[mini_sh->data->ite_genv])
 			{
-				mini_sh->data->ite_genv++;
 				dest[j] = mini_sh->env[i][len];
-				len++;
-				mini_sh->data->count++;
-				j++;
+				to_empty_line_utils(mini_sh, &len, &j);
 			}
 			dest[j] = '\0';
-			if (ft_strncmp(dest, env_content, ft_strlen(dest)) == 0)
+			if (ft_strncmp(dest, env_ctt, ft_strlen(dest)) == 0)
 			{
-				ft_bzero(mini_sh->env[i], ft_strlen(mini_sh->env[i]));
-				free(dest);
-				if (env_content)
-					free(env_content);
-				env_content = NULL;
+				strcmp_empty_line(mini_sh, &dest, &i, &env_ctt);
 				break ;
 			}
 		}
-		i++;
 	}
-	if (env_content)
-		free(env_content);
-	env_content = NULL;
+	end_empty_line(&env_ctt);
 	return (SUCCESS);
 }
 
 int	check_unset_error(char **argv)
 {
-	int i;
+	int	i;
+
 	if (ft_strncmp(argv[0], "unset", ft_strlen(argv[0])) == 0)
 	{
 		i = 0;
@@ -74,10 +65,8 @@ int	check_unset_error(char **argv)
 			if (argv[1][i] == '-')
 			{
 				if (i == 0)
-				{
-					printf("minishell: unset: no option allowed\n");
-					return (FAIL);
-				}
+					return (printf("minishell: unset: no option allowed\n"), \
+					FAIL);
 			}
 			i++;
 		}

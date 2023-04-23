@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 18:25:22 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:43:37 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	check_redi_r_append_error(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-int print_error(int index, t_parse *tmp)
+int	print_error(int index, t_parse *tmp)
 {
 	if (index == 1)
 	{

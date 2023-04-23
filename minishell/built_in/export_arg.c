@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:44:47 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:40 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:52:00 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	if_arg(char **argv, t_mini_sh *mini_sh)
 	i = 0;
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
-		if (argv[1] && ft_isdigit(argv[1][0])== 0)
+		if (argv[1] && ft_isdigit(argv[1][0]) == 0)
 		{
 			mini_sh->data->dest = ft_strdup(argv[1]);
 			while (mini_sh->data->dest[i])
@@ -112,6 +112,5 @@ int	export_arg(char **argv, t_mini_sh *mini_sh)
 		}
 		g_exit_stt = 0;
 	}
-	//g_exit_stt = 1;
 	return (FAIL);
 }

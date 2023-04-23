@@ -6,54 +6,11 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 23:19:01 by gael              #+#    #+#             */
-/*   Updated: 2023/04/10 16:55:12 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:42:19 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
-
-char	*write_without_qt_2(char *str)
-{
-	char	*str_wo_qt;
-	int		i_act;
-	int		last_qt;
-	int		i_start;
-	int		i_end;
-
-	i_end = 0;
-	i_start = 0;
-	last_qt = 0;
-	i_act = 0;
-	str_wo_qt = NULL;
-	while (str[i_act])
-	{
-		i_start = i_act;
-		while (str[i_act] && (str[i_act] != D_QUOTE && str[i_act] != S_QUOTE))
-			i_act++;
-		i_end = i_act;
-		last_qt = str[i_act];
-		if (str[i_act])
-			i_act++;
-		if (str_wo_qt == NULL)
-			str_wo_qt = ft_strdup_len(str, i_start, i_end);
-		else
-			str_wo_qt = ft_strjoin_dfree(str_wo_qt, ft_strdup_len(str, i_start, i_end));
-		i_start = i_act;
-		while (str[i_act] && str[i_act] != last_qt)
-			i_act++;
-		i_end = i_act;
-		if (str_wo_qt == NULL)
-			str_wo_qt = ft_strdup_len(str, i_start, i_end);
-		else
-			str_wo_qt = ft_strjoin_dfree(str_wo_qt, ft_strdup_len(str, i_start, i_end));
-		if (str[i_act])
-			i_act++;
-	}
-	if (str_wo_qt == NULL)
-		str_wo_qt = str;
-	(void)last_qt;
-	return (str_wo_qt);
-}
 
 int	isthere_quote(t_mini_sh *mini_sh)
 {
@@ -90,4 +47,3 @@ void	remove_quote_2(t_mini_sh *mini_sh)
 	}
 	(void)save;
 }
-

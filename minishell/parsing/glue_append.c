@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/22 18:01:07 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:44:14 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ void	glue_app(t_mini_sh *mini_sh)
 			detect_app_glue(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				set_after_glue_app(mini_sh, glue);
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				ite = 0;
 			}
 			ite++;

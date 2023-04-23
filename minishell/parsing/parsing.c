@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 19:42:47 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:44:08 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ int	is_built_in(t_mini_sh *mini_sh)
 	return (FAIL);
 }
 
-void	put_word_in_minish(t_mini_sh *mn_sh, char *lne, int *save, int *ite)
+void	put_word_in_minish(t_mini_sh *mini, char *lne, int *sv, int *ite)
 {
-	if ((*ite) - (*save) > 0)
+	if ((*ite) - (*sv) > 0)
 	{
-		if (mn_sh->rl_out == NULL)
+		if (mini->rl_out == NULL)
 		{
-			mn_sh->rl_out = ft_lstnew_word(lne, (*save), (*ite));
-			mn_sh->rl_out_head = mn_sh->rl_out;
+			mini->rl_out = ft_lstnew_word(lne, (*sv), (*ite));
+			mini->rl_out_head = mini->rl_out;
 		}
 		else
-			ft_lstadd_back((&mn_sh->rl_out), ft_lstnew_word(lne, (*save), (*ite)));
+			ft_lstadd_back((&mini->rl_out), ft_lstnew_word(lne, (*sv), (*ite)));
 	}
 }
 
@@ -97,7 +97,6 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		if (set_type(mini_sh) == FAIL)
 			return (FAIL);
 		remove_quote_2(mini_sh);
-		ft_print_rl_out(mini_sh);
 		// move_redir_cmd(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
@@ -108,5 +107,3 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		return (FAIL);
 	return (SUCCESS);
 }
-
-// ls -l -a|grep -io  "$USER"|wc -l

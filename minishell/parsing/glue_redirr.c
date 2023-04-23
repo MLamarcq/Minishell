@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/21 18:24:28 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:43:58 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 void	detect_redirr_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
-	if (mini_sh->output[ite] == '>' && ft_is_sep_parse(mini_sh->output[ite - 1])
-	== FAIL && (mini_sh->output[ite - 1] != '>' && mini_sh->output[ite + 1] != '>'))
+	if (mini_sh->output[ite] == '>' \
+	&& ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL \
+	&& (mini_sh->output[ite - 1] != '>' && mini_sh->output[ite + 1] != '>'))
 	{
 		*glue = ite;
 		*is_did = SUCCESS;
 	}
-	else if (mini_sh->output[ite] == '>' && ft_is_sep_parse(mini_sh->output[ite + 1])
-	== FAIL && (mini_sh->output[ite - 1] != '>' && mini_sh->output[ite + 1] != '>'))
+	else if (mini_sh->output[ite] == '>' \
+	&& ft_is_sep_parse(mini_sh->output[ite + 1]) == FAIL \
+	&& (mini_sh->output[ite - 1] != '>' && mini_sh->output[ite + 1] != '>'))
 	{
 		*glue = ite + 1;
 		*is_did = SUCCESS;

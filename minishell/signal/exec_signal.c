@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:07:31 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:27:56 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 20:17:48 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void	handle_sigint_2(int sig)
 		write(1, "\n", 2);
 		rl_replace_line("", 0);
 		rl_redisplay();
-		 exit(130);
+		exit(130);
 	}
 }

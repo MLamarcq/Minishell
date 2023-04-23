@@ -40,6 +40,7 @@ built_in/export_simple.c \
 built_in/unset.c \
 built_in/is_built_in.c \
 built_in/built_in_utils.c \
+built_in/empty_line_utils.c \
 signal/exec_signal.c \
 signal/handle_ctrl_c.c \
 free/free_parsing.c \
@@ -63,6 +64,7 @@ parsing/print.c \
 parsing/redir_error_1.c \
 parsing/redir_error_2.c \
 parsing/move_rdr_cmd.c \
+parsing/str_wo_qt.c \
 parsing/set_type_utils.c \
 exec/prepare_exec.c \
 exec/sep.c \

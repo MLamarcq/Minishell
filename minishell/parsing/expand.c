@@ -6,13 +6,13 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 16:56:54 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:40:53 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 int	ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar)
 {
@@ -21,7 +21,6 @@ int	ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar)
 	rtn_val = FAIL;
 	while (mini_sh->rl_out->word[++(*i_isdollar)])
 	{
-
 		toggle_quote(mini_sh, mini_sh->rl_out->word[(*i_isdollar)]);
 		if ((mini_sh->is_dquote == SUCCESS || (mini_sh->is_dquote == FAIL && \
 		mini_sh->is_squote == FAIL)) && mini_sh->rl_out->word[(*i_isdollar)] \
@@ -87,9 +86,9 @@ void	exit_code(t_mini_sh *mini_sh)
 
 void	expand(t_mini_sh *mini_sh)
 {
-	int	i_dollar;
-	int	save;
-	char *dest;
+	int		i_dollar;
+	int		save;
+	char	*dest;
 
 	save = FAIL;
 	dest = NULL;
@@ -100,22 +99,28 @@ void	expand(t_mini_sh *mini_sh)
 		init_quote(mini_sh);
 		i_dollar = ft_isthere_dollar(mini_sh, &i_dollar);
 		save = i_dollar;
-		if (ft_strncmp(mini_sh->rl_out->word, "<<", ft_strlen(mini_sh->rl_out->word)) == 0)
+		if (ft_strncmp(mini_sh->rl_out->word, "<<", \
+		ft_strlen(mini_sh->rl_out->word)) == 0)
 			dest = ft_strdup(mini_sh->rl_out->word);
-		while (i_dollar != -1 && !dest)
-		{
-			save = i_dollar;
-			replace_dollar(mini_sh, &i_dollar);
-			i_dollar = save;
-			i_dollar--;
-			i_dollar = ft_isthere_dollar(mini_sh, &i_dollar);
-		}
-		exit_code(mini_sh);
-		mini_sh->rl_out = mini_sh->rl_out->next;
+		inside_expand(mini_sh, &save, &i_dollar, dest);
 	}
 	if (dest != NULL)
 	{
 		free(dest);
 		dest = NULL;
 	}
+}
+
+void	inside_expand(t_mini_sh *mini_sh, int *save, int *i_dollar, char *dest)
+{
+	while ((*i_dollar) != -1 && !dest)
+	{
+		(*save) = (*i_dollar);
+		replace_dollar(mini_sh, i_dollar);
+		(*i_dollar) = (*save);
+		(*i_dollar)--;
+		(*i_dollar) = ft_isthere_dollar(mini_sh, i_dollar);
+	}
+	exit_code(mini_sh);
+	mini_sh->rl_out = mini_sh->rl_out->next;
 }

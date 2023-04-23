@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:57:05 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:26 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:50:06 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	ft_echo(char **str)
 		g_exit_stt = 0;
 		return (SUCCESS);
 	}
-	else
-		printf("%s: command not found\n", str[0]);
+	printf("%s: command not found\n", str[0]);
 	return (FAIL);
 }

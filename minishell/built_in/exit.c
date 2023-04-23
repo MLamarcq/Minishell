@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:19:59 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:37 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:49:28 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 extern int	g_exit_stt;
 
-int check_num(char **tab)
+int	check_num(char **tab)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 1;
 	if (tab[i])
@@ -42,7 +42,7 @@ int check_num(char **tab)
 
 int	exit_len(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
@@ -80,7 +80,6 @@ void	ft_exit_1(char **tab, t_mini_sh *mini_sh)
 		exit(2);
 	}
 }
-
 
 void	ft_exit(char **tab, t_mini_sh *mini_sh)
 {

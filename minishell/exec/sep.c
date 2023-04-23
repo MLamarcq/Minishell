@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:15:32 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:02:47 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_sep_int(int type)
 
 void	is_redir_alone(t_mini_sh *mini_sh)
 {
-	t_parse *tmp;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	if (is_sep_int(tmp->type) == SUCCESS)

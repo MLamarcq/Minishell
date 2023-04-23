@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/22 18:01:34 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:42:08 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ void	glue_redirl(t_mini_sh *mini_sh)
 			detect_redirl_glue(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				set_after_glue_redirl(mini_sh, glue);
-				printf(BACK_GREEN"mini_sh->output: %s"RST"\n", mini_sh->output);
 				ite = 0;
 			}
 			ite++;

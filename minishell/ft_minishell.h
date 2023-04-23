@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 19:52:49 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:47:56 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,16 +159,18 @@ void		init_rl(t_mini_sh *mini_sh);
 void		exit_code(t_mini_sh *mini_sh);
 void		expand(t_mini_sh *mini_sh);
 int			ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar);
+void		inside_expand(t_mini_sh *mini_sh, int *save, int *i_dollar, char *dest);
 void		toggle_quote(t_mini_sh *mini_sh, char chr);
-//parsing/print.c
-void		ft_print_rl_out(t_mini_sh *mini_sh);
-void		print_type(int type);
-void		print_word(char *new_w);
-void		print_word2(char *new_w);
 //parsing/ft_find_path.c
 int			ft_find_cmd(t_mini_sh *mini_sh, int ite_env);
 int			ft_find_env(t_mini_sh *mini_sh);
 int			ft_find_path(t_mini_sh *mini_sh);
+//parsing/str_wo_qt.c
+void		first_part(char *str, int *i_start, int *i_end, int *i_act);
+void		last_part(char *str, int *i_start, int *i_act, int last_qt);
+void		repeat_part(char **str_wo_qt, char *str, int i_start, int i_end);
+void		second_part(char *str, int *last_qt, int *i_act);
+char		*write_without_qt_2(char *str);
 //parsing/glue_redirl.c
 void		detect_redirl_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void		glue_redirl(t_mini_sh *mini_sh);
@@ -184,10 +186,9 @@ void		set_after_glue_hrdoc(t_mini_sh *mini_sh, int glue);
 //parsing/remove_quote_2.c
 int			isthere_quote(t_mini_sh *mini_sh);
 void		remove_quote_2(t_mini_sh *mini_sh);
-char		*write_without_qt_2(char *str);
 //parsing/replace_dollar.c
 void		replace_dollar(t_mini_sh *mini_sh, int *i_replace);
-void		start_replace_dlr(t_mini_sh *mn_sh, int *i_rplc, int *save, int *save2);
+void		start_rplc_dlr(t_mini_sh *mini_sh, int *save, int *save2, int *i_rplc);
 //parsing/quote.c
 int			check_quote_is_closed(char *line);
 void		count_quote_arg(char *line, int *ite);
@@ -209,7 +210,7 @@ int			redir_l_error(t_mini_sh *mini_sh);
 int			build_result_output(t_mini_sh *mini_sh, char *line);
 int			ft_parsing(t_mini_sh *mini_sh);
 int			is_built_in(t_mini_sh *mini_sh);
-void		put_word_in_minish(t_mini_sh *mn_sh, char *lne, int *save, int *ite);
+void		put_word_in_minish(t_mini_sh *mini, char *lne, int *sv, int *ite);
 //parsing/glue_append.c
 void		detect_app_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void		glue_app(t_mini_sh *mini_sh);
@@ -382,6 +383,9 @@ int			is_sorted(t_mini_sh *mini_sh);
 int			print_export(char **argv, t_mini_sh *mini_sh);
 void		sort_export(t_mini_sh *mini_sh);
 void		swap_line(int i, t_mini_sh *mini_sh);
+//built_in/unset_utils.c
+void		strcmp_empty_line(t_mini_sh *mini_sh, char **dest, int *i, char **env_ctt);
+void		to_empty_line_utils(t_mini_sh *mini_sh, int *len, int *j);
 //built_in/is_built_in.c
 int			do_built_in(t_mini_sh *mini_sh, int i);
 int			init_env(t_mini_sh *mini_sh);

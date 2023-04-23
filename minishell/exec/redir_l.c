@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/22 18:12:50 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 22:03:09 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse *tmp)
 {
-	t_parse *temp;
+	t_parse	*temp;
 
 	temp = tmp;
 	if (temp->type == REDIR_L)
