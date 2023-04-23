@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 17:34:50 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 19:44:31 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	init_rl(t_mini_sh *mini_sh)
 	mini_sh->sep = 0;
 	mini_sh->sep_2 = 0;
 	mini_sh->redir_alone = FAIL;
+	mini_sh->thereis_pipe = FAIL;
 	mini_sh->sep_type = NULL;
 	mini_sh->prepare_exec = NULL;
 	mini_sh->data = NULL;
@@ -47,6 +48,8 @@ void	init_rl(t_mini_sh *mini_sh)
 	// mini_sh->rl_out->next = NULL;
 	// mini_sh->rl_out->prev = NULL;
 	memset( &mini_sh->rl_out, 0, sizeof( t_parse ) );
+	// memset( &mini_sh->exec, 0, sizeof( t_exec ) );
+	// memset( &mini_sh->data, 0, sizeof( t_data ) );
 }
 
 int	main(int argc, char *argv[], char **envp)

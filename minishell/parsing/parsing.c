@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 17:52:59 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 19:42:47 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		if (set_type(mini_sh) == FAIL)
 			return (FAIL);
 		remove_quote_2(mini_sh);
-		// ft_print_rl_out(mini_sh);
-		move_redir_cmd(mini_sh);
+		ft_print_rl_out(mini_sh);
+		// move_redir_cmd(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
 		if (prepare_exec(mini_sh) < 0)

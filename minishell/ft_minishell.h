@@ -6,7 +6,7 @@
 /*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 17:58:48 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/23 19:52:49 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_mini_sh
 	int			flag;
 	int			sep_2;
 	int			nbr_word;
+	int			thereis_pipe;
 	int			*sep_type;
 	pid_t		*pids;
 	t_env		*data;
@@ -159,12 +160,15 @@ void		exit_code(t_mini_sh *mini_sh);
 void		expand(t_mini_sh *mini_sh);
 int			ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar);
 void		toggle_quote(t_mini_sh *mini_sh, char chr);
+//parsing/print.c
+void		ft_print_rl_out(t_mini_sh *mini_sh);
+void		print_type(int type);
+void		print_word(char *new_w);
+void		print_word2(char *new_w);
 //parsing/ft_find_path.c
 int			ft_find_cmd(t_mini_sh *mini_sh, int ite_env);
 int			ft_find_env(t_mini_sh *mini_sh);
 int			ft_find_path(t_mini_sh *mini_sh);
-//parsing/move_rdr_cmd.c
-void		move_redir_cmd(t_mini_sh *mini_sh);
 //parsing/glue_redirl.c
 void		detect_redirl_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void		glue_redirl(t_mini_sh *mini_sh);
@@ -221,6 +225,8 @@ char		*attr_var_found(char **envp, int ite_env, int ite_env_char, int save);
 char		*build_var_env(char *var_env, char *var_search, int *ite_env_char);
 char		*ft_find_var_env(char **envp, char *var_search);
 void		init_res_var(char **res_varenv, int *save, int *i_char, int *i_env);
+//parsing/set_type_utils.c
+void		toggle_ti_pipe(t_mini_sh *mini_sh);
 //exec/prepare_exec.c
 int			count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout);
 int			prepare_exec(t_mini_sh *mini_sh);

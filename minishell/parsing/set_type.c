@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/04/21 13:26:07 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:52:47 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ void	type_utils_1(t_mini_sh *mini_sh)
 {
 	if (is_built_in(mini_sh) == SUCCESS)
 		mini_sh->rl_out->type = BUILT_IN;
-	else if (ft_find_env(mini_sh) == SUCCESS)
+	else if (ft_find_env(mini_sh) == SUCCESS && mini_sh->thereis_pipe == FAIL)
+	{
 		mini_sh->rl_out->type = CMD;
+		toggle_ti_pipe(mini_sh);
+	}
 	else if (access(mini_sh->rl_out->word, X_OK) == 0 \
-	&& opendir(mini_sh->rl_out->word) == NULL)
+	&& opendir(mini_sh->rl_out->word) == NULL && mini_sh->thereis_pipe == FAIL)
+	{
 		mini_sh->rl_out->type = CMD_ABS;
+		toggle_ti_pipe(mini_sh);
+	}
 }
 
 int	type_utils_2(t_mini_sh *mini_sh)
@@ -73,7 +79,10 @@ int	type_utils_4(t_mini_sh *mini_sh)
 		&& mini_sh->rl_out->type == FAIL)
 	{
 		if (ft_strlen(mini_sh->rl_out->word) == 1)
+		{
 			mini_sh->rl_out->type = PIPE;
+			toggle_ti_pipe(mini_sh);
+		}
 	}
 	else if (ft_strncmp("-", mini_sh->rl_out->word, 0) == 0
 		&& mini_sh->rl_out->type == FAIL)
