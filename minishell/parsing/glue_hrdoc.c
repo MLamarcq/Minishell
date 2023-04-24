@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_hrdoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/22 18:01:26 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/24 16:04:24 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ void	detect_hrdoc_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 	&& ft_is_sep_parse(mini_sh->output[ite + 2]) == FAIL)
 	{
 		*glue = ite + 2;
+		*is_did = SUCCESS;
+	}
+}
+
+void	detect_hrdoc_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
+{
+	*is_did = FAIL;
+	if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<') \
+	&& ft_is_sep_parse(mini_sh->output[ite + 2]) == FAIL)
+	{
+		*glue = ite;
 		*is_did = SUCCESS;
 	}
 }
@@ -60,7 +71,10 @@ void	glue_hrdoc(t_mini_sh *mini_sh)
 		&& ft_is_sep_parse(mini_sh->output[ite]) == FAIL)
 		{
 			count_quote_arg(mini_sh->output, &ite);
-			detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
+			if (ite != 0)
+				detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
+			else
+				detect_hrdoc_glue_2(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
 				set_after_glue_hrdoc(mini_sh, glue);

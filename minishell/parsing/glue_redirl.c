@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_redirl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/23 22:42:08 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/24 16:03:32 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	detect_redirl_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 	&& (mini_sh->output[ite - 1] != '<' && mini_sh->output[ite + 1] != '<'))
 	{
 		*glue = ite + 1;
+		*is_did = SUCCESS;
+	}
+}
+
+void	detect_redirl_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
+{
+	*is_did = FAIL;
+	if (mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] != '<')
+	{
+		*glue = ite;
 		*is_did = SUCCESS;
 	}
 }
@@ -62,7 +72,10 @@ void	glue_redirl(t_mini_sh *mini_sh)
 		&& ft_is_sep_parse(mini_sh->output[ite]) == FAIL)
 		{
 			count_quote_arg(mini_sh->output, &ite);
-			detect_redirl_glue(mini_sh, &is_did, &glue, ite);
+			if (ite != 0)
+				detect_redirl_glue(mini_sh, &is_did, &glue, ite);
+			else
+				detect_redirl_glue_2(mini_sh, &is_did, &glue, ite);
 			if (is_did == SUCCESS)
 			{
 				set_after_glue_redirl(mini_sh, glue);

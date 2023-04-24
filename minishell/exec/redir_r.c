@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 22:04:41 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:40:52 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,36 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
+void	what_is_next(t_mini_sh *mini_sh)
+{
+	t_parse *tmp;
+
+	mini_sh->rl_out = mini_sh->rl_out_head;
+	while (mini_sh->rl_out)
+	{
+		if (mini_sh->rl_out->type == REDIR_R)
+		{
+			tmp = mini_sh->rl_out;
+			while (tmp && tmp->type != PIPE)
+			{
+				if (issep_read(tmp->type) == SUCCESS)
+				{
+					if (tmp->type == REDIR_L)
+						mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
+					else if (tmp->type == HR_DOC)
+						mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
+				}
+				tmp = tmp->next;
+			}
+			if (tmp && tmp->type == PIPE)
+				break ;
+		}
+		mini_sh->rl_out = mini_sh->rl_out->next;
+	}
+	
+}
+
+
 void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
 {
 	if (mini_sh->sep_2 != 0)
@@ -137,6 +167,7 @@ void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 		close(mini_sh->exec->tab_fd[i_exec][0]);
 	}
+	what_is_next(mini_sh);
 	// if (mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] == REDIR_R)
 	// 	mini_sh->exec->fd_in = 0;
 	// printf(BACK_PURPLE"mini_sh->exec->fd_r[mini_sh->exec->check_r]: %i"RST"\n", mini_sh->exec->fd_r[mini_sh->exec->check_r]);

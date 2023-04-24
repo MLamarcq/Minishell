@@ -96,6 +96,7 @@ exec/expand_hrdoc_utils.c \
 # ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile
 # cat<main.c>t1|cat<Makefile>t2|cat<<eof>t3>t4
 # ls -la > test12 | > test11 | > test10 | ls > test13
+# ls -l | < main.c wc -l | ls -la
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/16 23:11:36 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/24 15:26:10 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	free_exec(t_mini_sh *mini_sh)
 {
 	if (mini_sh->prepare_exec)
 		free_prep_exec(mini_sh);
-	free_tab_fd(mini_sh);
+	if (mini_sh->sep_2 > 0 || mini_sh->redir_alone == SUCCESS)
+		free_tab_fd(mini_sh);
 	free_all_redir(mini_sh);
 	if (mini_sh->sep_type)
 	{

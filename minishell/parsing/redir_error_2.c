@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_error_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:50:30 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 18:24:00 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:45:02 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	redir_l_error(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
-		if (tmp->type == PIPE && tmp->next->type == REDIR_L)
-			return (print_error(4, tmp), FAIL);
+		// if (tmp->type == PIPE && tmp->next->type == REDIR_L)
+		// 	return (print_error(4, tmp), FAIL);
 		if (tmp->type == REDIR_L)
 		{
 			if (opendir(tmp->next->word) != NULL)

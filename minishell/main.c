@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 19:44:31 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:26:01 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	init_rl(t_mini_sh *mini_sh)
 	// mini_sh->rl_out->next = NULL;
 	// mini_sh->rl_out->prev = NULL;
 	memset( &mini_sh->rl_out, 0, sizeof( t_parse ) );
-	// memset( &mini_sh->exec, 0, sizeof( t_exec ) );
-	// memset( &mini_sh->data, 0, sizeof( t_data ) );
+	//memset( &mini_sh->exec, 0, sizeof( t_exec_t ) );
+	memset( &mini_sh->data, 0, sizeof( t_env ) );
 }
 
 int	main(int argc, char *argv[], char **envp)

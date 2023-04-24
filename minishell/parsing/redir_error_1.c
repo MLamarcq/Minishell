@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_error_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 22:43:37 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:44:56 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 
 int	check_redi_r_append_error(t_mini_sh *mini_sh)
 {
-	if (check_redir_follow(mini_sh) == FAIL)
+	// if (check_redir_follow(mini_sh) == FAIL)
+	// 	return (FAIL);
+	if (check_redi_r_append_error_1(mini_sh) == FAIL)
 		return (FAIL);
-	else if (check_redi_r_append_error_1(mini_sh) == FAIL)
-		return (FAIL);
-	else if (check_redi_r_append_error_2(mini_sh) == FAIL)
-		return (FAIL);
+	// else if (check_redi_r_append_error_2(mini_sh) == FAIL)
+	// 	return (FAIL);
 	else if (redir_l_error(mini_sh) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
