@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/24 17:11:16 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:47:29 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_arr_output
 {
 	char				*word;
 	int					type;
+	int					index;
 	struct s_arr_output	*next;
 	struct s_arr_output	*prev;
 }						t_parse;
@@ -176,9 +177,12 @@ void	repeat_part(char **str_wo_qt, char *str, int i_start, int i_end);
 void	second_part(char *str, int *last_qt, int *i_act);
 char	*write_without_qt_2(char *str);
 //parsing/move_rdr_cmd.c
+int		case_1(t_mini_sh *mini_sh);
 t_parse *extract_tmp(t_mini_sh *mini_sh);
+int		is_all(int type);
 int		issep_read(int type);
 int		issep_write(int type);
+int		move_1(t_mini_sh *mini_sh);
 void	move_redir_cmd(t_mini_sh *mini_sh);
 void	prt(t_parse *tmp);
 //parsing/glue_redirl.c
@@ -211,6 +215,8 @@ int		check_redi_r_append_error(t_mini_sh *mini_sh);
 int		check_redi_r_append_error_1(t_mini_sh *mini_sh);
 int		check_redi_r_append_error_2(t_mini_sh *mini_sh);
 int		print_error(int index, t_parse *tmp);
+//parsing/set_index.c
+void	set_index(t_mini_sh *mini_sh);
 //parsing/glue_redirr.c
 void	detect_redirr_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void	detect_redirr_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);

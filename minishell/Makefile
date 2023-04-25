@@ -66,6 +66,7 @@ parsing/redir_error_2.c \
 parsing/move_rdr_cmd.c \
 parsing/str_wo_qt.c \
 parsing/set_type_utils.c \
+parsing/set_index.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \

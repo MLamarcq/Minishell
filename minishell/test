@@ -1,5 +1,5 @@
-total 892
-drwxr-xr-x 8 mlamarcq 2022_paris   4096 Apr 25 13:51 .
+total 896
+drwxr-xr-x 8 mlamarcq 2022_paris   4096 Apr 25 13:54 .
 drwxr-xr-x 5 mlamarcq 2022_paris   4096 Apr 24 12:43 ..
 drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 built_in
 -rw-r--r-- 1 mlamarcq 2022_paris   2423 Apr 24 12:43 color.h
@@ -23,7 +23,8 @@ drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 signal
 -rw-r--r-- 1 mlamarcq 2022_paris      2 Apr 24 12:51 t4
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 12:58 t5
 -rw-r--r-- 1 mlamarcq 2022_paris    133 Apr 24 13:26 t50
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 25 13:53 z1
+-rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 25 13:54 test
+-rw-r--r-- 1 mlamarcq 2022_paris   1703 Apr 25 13:53 z1
 -rw-r--r-- 1 mlamarcq 2022_paris   2636 Apr 25 12:30 z1000
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 17:12 z2
 -rw-r--r-- 1 mlamarcq 2022_paris     17 Apr 24 17:12 z3

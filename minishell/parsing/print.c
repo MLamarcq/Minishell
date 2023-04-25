@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/04/24 16:11:42 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:37:34 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,38 @@ void	print_word2(char *new_w)
 void	ft_print_rl_out(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
-
+	int	i;
+	
+	i = 0;
 	tmp = mini_sh->rl_out_head;
+	printf("\n...............start..................\n\n");
 	while (tmp)
 	{
 		print_word(tmp->word);
 		if (tmp->type)
 			print_type(tmp->type);
+		if (!tmp->next)
+			break ;
 		tmp = tmp->next;
+		if (i > 10)
+			break ;
+		i++;
 	}
+	printf("\n.............middle...................\n\n");
+	while (tmp->prev)
+	{
+		print_word(tmp->word);
+		if (tmp->type)
+			print_type(tmp->type);
+		tmp = tmp->prev;
+		if (i > 10)
+			break ;
+		i++;
+	}
+	print_word(tmp->word);
+	if (tmp->type)
+		print_type(tmp->type);
+	printf("\n............end................\n\n");
 }
 
 void	print_type(int type)
