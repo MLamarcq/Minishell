@@ -1,30 +1,67 @@
-total 892
-drwxr-xr-x 8 mlamarcq 2022_paris   4096 Apr 25 13:51 .
-drwxr-xr-x 5 mlamarcq 2022_paris   4096 Apr 24 12:43 ..
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 built_in
--rw-r--r-- 1 mlamarcq 2022_paris   2423 Apr 24 12:43 color.h
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 exec
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 free
--rw-r--r-- 1 mlamarcq 2022_paris  14916 Apr 25 13:47 ft_minishell.h
--rw-r--r-- 1 mlamarcq 2022_paris    100 Apr 24 12:43 leak.txt
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 lib
--rw-r--r-- 1 mlamarcq 2022_paris   2632 Apr 24 13:26 main.c
--rw-r--r-- 1 mlamarcq 2022_paris 203688 Apr 25 13:47 main.o
--rw-r--r-- 1 mlamarcq 2022_paris   3332 Apr 25 11:40 Makefile
--rwxr-xr-x 1 mlamarcq 2022_paris 615648 Apr 25 13:47 minishell
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 parsing
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 25 13:47 signal
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 12:47 t
--rw-r--r-- 1 mlamarcq 2022_paris   2720 Apr 25 12:01 t1
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 13:20 t10
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 12:53 t2
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 13:20 t20
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 13:20 t30
--rw-r--r-- 1 mlamarcq 2022_paris      2 Apr 24 12:51 t4
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 12:58 t5
--rw-r--r-- 1 mlamarcq 2022_paris    133 Apr 24 13:26 t50
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 25 13:53 z1
--rw-r--r-- 1 mlamarcq 2022_paris   2636 Apr 25 12:30 z1000
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 17:12 z2
--rw-r--r-- 1 mlamarcq 2022_paris     17 Apr 24 17:12 z3
--rw-r--r-- 1 mlamarcq 2022_paris     14 Apr 24 17:12 z5
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 5[0m
+
+.....................................
+
+1
+2
+4
+built_in
+color.h
+exec
+folder
+free
+ft_minishell.h
+h4
+h5
+h6
+h8
+h9
+j1
+j3
+j4
+l1
+l2
+leak.txt
+lib
+ls
+main.c
+main.o
+Makefile
+minishell
+p1
+p2
+p3
+p4
+parsing
+signal
+t
+t1
+t10
+t2
+t20
+t3
+t30
+t4
+t5
+t50
+test
+u8
+u9
+y1
+y2
+y3
+y4
+y5
+y6
+y8
+y9
+z1
+z1000
+z2
+z2.
+z3
+z4
+z5

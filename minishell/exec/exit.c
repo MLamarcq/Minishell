@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:55:23 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/25 13:54:11 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:20:29 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	exit_status(t_mini_sh *mini_sh, int i_exec)
 			// fprintf(stderr, "mini_sh->prepare_exec[%i][0] = %s\n", i_exec, mini_sh->prepare_exec[i_exec][0]);
 			// printf("exit_stt : %d\n", g_exit_stt);
 		}
+		else if (WIFSIGNALED(g_exit_stt))
+			g_exit_stt = 128 + WTERMSIG(g_exit_stt);
 		i_exec++;
 	}
 }

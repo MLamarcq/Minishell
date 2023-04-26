@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/24 13:45:34 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:17:12 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 			}
 			tmp = tmp->next;
 		}
+		close_all(mini_sh);
 		free_all(mini_sh);
 		exit (0);
 	}
@@ -168,6 +169,7 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 	{
 		signal(SIGINT, SIG_IGN);
 		//g_exit_stt = 130;
+		// close_all(mini_sh);
 		waitpid(child, &g_exit_stt, 0);
 		if (WIFEXITED(g_exit_stt))
 		{
@@ -183,13 +185,14 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 	close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr]);
 	mini_sh->exec->fd_hr[mini_sh->exec->check_hr] = \
 	open(mini_sh->exec->hr_name[mini_sh->exec->check_hr], O_RDONLY, 0644);
-	if (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1])
+	if (mini_sh->sep_2 && (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
-	if (mini_sh->sep_type[i_exec + 1] == REDIR_L)
+	if (mini_sh->sep_type && i_exec > 0 && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
 		mini_sh->exec->fd_out = 1;
-	if (mini_sh->sep_type[i_exec + 1])
+	if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1])
 	{
+		printf(RED"YOUPI\n"RST);
 		if (mini_sh->sep_type[i_exec + 1] == PIPE)
 			mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
 		else if (mini_sh->sep_type[i_exec + 1] == REDIR_R)

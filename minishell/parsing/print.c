@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/04/25 19:13:27 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/26 11:45:40 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
 	int	i;
-
+	
 	i = 0;
 	tmp = mini_sh->rl_out_head;
 	printf("\n...............start..................\n\n");
+	while (tmp->prev)
+		tmp = tmp->prev;
 	while (tmp)
 	{
 		print_word(tmp->word);

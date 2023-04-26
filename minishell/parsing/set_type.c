@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 19:52:47 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/26 12:00:04 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,26 @@
 
 void	type_utils_1(t_mini_sh *mini_sh)
 {
+	DIR *dir_name;
+	
+	dir_name = opendir(mini_sh->rl_out->word);
 	if (is_built_in(mini_sh) == SUCCESS)
 		mini_sh->rl_out->type = BUILT_IN;
+	else if (dir_name != NULL
+		&& mini_sh->rl_out->type == FAIL)
+		mini_sh->rl_out->type = _DIR;
 	else if (ft_find_env(mini_sh) == SUCCESS && mini_sh->thereis_pipe == FAIL)
 	{
 		mini_sh->rl_out->type = CMD;
 		toggle_ti_pipe(mini_sh);
 	}
 	else if (access(mini_sh->rl_out->word, X_OK) == 0 \
-	&& opendir(mini_sh->rl_out->word) == NULL && mini_sh->thereis_pipe == FAIL)
+	&& mini_sh->thereis_pipe == FAIL)
 	{
 		mini_sh->rl_out->type = CMD_ABS;
 		toggle_ti_pipe(mini_sh);
 	}
+	closedir(dir_name);
 }
 
 int	type_utils_2(t_mini_sh *mini_sh)
@@ -87,9 +94,6 @@ int	type_utils_4(t_mini_sh *mini_sh)
 	else if (ft_strncmp("-", mini_sh->rl_out->word, 0) == 0
 		&& mini_sh->rl_out->type == FAIL)
 		mini_sh->rl_out->type = OPTION;
-	else if (opendir(mini_sh->rl_out->word) != NULL
-		&& mini_sh->rl_out->type == FAIL)
-		mini_sh->rl_out->type = _DIR;
 	else if (access(mini_sh->rl_out->word, F_OK) == 0
 		&& mini_sh->rl_out->type == FAIL)
 		mini_sh->rl_out->type = _FILE;

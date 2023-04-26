@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/24 15:44:56 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/26 12:42:43 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
+	DIR		*dir_name;
 
 	tmp = mini_sh->rl_out_head;
+	dir_name = opendir(tmp->word);
 	while (tmp)
 	{
 		if (tmp->type == REDIR_R || tmp->type == APPEND)
 		{
 			tmp = tmp->next;
-			if (opendir(tmp->word) != NULL)
+			if (dir_name != NULL)
 			{
 				if (print_error(1, tmp) == FAIL)
-					return (FAIL);
+					return (closedir(dir_name), FAIL);
 			}
 			if (tmp->type == _FILE || tmp->type == CMD_ABS)
 			{
@@ -38,7 +40,7 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 		}
 		tmp = tmp->next;
 	}
-	return (SUCCESS);
+	return (closedir(dir_name), SUCCESS);
 }
 
 int	check_redi_r_append_error_2(t_mini_sh *mini_sh)

@@ -1,51 +1,123 @@
-drwxr-xr-x 9 mlamarcq 2022_paris   4096 Apr 26 16:43 .
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 12[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 13[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 12[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 13[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 9[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 10[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 9[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 10[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 9[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 10[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 5[0m
+
+.....................................
+
+total 972
+drwxr-xr-x 9 mlamarcq 2022_paris   4096 Apr 26 16:09 .
 drwxr-xr-x 5 mlamarcq 2022_paris   4096 Apr 24 12:43 ..
 -rw-r--r-- 1 mlamarcq 2022_paris      3 Apr 26 12:11 1
 -rw-r--r-- 1 mlamarcq 2022_paris      3 Apr 26 12:35 2
 -rw-r--r-- 1 mlamarcq 2022_paris      4 Apr 26 13:39 4
--rw-r--r-- 1 mlamarcq 2022_paris    156 Apr 26 16:13 a4
--rw-r--r-- 1 mlamarcq 2022_paris   4314 Apr 26 16:11 a8
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 built_in
--rw-r--r-- 1 mlamarcq 2022_paris   5186 Apr 26 16:16 c7
+drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:09 built_in
 -rw-r--r-- 1 mlamarcq 2022_paris   2423 Apr 24 12:43 color.h
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 exec
+drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:09 exec
 drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 11:59 folder
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 free
--rw-r--r-- 1 mlamarcq 2022_paris  14972 Apr 26 16:43 ft_minishell.h
--rw-r--r-- 1 mlamarcq 2022_paris    362 Apr 26 16:38 g4
+drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:09 free
+-rw-r--r-- 1 mlamarcq 2022_paris  14960 Apr 26 16:09 ft_minishell.h
 -rw-r--r-- 1 mlamarcq 2022_paris      4 Apr 26 11:10 h4
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:16 h5
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:16 h6
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:16 h8
 -rw-r--r-- 1 mlamarcq 2022_paris    228 Apr 26 11:16 h9
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 16:41 i4
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 15:50 j1
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 15:50 j3
 -rw-r--r-- 1 mlamarcq 2022_paris   4016 Apr 26 15:50 j4
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:00 l1
 -rw-r--r-- 1 mlamarcq 2022_paris    190 Apr 26 11:00 l2
 -rw-r--r-- 1 mlamarcq 2022_paris    100 Apr 24 12:43 leak.txt
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 lib
+drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:09 lib
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 12:43 ls
 -rw-r--r-- 1 mlamarcq 2022_paris   2708 Apr 26 11:09 main.c
--rw-r--r-- 1 mlamarcq 2022_paris 203736 Apr 26 16:43 main.o
+-rw-r--r-- 1 mlamarcq 2022_paris 203736 Apr 26 16:09 main.o
 -rw-r--r-- 1 mlamarcq 2022_paris   3332 Apr 25 11:40 Makefile
--rwxr-xr-x 1 mlamarcq 2022_paris 617344 Apr 26 16:43 minishell
--rwxr-xr-x 1 mlamarcq 2022_paris 616632 Apr 26 16:13 .nfs0000000011681615000000a3
+-rwxr-xr-x 1 mlamarcq 2022_paris 617264 Apr 26 16:09 minishell
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:07 p1
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:07 p2
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:07 p3
 -rw-r--r-- 1 mlamarcq 2022_paris     16 Apr 26 11:07 p4
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 parsing
-drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 signal
+drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:09 parsing
+drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:09 signal
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 12:47 t
 -rw-r--r-- 1 mlamarcq 2022_paris    362 Apr 26 15:59 t1
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 13:20 t10
--rw-r--r-- 1 mlamarcq 2022_paris   3663 Apr 26 16:09 t2
+-rw-r--r-- 1 mlamarcq 2022_paris    108 Apr 26 16:09 t2
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 13:20 t20
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 15:50 t3
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 13:20 t30
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 16:43 t4
+-rw-r--r-- 1 mlamarcq 2022_paris   3384 Apr 26 13:46 t4
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 24 12:58 t5
 -rw-r--r-- 1 mlamarcq 2022_paris    133 Apr 24 13:26 t50
 -rw-r--r-- 1 mlamarcq 2022_paris    156 Apr 25 15:54 test
@@ -66,3 +138,31 @@ drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 26 16:43 signal
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 26 11:20 z3
 -rw-r--r-- 1 mlamarcq 2022_paris     16 Apr 26 11:20 z4
 -rw-r--r-- 1 mlamarcq 2022_paris    285 Apr 26 11:15 z5
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 12[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 13[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 12[0m
+
+.....................................
+
+
+.....................................
+
+[0;45;30mtab_rdr[0]: 13[0m
+
+.....................................
+

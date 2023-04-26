@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/24 15:26:10 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:20:41 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,16 @@ void	free_tab_fd(t_mini_sh *mini_sh)
 	i_free_fd = 0;
 	if (mini_sh->exec && mini_sh->exec->tab_fd)
 	{
-		while (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i_free_fd])
+		//while (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i_free_fd])
+		if (mini_sh->redir_alone == SUCCESS)
 		{
 			free(mini_sh->exec->tab_fd[i_free_fd]);
+			mini_sh->exec->tab_fd[i_free_fd] = NULL;
+		}
+		while (i_free_fd < mini_sh->sep_2)
+		{
+			if (mini_sh->exec->tab_fd[i_free_fd])
+				free(mini_sh->exec->tab_fd[i_free_fd]);
 			mini_sh->exec->tab_fd[i_free_fd] = NULL;
 			i_free_fd++;
 		}
@@ -61,7 +68,7 @@ void	free_exec(t_mini_sh *mini_sh)
 {
 	if (mini_sh->prepare_exec)
 		free_prep_exec(mini_sh);
-	if (mini_sh->sep_2 > 0 || mini_sh->redir_alone == SUCCESS)
+	if (mini_sh->sep_2 >= 1 || mini_sh->redir_alone == SUCCESS)
 		free_tab_fd(mini_sh);
 	free_all_redir(mini_sh);
 	if (mini_sh->sep_type)
