@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/27 16:24:44 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:31:52 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ void	close_all(t_mini_sh *mini_sh)
 	i = 0;
 	if (mini_sh->redir_alone == SUCCESS)
 	{
-		printf(BACK_RED"alone"RST"\n");
+		// printf(BACK_RED"alone"RST"\n");
 		if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][0] > 2)
 		{
 			printf(BACK_PURPLE"close[0] : %i"RST"\n", mini_sh->exec->tab_fd[i][0]);
@@ -295,15 +295,14 @@ void	close_all(t_mini_sh *mini_sh)
 		}
 		if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][1] > 2)
 		{
-			printf(BACK_PURPLE"close[1] : %i"RST"\n", mini_sh->exec->tab_fd[i][1]);
+			printf(BACK_PURPLE"close[1] : %i"RST"\n\n", mini_sh->exec->tab_fd[i][1]);
 			close(mini_sh->exec->tab_fd[i][1]);
 		}
 	}
 	else {
-		printf(BACK_RED"multi"RST"\n");
 		if (first_is_a_redir(mini_sh) == SUCCESS)
 		{
-			printf(RED"first"RST"\n");
+			// printf(RED"first"RST"\n");
 			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][0] > 2)
 			{
 				printf(BACK_PURPLE"close[0] : %i"RST"\n", mini_sh->exec->tab_fd[i][0]);
@@ -311,14 +310,14 @@ void	close_all(t_mini_sh *mini_sh)
 			}
 			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][1] > 2)
 			{
-				printf(BACK_PURPLE"close[1] : %i"RST"\n", mini_sh->exec->tab_fd[i][1]);
+				printf(BACK_PURPLE"close[1] : %i"RST"\n\n", mini_sh->exec->tab_fd[i][1]);
 				close(mini_sh->exec->tab_fd[i][1]);
 			}
 			// i++;
 		}
 		while (i < mini_sh->sep_2 + 1)
 		{
-			printf(RED"all"RST"\n");
+			// printf(RED"all"RST"\n");
 			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][0] > 2)
 			{
 				printf(BACK_PURPLE"close[0] : %i"RST"\n", mini_sh->exec->tab_fd[i][0]);
@@ -326,7 +325,7 @@ void	close_all(t_mini_sh *mini_sh)
 			}
 			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][1] > 2)
 			{
-				printf(BACK_PURPLE"close[1] : %i"RST"\n", mini_sh->exec->tab_fd[i][1]);
+				printf(BACK_PURPLE"close[1] : %i"RST"\n\n", mini_sh->exec->tab_fd[i][1]);
 				close(mini_sh->exec->tab_fd[i][1]);
 			}
 			i++;

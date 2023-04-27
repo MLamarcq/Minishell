@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_rdr_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:53:35 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/27 16:57:19 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 00:29:55 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,6 +272,18 @@ int	move_1(t_mini_sh *mini_sh)
 }
 */
 
+/*
+					$$\      $$\  $$$$$$\  $$\    $$\ $$$$$$$$\          $$\   
+					$$$\    $$$ |$$  __$$\ $$ |   $$ |$$  _____|       $$$$ |  
+					$$$$\  $$$$ |$$ /  $$ |$$ |   $$ |$$ |             \_$$ |  
+					$$\$$\$$ $$ |$$ |  $$ |\$$\  $$  |$$$$$\             $$ |  
+					$$ \$$$  $$ |$$ |  $$ | \$$\$$  / $$  __|            $$ |  
+					$$ |\$  /$$ |$$ |  $$ |  \$$$  /  $$ |               $$ |  
+					$$ | \_/ $$ | $$$$$$  |   \$  /   $$$$$$$$\        $$$$$$\ 
+					\__|     \__| \______/     \_/    \________|$$$$$$\\______|
+																\______|       
+*/
+
 int	case_1(t_mini_sh *mini_sh)
 {
 	t_parse *tmp;
@@ -328,12 +340,15 @@ int	move_1(t_mini_sh *mini_sh)
 		if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->prev && mini_sh->rl_out->prev->prev->prev)
 			tmp_3 = mini_sh->rl_out->prev->prev->prev;
 
-		printf(BACK_GREEN"tmp: %s"RST"\n", tmp);
-		printf(BACK_GREEN"temp: %s"RST"\n", temp);
-		if (mini_sh->rl_out->next)
-			printf(BACK_GREEN"tmp_2: %s"RST"\n", tmp_2);
-		if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->prev && mini_sh->rl_out->prev->prev->prev)
-			printf(BACK_GREEN"tmp_3: %s"RST"\n", tmp_3);
+		// printf(GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
+		// printf(GREEN"tmp: %s"RST"\n", tmp->word);
+		// printf(GREEN"temp: %s"RST"\n", temp->word);
+		// if (mini_sh->rl_out->next)
+		// 	printf(GREEN"tmp_2: %s"RST"\n", tmp_2->word);
+		// if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->prev && mini_sh->rl_out->prev->prev->prev)
+		// 	printf(GREEN"tmp_3: %s"RST"\n", tmp_3->word);
+
+		tmp->next = mini_sh->rl_out->next;
 
 		mini_sh->rl_out->next = tmp;
 		tmp->prev = mini_sh->rl_out;
@@ -352,24 +367,24 @@ int	move_1(t_mini_sh *mini_sh)
 			temp->prev = tmp_3;
 		}
 
-		if (mini_sh->rl_out->prev->prev)
-			printf(BACK_GREEN"mini_sh->rl_out->prev->prev->word: %s"RST"\n", mini_sh->rl_out->prev->prev->word);
-		else
-			printf(BACK_GREEN"mini_sh->rl_out->prev->prev: %p"RST"\n", mini_sh->rl_out->prev->prev);
-		if (mini_sh->rl_out->prev)
-			printf(BACK_GREEN"mini_sh->rl_out->prev->word: %s"RST"\n", mini_sh->rl_out->prev->word);
-		else
-			printf(BACK_GREEN"mini_sh->rl_out->prev: %p"RST"\n", mini_sh->rl_out->prev);
-		printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
-		if (mini_sh->rl_out->next)
-			printf(BACK_GREEN"mini_sh->rl_out->next->word: %s"RST"\n", mini_sh->rl_out->next->word);
-		else
-			printf(BACK_GREEN"mini_sh->rl_out->next: %p"RST"\n", mini_sh->rl_out->next);
-		if (mini_sh->rl_out->next && mini_sh->rl_out->next->next)
-			printf(BACK_GREEN"mini_sh->rl_out->next->next->word: %s"RST"\n", mini_sh->rl_out->next->next->word);
-		else
-			printf(BACK_GREEN"mini_sh->rl_out->next->next: %p"RST"\n", mini_sh->rl_out->next->next);
-		printf("\n");
+		// if (mini_sh->rl_out->prev->prev)
+		// 	printf(BACK_GREEN"mini_sh->rl_out->prev->prev->word: %s"RST"\n", mini_sh->rl_out->prev->prev->word);
+		// else
+		// 	printf(BACK_GREEN"mini_sh->rl_out->prev->prev: %p"RST"\n", mini_sh->rl_out->prev->prev);
+		// if (mini_sh->rl_out->prev)
+		// 	printf(BACK_GREEN"mini_sh->rl_out->prev->word: %s"RST"\n", mini_sh->rl_out->prev->word);
+		// else
+		// 	printf(BACK_GREEN"mini_sh->rl_out->prev: %p"RST"\n", mini_sh->rl_out->prev);
+		// printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
+		// if (mini_sh->rl_out->next)
+		// 	printf(BACK_GREEN"mini_sh->rl_out->next->word: %s"RST"\n", mini_sh->rl_out->next->word);
+		// else
+		// 	printf(BACK_GREEN"mini_sh->rl_out->next: %p"RST"\n", mini_sh->rl_out->next);
+		// if (mini_sh->rl_out->next && mini_sh->rl_out->next->next)
+		// 	printf(BACK_GREEN"mini_sh->rl_out->next->next->word: %s"RST"\n", mini_sh->rl_out->next->next->word);
+		// else
+		// 	printf(BACK_GREEN"mini_sh->rl_out->next->next: %p"RST"\n", mini_sh->rl_out->next->next);
+		// printf("\n");
 
 	}
 	else if (mini_sh->rl_out->index == 1)
@@ -388,24 +403,25 @@ int	move_1(t_mini_sh *mini_sh)
 		if (mini_sh->rl_out->prev && mini_sh->rl_out->prev->prev)
 			tmp_3->next = mini_sh->rl_out;
 
-		if (mini_sh->rl_out->prev)
-			printf(BACK_YELLOW"mini_sh->rl_out->prev->word: %s"RST"\n", mini_sh->rl_out->prev->word);
-		else
-			printf(BACK_YELLOW"mini_sh->rl_out->prev: %p"RST"\n", mini_sh->rl_out->prev);
-		printf(BACK_YELLOW"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
-		if (mini_sh->rl_out->next)
-			printf(BACK_YELLOW"mini_sh->rl_out->next->word: %s"RST"\n", mini_sh->rl_out->next->word);
-		else
-			printf(BACK_YELLOW"mini_sh->rl_out->next: %p"RST"\n", mini_sh->rl_out->next);
-		if (mini_sh->rl_out->next && mini_sh->rl_out->next->next)
-			printf(BACK_YELLOW"mini_sh->rl_out->next->next->word: %s"RST"\n", mini_sh->rl_out->next->next->word);
-		else
-			printf(BACK_YELLOW"mini_sh->rl_out->next->next: %p"RST"\n", mini_sh->rl_out->next->next);
-		if (mini_sh->rl_out->next && mini_sh->rl_out->next->next && mini_sh->rl_out->next->next->next)
-			printf(BACK_YELLOW"mini_sh->rl_out->next->next->next->word: %s"RST"\n", mini_sh->rl_out->next->next->next->word);
-		else
-			printf(BACK_YELLOW"mini_sh->rl_out->next->next->next: %p"RST"\n", mini_sh->rl_out->next->next->next);
-		printf("\n");
+		// if (mini_sh->rl_out->prev)
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->prev->word: %s"RST"\n", mini_sh->rl_out->prev->word);
+		// else
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->prev: %p"RST"\n", mini_sh->rl_out->prev);
+		// printf(BACK_YELLOW"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
+		// if (mini_sh->rl_out->next)
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->next->word: %s"RST"\n", mini_sh->rl_out->next->word);
+		// else
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->next: %p"RST"\n", mini_sh->rl_out->next);
+		// if (mini_sh->rl_out->next && mini_sh->rl_out->next->next)
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->next->next->word: %s"RST"\n", mini_sh->rl_out->next->next->word);
+		// else
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->next->next: %p"RST"\n", mini_sh->rl_out->next->next);
+		// if (mini_sh->rl_out->next && mini_sh->rl_out->next->next && mini_sh->rl_out->next->next->next)
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->next->next->next->word: %s"RST"\n", mini_sh->rl_out->next->next->next->word);
+		// else
+		// 	printf(BACK_YELLOW"mini_sh->rl_out->next->next->next: %p"RST"\n", mini_sh->rl_out->next->next->next);
+		// printf("\n");
+
 		while (mini_sh->rl_out->prev)
 		{
 			// printf(BACK_GREEN"mini_sh->rl_out->word: %s"RST"\n", mini_sh->rl_out->word);
@@ -424,6 +440,17 @@ int	move_1(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
+/*
+				$$\      $$\  $$$$$$\  $$\    $$\ $$$$$$$$\         $$$$$$\  
+				$$$\    $$$ |$$  __$$\ $$ |   $$ |$$  _____|       $$  __$$\ 
+				$$$$\  $$$$ |$$ /  $$ |$$ |   $$ |$$ |             \__/  $$ |
+				$$\$$\$$ $$ |$$ |  $$ |\$$\  $$  |$$$$$\            $$$$$$  |
+				$$ \$$$  $$ |$$ |  $$ | \$$\$$  / $$  __|          $$  ____/ 
+				$$ |\$  /$$ |$$ |  $$ |  \$$$  /  $$ |             $$ |      
+				$$ | \_/ $$ | $$$$$$  |   \$  /   $$$$$$$$\        $$$$$$$$\ 
+				\__|     \__| \______/     \_/    \________|$$$$$$\\________|
+															\______|         
+*/
 
 int	case_2(t_mini_sh *mini_sh)
 {
@@ -526,6 +553,18 @@ int move_2(t_mini_sh *mini_sh)
 	(void)tmp_3;
 	return (SUCCESS);
 }
+
+/*
+					$$\      $$\  $$$$$$\  $$\    $$\ $$$$$$$$\        $$$$$$\  
+					$$$\    $$$ |$$  __$$\ $$ |   $$ |$$  _____|      $$ ___$$\ 
+					$$$$\  $$$$ |$$ /  $$ |$$ |   $$ |$$ |            \_/   $$ |
+					$$\$$\$$ $$ |$$ |  $$ |\$$\  $$  |$$$$$\            $$$$$ / 
+					$$ \$$$  $$ |$$ |  $$ | \$$\$$  / $$  __|           \___$$\ 
+					$$ |\$  /$$ |$$ |  $$ |  \$$$  /  $$ |            $$\   $$ |
+					$$ | \_/ $$ | $$$$$$  |   \$  /   $$$$$$$$\       \$$$$$$  |
+					\__|     \__| \______/     \_/    \________|$$$$$$\\______/ 
+																\______|        
+*/
 
 int	case_3(t_mini_sh *mini_sh)
 {
