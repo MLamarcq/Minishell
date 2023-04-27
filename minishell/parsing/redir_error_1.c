@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/26 12:42:43 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:49:54 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 	dir_name = opendir(tmp->word);
 	while (tmp)
 	{
-		if (tmp->type == REDIR_R || tmp->type == APPEND)
+		if (tmp->next && (tmp->type == REDIR_R || tmp->type == APPEND))
 		{
 			tmp = tmp->next;
 			if (dir_name != NULL)

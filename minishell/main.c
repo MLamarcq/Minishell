@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 01:58:39 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/27 14:16:05 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_env_2(char **envp, t_mini_sh *mini_sh)
 
 void	init_rl(t_mini_sh *mini_sh)
 {
-	mini_sh->output = readline(GREEN"minishell>"RST);
+	mini_sh->output = readline("minishell> ");
 	mini_sh->sep = 0;
 	mini_sh->sep_2 = 0;
 	mini_sh->redir_alone = FAIL;

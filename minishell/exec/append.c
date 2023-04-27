@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 22:02:53 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/27 14:12:49 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,37 @@ void	when_redir_r_after(t_mini_sh *mini_sh, int i)
 	}
 }
 
+
+void	change_nbr_append(t_mini_sh *mini_sh)
+{
+	int check;
+	t_parse *tmp;
+	t_parse *temp;
+
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		check = 0;
+		if (tmp->type == APPEND)
+		{
+			temp = tmp->next;
+			while (temp)
+			{
+				if (is_sep(temp->word) == SUCCESS)
+				{
+					if (temp->type == APPEND)
+						check = 1;
+					if (check == 1)
+						mini_sh->exec->nbr_fd_app = mini_sh->exec->nbr_fd_app - 1;
+					break ;
+				}
+				temp = temp->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	init_fd_app(t_mini_sh *mini_sh, t_parse **tmp, int *i)
 {
 	*tmp = mini_sh->rl_out_head;
@@ -81,6 +112,7 @@ int	init_append_tab(t_mini_sh *mini_sh)
 	t_parse	*tmp;
 
 	init_fd_app(mini_sh, &tmp, &i);
+	change_nbr_append(mini_sh);
 	//mini_sh->exec->fd_app[mini_sh->exec->nbr_fd_app] = 0;
 	while (i < mini_sh->exec->nbr_fd_app)
 	{

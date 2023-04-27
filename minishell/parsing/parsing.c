@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 02:02:52 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/27 16:47:26 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,16 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 	return (SUCCESS);
 }
 
+// void	check_rdr_follow(t_mini_sh *mini_sh)
+// {
+// 	mini_sh->rl_out = mini_sh->rl_out_head;
+// 	while (mini_sh->rl_out)
+// 	{
+// 		if ()
+// 		mini_sh->rl_out = mini_sh->rl_out->next;
+// 	}
+// }
+
 int	ft_parsing(t_mini_sh *mini_sh)
 {
 	mini_sh->is_dquote = FAIL;
@@ -97,15 +107,17 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		if (set_type(mini_sh) == FAIL)
 			return (FAIL);
 		remove_quote_2(mini_sh);
+		//check_rdr_follow(mini_sh);
 		set_index(mini_sh);
 		//move_redir_cmd(mini_sh);
 		// move_1(mini_sh);
 		move_1(mini_sh);
 		move_2(mini_sh);
 		move_3(mini_sh);
-		// if (move_1(mini_sh) == SUCCESS)
-		// 	move_2(mini_sh);
-		// if (move_1(mini_sh) == SUCCESS && move_2(mini_sh) == SUCCESS)
+
+		//printf(BOLD_BLUE"res case 1 = %d"RST"\n", case_1(mini_sh));
+		//if (move_1(mini_sh) == SUCCESS)
+			//move_2(mini_sh);
 		ft_print_rl_out(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);

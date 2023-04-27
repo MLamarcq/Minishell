@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 14:50:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/26 11:20:41 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 15:22:42 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_tab_fd(t_mini_sh *mini_sh)
 			free(mini_sh->exec->tab_fd[i_free_fd]);
 			mini_sh->exec->tab_fd[i_free_fd] = NULL;
 		}
-		while (i_free_fd < mini_sh->sep_2)
+		while (i_free_fd < mini_sh->sep_2 + 1)
 		{
 			if (mini_sh->exec->tab_fd[i_free_fd])
 				free(mini_sh->exec->tab_fd[i_free_fd]);

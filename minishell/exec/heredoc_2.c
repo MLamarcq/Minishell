@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/26 13:17:12 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:58:58 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,13 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 	while (1)
 	{
 		input = readline("&>");
+		if (g_exit_stt == 130)
+		{
+			printf(BACK_RED"free_all hrdoc"RST"\n");
+			close_all(mini_sh);
+			free_all(mini_sh);
+			exit(130);
+		}
 		if (!input)
 		{
 			printf("minishell: warning: here-document delimited");
@@ -169,7 +176,7 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 	{
 		signal(SIGINT, SIG_IGN);
 		//g_exit_stt = 130;
-		// close_all(mini_sh);
+		close_all(mini_sh);
 		waitpid(child, &g_exit_stt, 0);
 		if (WIFEXITED(g_exit_stt))
 		{

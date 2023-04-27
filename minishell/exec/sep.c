@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 22:02:47 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/27 15:46:16 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	is_redir_alone(t_mini_sh *mini_sh)
 	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
-	if (is_sep_int(tmp->type) == SUCCESS)
+	if (is_sep_int(tmp->type) == SUCCESS && tmp->next && !tmp->next->next)
 		mini_sh->redir_alone = SUCCESS;
 	else
 		mini_sh->redir_alone = FAIL;

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/26 12:29:16 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:26:47 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 				if (mini_sh->exec->fd_r[i] != FAIL)
 					close(mini_sh->exec->fd_r[i]);
 				mini_sh->exec->fd_r[i] = open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
-				printf(GREEN"fd_r[%i] == %d\t%s"RST"\n", i, mini_sh->exec->fd_r[i], tmp->next->word);
 				if (mini_sh->exec->fd_r[i] == -1)
 					return (FAIL);
 				tmp = tmp->next;

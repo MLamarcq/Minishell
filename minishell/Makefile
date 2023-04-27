@@ -11,8 +11,7 @@ NC = \033[0m
 
 ##### VAR #####
 NAME   = minishell
-CC     = gcc -Wall -Werror -Wextra -g3 
-# -fdump-rtl-expand
+CC     = gcc -Wall -Werror -Wextra -g3
 # -MMD -MP
 
 SRC  := main.c \
@@ -99,6 +98,8 @@ exec/expand_hrdoc_utils.c \
 # cat<main.c>t1|cat<Makefile>t2|cat<<eof>t3>t4
 # ls -la > test12 | > test11 | > test10 | ls > test13
 # ls -l | < main.c wc -l | ls -la
+# >''><
+# >l>l>l
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)

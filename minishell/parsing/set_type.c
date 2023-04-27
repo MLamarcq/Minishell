@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/04/26 12:00:04 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:11:48 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	type_utils_4(t_mini_sh *mini_sh)
 	else if (access(mini_sh->rl_out->word, F_OK) == 0
 		&& mini_sh->rl_out->type == FAIL)
 		mini_sh->rl_out->type = _FILE;
-	else if (mini_sh->rl_out->type == FAIL)
+	else if (mini_sh->rl_out->type == FAIL || (mini_sh->rl_out->prev && issep_write(mini_sh->rl_out->prev->type) == SUCCESS))
 		mini_sh->rl_out->type = ARG;
 	return (SUCCESS);
 }

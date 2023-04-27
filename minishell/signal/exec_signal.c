@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:07:31 by mael              #+#    #+#             */
-/*   Updated: 2023/04/25 16:26:24 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:43:59 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	handle_sigint_2(int sig)
 		write(1, "\n", 2);
 		rl_replace_line("", 0);
 		rl_redisplay();
-		exit(130);
+		//exit(130);
+		//return ;
+		close(0);
 	}
 }
