@@ -1,1 +1,1 @@
-cat <t3<t2<t1
+< main.c grep -i z

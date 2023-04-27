@@ -11,7 +11,8 @@ NC = \033[0m
 
 ##### VAR #####
 NAME   = minishell
-CC     = gcc -Wall -Werror -Wextra -g3
+CC     = gcc -Wall -Werror -Wextra -g3 
+# -fdump-rtl-expand
 # -MMD -MP
 
 SRC  := main.c \

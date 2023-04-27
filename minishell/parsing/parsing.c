@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/26 11:51:23 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 02:02:52 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,12 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		set_index(mini_sh);
 		//move_redir_cmd(mini_sh);
 		// move_1(mini_sh);
-		if (move_1(mini_sh) == SUCCESS)
-			//move_2(mini_sh);
+		move_1(mini_sh);
+		move_2(mini_sh);
+		move_3(mini_sh);
+		// if (move_1(mini_sh) == SUCCESS)
+		// 	move_2(mini_sh);
+		// if (move_1(mini_sh) == SUCCESS && move_2(mini_sh) == SUCCESS)
 		ft_print_rl_out(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
