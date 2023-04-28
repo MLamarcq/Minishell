@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 17:09:41 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:56:02 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,33 +320,34 @@ int		init_big_tab(t_mini_sh *mini_sh);
 //exec/redir_l.c
 void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse *tmp);
 void	change_nbr_l(t_mini_sh *mini_sh);
-void	do_good_redir(t_mini_sh *mini_sh, int i_exec);
-int		do_good_redir_l(t_mini_sh *mini_sh, int i_exec);
-void	do_redir_l(t_mini_sh *mini_sh, int i_exec);
-void	free_redir_l(t_mini_sh *mini_sh);
 void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec);
 int		init_redir_l_tab(t_mini_sh *mini_sh);
 int		one_hr_multi_l(t_mini_sh *mini_sh);
 //exec/start_exec_2.c
-void	child_process(t_mini_sh *mini_sh, int i_exec);
-void	close_all(t_mini_sh *mini_sh);
-void	close_rdr(int *tab_rdr, int nbr_rdr);
 int		count_redir_in_line(t_mini_sh *mini_sh, int type);
 int		exec_builtin(t_mini_sh *mini_sh, int i);
-void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
-int		exec_redir(t_mini_sh *mini_sh, int i_exec);
+int		exec_redir(t_mini_sh *mini, int i_exec);
 int		first_is_a_redir(t_mini_sh *mini_sh);
 void	increase_check(t_mini_sh *mini_sh, int type);
-int		init_fd_exec(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);
 int		init_tab_fd(t_mini_sh *mini_sh);
 int		is_there_a_redir(t_mini_sh *mini_sh);
-void	print_cmd_not_found(t_mini_sh *mini_sh, int i_exec);
 int		start_exec(t_mini_sh *mini_sh);
-void	travel_through_the_read(t_mini_sh *mini_sh, int i_exec);
+//exec/child_process_utils.c
+void	end_exec_cmd(t_mini_sh *mini_sh);
+void	print_cmd_not_found(t_mini_sh *mini_sh, int i_exec);
+//exec/redir_l_utils.c
+int		check_last_read(t_mini_sh *mini_sh, int i_last_read, int check, int i);
+void	do_good_redir(t_mini_sh *mini_sh, int i_exec);
+int		do_good_redir_l(t_mini_sh *mini_sh, int i_exec);
+void	do_redir_l(t_mini_sh *mini_sh, int i_exec);
+void	free_redir_l(t_mini_sh *mini_sh);
 //exec/child_process.c
+void	child_process(t_mini_sh *mini_sh, int i_exec);
+void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
 char	*ft_find_cmd_2(t_mini_sh *mini_sh, int ite_env, char *cmd_to_find);
 char	*ft_find_path_2(t_mini_sh *mini_sh, char *cmd_to_find);
+int		init_fd_exec(t_mini_sh *mini, int i_exec);
 //exec/append.c
 void	analyse_append_before_alloc(t_mini_sh *mini_sh, t_parse *tmp);
 void	change_nbr_append(t_mini_sh *mini_sh);
@@ -358,6 +359,10 @@ int		count_sep_2(t_mini_sh *mini_sh);
 void	is_redir_alone(t_mini_sh *mini_sh);
 int		is_sep(char *word);
 int		is_sep_int(int type);
+//exec/close.c
+void	close_all(t_mini_sh *mini_sh);
+void	close_pipe(t_mini_sh *mini_sh, int i);
+void	close_rdr(int *tab_rdr, int nbr_rdr);
 //exec/utils_append.c
 int		change_nbr_append_util(t_mini_sh *mini_sh, t_parse *temp, int *check);
 void	do_append(t_mini_sh *mini_sh, int i_exec);

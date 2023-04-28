@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/28 17:07:17 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:29:38 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,52 +46,6 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	mini_sh->sep_type[i] = FAIL;
 	mini_sh->sep_id = 0;
 	return (SUCCESS);
-}
-
-void	print_cmd_not_found(t_mini_sh *mini_sh, int i_exec)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(mini_sh->prepare_exec[i_exec][0], 2);
-	ft_putstr_fd(": command not found\n", 2);
-	close_all(mini_sh);
-	free_all(mini_sh);
-	exit (127);
-}
-
-void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
-{
-	char	*cmd_abs_path;
-
-	cmd_abs_path = NULL;
-	if (access(mini_sh->prepare_exec[i_exec][0], X_OK) == 0)
-		execve(mini_sh->prepare_exec[i_exec][0], \
-		mini_sh->prepare_exec[i_exec], mini_sh->env);
-	cmd_abs_path = ft_find_path_2(mini_sh, mini_sh->prepare_exec[i_exec][0]);
-	if (cmd_abs_path != NULL)
-	{
-		free(mini_sh->prepare_exec[i_exec][0]);
-		mini_sh->prepare_exec[i_exec][0] = cmd_abs_path;
-		execve(cmd_abs_path, mini_sh->prepare_exec[i_exec], mini_sh->env);
-	}
-	else
-	{
-		if ( i_exec > 0 && mini_sh->sep_type && mini_sh->sep_type[i_exec - 1] && mini_sh->sep_type[i_exec - 1] != PIPE)
-		{
-			g_exit_stt = 0;
-			close_all(mini_sh);
-			free_all(mini_sh);
-			exit (0);
-		}
-		else if (i_exec == 0 && is_there_a_redir(mini_sh) == SUCCESS)
-		{
-			g_exit_stt = 0;
-			close_all(mini_sh);
-			free_all(mini_sh);
-			exit (0);
-		}
-		else
-			print_cmd_not_found(mini_sh, i_exec);
-	}
 }
 
 int	init_tab_fd(t_mini_sh *mini_sh)
@@ -146,19 +100,20 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 	return (FAIL);
 }
 
-
-int	exec_redir(t_mini_sh *mini_sh, int i_exec)
+int	exec_redir(t_mini_sh *mini, int i_exec)
 {
-	if (i_exec < mini_sh->sep_2 && mini_sh->sep_type && mini_sh->sep_type[i_exec] != FAIL && mini_sh->sep_type[i_exec] == REDIR_R)
-		do_redir_r(mini_sh, i_exec);
-	else if (i_exec < mini_sh->sep_2 && mini_sh->sep_type && mini_sh->sep_type[i_exec] != FAIL && mini_sh->sep_type[i_exec] == APPEND)
-		do_append(mini_sh, i_exec);
-	else if (i_exec < mini_sh->sep_2 && mini_sh->sep_type && mini_sh->sep_type[i_exec] != FAIL && mini_sh->sep_type[i_exec] == HR_DOC)
-		do_heredoc_redir(mini_sh, i_exec);
-	else if (i_exec < mini_sh->sep_2 && mini_sh->sep_type && mini_sh->sep_type[i_exec] != FAIL && mini_sh->sep_type[i_exec] == REDIR_L)
-		do_redir_l(mini_sh, i_exec);
-	(void)i_exec;
-	(void)mini_sh;
+	if (i_exec < mini->sep_2 && mini->sep_type \
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == REDIR_R)
+		do_redir_r(mini, i_exec);
+	else if (i_exec < mini->sep_2 && mini->sep_type \
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == APPEND)
+		do_append(mini, i_exec);
+	else if (i_exec < mini->sep_2 && mini->sep_type \
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == HR_DOC)
+		do_heredoc_redir(mini, i_exec);
+	else if (i_exec < mini->sep_2 && mini->sep_type \
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == REDIR_L)
+		do_redir_l(mini, i_exec);
 	return (SUCCESS);
 }
 
@@ -176,70 +131,6 @@ int	is_there_a_redir(t_mini_sh *mini_sh)
 	return (FAIL);
 }
 
-void	travel_through_the_read(t_mini_sh *mini_sh, int i_exec)
-{
-	int i;
-	int j;
-	int p;
-	
-	i = i_exec;
-	j = 0;
-	p = 0;
-	while (mini_sh->sep_type && mini_sh->sep_type[i] != FAIL && mini_sh->sep_type[i] != PIPE)
-	{
-		if (mini_sh->sep_type[i] == REDIR_L)
-		{
-			mini_sh->exec->fd_in = mini_sh->exec->fd_l[j];
-			j++;
-		}
-		else if (mini_sh->sep_type[i] == HR_DOC)
-		{
-			mini_sh->exec->fd_in = mini_sh->exec->fd_hr[p];
-			p++;
-		}
-		i++;
-	}
-}
-
-int	init_fd_exec(t_mini_sh *mini_sh, int i_exec)
-{
-	if (i_exec == 0)
-		mini_sh->exec->fd_in = 0;
-	else if (i_exec > 0 && mini_sh->len_prepare_exec - 1 != i_exec)
-		mini_sh->exec->fd_in = mini_sh->exec->tab_fd[i_exec - 1][0];
-	else
-	{
-		if (mini_sh->sep_type[i_exec - 1] != REDIR_L && mini_sh->sep_type[i_exec - 1] != HR_DOC)
-			mini_sh->exec->fd_in = mini_sh->exec->tab_fd[i_exec - 1][0];
-		else
-		{
-			if (mini_sh->sep_type[i_exec - 1] == REDIR_L)
-				mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
-			else if (mini_sh->sep_type[i_exec - 1] == HR_DOC)
-				mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
-		}
-	}
-	if (i_exec + 1 == mini_sh->len_prepare_exec)
-		mini_sh->exec->fd_out = 1;
-	else
-		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec][1];
-	if (is_there_a_redir(mini_sh) == SUCCESS)
-		exec_redir(mini_sh, i_exec);
-	return (SUCCESS);
-}
-
-void	close_rdr(int *tab_rdr, int nbr_rdr)
-{
-	int	i_cls_rdr;
-
-	i_cls_rdr = -1;
-	while (++i_cls_rdr < nbr_rdr)
-	{
-		if (tab_rdr[i_cls_rdr] > 2 && tab_rdr[i_cls_rdr] < 1024)
-			close(tab_rdr[i_cls_rdr]);
-	}
-}
-
 int	first_is_a_redir(t_mini_sh *mini_sh)
 {
 	t_parse *tmp;
@@ -248,62 +139,6 @@ int	first_is_a_redir(t_mini_sh *mini_sh)
 	if (is_all(tmp->type) == SUCCESS)
 		return (SUCCESS);
 	return (FAIL);
-}
-
-void	close_all(t_mini_sh *mini_sh)
-{
-	int	i;
-
-	i = 0;
-	if (mini_sh->redir_alone == SUCCESS)
-	{
-		if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][0] > 2)
-			close(mini_sh->exec->tab_fd[i][0]);
-		if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][1] > 2)
-			close(mini_sh->exec->tab_fd[i][1]);
-	}
-	else {
-		if (first_is_a_redir(mini_sh) == SUCCESS)
-		{
-			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][0] > 2)
-				close(mini_sh->exec->tab_fd[i][0]);
-			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][1] > 2)
-				close(mini_sh->exec->tab_fd[i][1]);
-		}
-		while (i < mini_sh->sep_2 + 1)
-		{
-			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][0] > 2)
-				close(mini_sh->exec->tab_fd[i][0]);
-			if (mini_sh->exec->tab_fd && mini_sh->exec->tab_fd[i] && mini_sh->exec->tab_fd[i][1] > 2)
-				close(mini_sh->exec->tab_fd[i][1]);
-			i++;
-		}
-	}
-	if (mini_sh->exec->nbr_fd_r > 0)
-		close_rdr(mini_sh->exec->fd_r, mini_sh->exec->nbr_fd_r);
-	if (mini_sh->exec->nbr_fd_l > 0)
-		close_rdr(mini_sh->exec->fd_l, mini_sh->exec->nbr_fd_l);
-	if (mini_sh->exec->nbr_fd_hr > 0)
-		close_rdr(mini_sh->exec->fd_hr, mini_sh->exec->nbr_fd_hr);
-	if (mini_sh->exec->nbr_fd_app > 0)
-	{
-		printf("app close\n");
-		close_rdr(mini_sh->exec->fd_app, mini_sh->exec->nbr_fd_app);
-	}
-}
-
-void	child_process(t_mini_sh *mini_sh, int i_exec)
-{
-	if (init_fd_exec(mini_sh, i_exec) == FAIL)
-		exit (1);
-	exec_signal(4);
-	dup2(mini_sh->exec->fd_in, 0);
-	dup2(mini_sh->exec->fd_out, 1);
-	close_all(mini_sh);
-	if (do_built_in(mini_sh, i_exec) == FAIL)
-		exec_cmd(mini_sh, i_exec);
-	free_all(mini_sh);
-	exit (1);
 }
 
 int	count_redir_in_line(t_mini_sh *mini_sh, int type)

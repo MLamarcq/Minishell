@@ -89,6 +89,11 @@ exec/exit.c \
 exec/expand_hrdoc.c \
 exec/expand_hrdoc_utils.c \
 exec/utils_append.c \
+exec/close.c \
+exec/child_process_utils.c \
+exec/redir_l_utils.c \
+exec/redir_r_utils.c \
+exec/heredoc_utils.c \
 
 # hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
 # hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell

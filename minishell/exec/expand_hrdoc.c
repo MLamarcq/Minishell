@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_hrdoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 23:06:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 23:19:50 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/28 17:31:50 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,3 @@ void	hrdoc_expand(t_mini_sh *mini_sh, char **word)
 	}
 	hrdoc_exit_code(word);
 }
-

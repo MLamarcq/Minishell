@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 16:23:06 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:41:56 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	t_parse *tmp;
 
 	tmp = mini_sh->rl_out_head;
-	printf("nbr_redir_r = %d\n", mini_sh->exec->nbr_fd_r);
 	if (mini_sh->exec->nbr_fd_r == 0)
 		return (FAIL);
 	change_nbr_r(mini_sh);
-	printf("nbr_redir_r = %d\n", mini_sh->exec->nbr_fd_r);
 	mini_sh->exec->fd_r = malloc(sizeof(int) * mini_sh->exec->nbr_fd_r + 1);
 	if (!mini_sh->exec->fd_r)
 		return (FAIL_MALLOC);
