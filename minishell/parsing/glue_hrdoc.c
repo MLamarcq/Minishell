@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   glue_hrdoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 15:45:34 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:16:41 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void	detect_hrdoc_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
+void	detect_hrdc_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
 	if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<') \
@@ -29,7 +29,7 @@ void	detect_hrdoc_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 	}
 }
 
-void	detect_hrdoc_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
+void	detect_hrdc_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
 	if ((mini_sh->output[ite] == '<' && mini_sh->output[ite + 1] == '<') \
@@ -77,9 +77,9 @@ void	inside_glue_hrdoc(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue)
 {
 	count_quote_arg(mini_sh->output, ite);
 	if (*ite != 0)
-		detect_hrdoc_glue(mini_sh, is_did, glue, *ite);
+		detect_hrdc_glue(mini_sh, is_did, glue, *ite);
 	else
-		detect_hrdoc_glue_2(mini_sh, is_did, glue, *ite);
+		detect_hrdc_glue_2(mini_sh, is_did, glue, *ite);
 	if (*is_did == SUCCESS)
 	{
 		set_after_glue_hrdoc(mini_sh, *glue);

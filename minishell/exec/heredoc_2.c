@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 16:57:09 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:24:31 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,18 @@ void	change_hr_doc(t_mini_sh *mini_sh)
 	}
 }
 
-
 int	init_hr_dc_tab(t_mini_sh *mini_sh)
 {
-	int i;
-	t_parse *tmp;
+	int		i;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	i = 0;
 	mini_sh->exec->fd_hr = malloc(sizeof(int) * mini_sh->exec->nbr_fd_hr + 1);
 	if (!mini_sh->exec->fd_hr)
 		return (FAIL_MALLOC);
-	mini_sh->exec->hr_name = malloc(sizeof(char *) * (mini_sh->exec->nbr_fd_hr + 1));
+	mini_sh->exec->hr_name = malloc(sizeof(char *) * \
+	(mini_sh->exec->nbr_fd_hr + 1));
 	if (!mini_sh->exec->hr_name)
 		return (FAIL_MALLOC);
 	mini_sh->exec->hr_name[mini_sh->exec->nbr_fd_hr] = 0;
@@ -90,8 +90,10 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 		{
 			if (tmp->type == HR_DOC)
 			{
-				mini_sh->exec->hr_name[i] = ft_strjoin_rfree(".heredoc", ft_itoa(i));
-				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT , 0644);
+				mini_sh->exec->hr_name[i] = \
+				ft_strjoin_rfree(".heredoc", ft_itoa(i));
+				mini_sh->exec->fd_hr[i] = \
+				open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT, 0644);
 				if (mini_sh->exec->fd_hr[i] == -1)
 					return (FAIL);
 				tmp = tmp->next;
@@ -135,7 +137,6 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 		free(input);
 	}
 }
-
 
 int	exec_all_hr_doc(t_mini_sh *mini_sh)
 {
@@ -182,11 +183,13 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 void	go_to_last_read(t_mini_sh *mini_sh, int i_exec)
 {
 	int	i_last_read;
-	int check;
-	
+	int	check;
+
 	i_last_read = i_exec;
 	check = 0;
-	while (mini_sh->sep_type[i_last_read] && (issep_write(mini_sh->sep_type[i_last_read]) == FAIL || mini_sh->sep_type[i_last_read] != FAIL) && (i_last_read < (mini_sh->sep_2)))
+	while (mini_sh->sep_type[i_last_read] && \
+	(issep_write(mini_sh->sep_type[i_last_read]) == FAIL || \
+	mini_sh->sep_type[i_last_read] != FAIL) && (i_last_read < (mini_sh->sep_2)))
 	{
 		if (issep_read(mini_sh->sep_type[i_last_read]) == SUCCESS)
 			check = 1;
@@ -194,26 +197,29 @@ void	go_to_last_read(t_mini_sh *mini_sh, int i_exec)
 	}
 	if (check == 1)
 	{
-		if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == REDIR_L)
+		if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] \
+		&& mini_sh->sep_type[i_last_read - 1] == REDIR_L)
 			mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
-		else if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == HR_DOC && mini_sh->exec->fd_hr[i_last_read - 1])
+		else if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] \
+		&& mini_sh->sep_type[i_last_read - 1] == HR_DOC && \
+		mini_sh->exec->fd_hr[i_last_read - 1])
 		{
 			if (mini_sh->exec->fd_hr[i_last_read - 1])
 				close (mini_sh->exec->fd_hr[i_last_read - 1]);
-			mini_sh->exec->fd_hr[i_last_read - 1] = open(mini_sh->exec->hr_name[i_last_read - 1], O_RDONLY, 0644);
+			mini_sh->exec->fd_hr[i_last_read - 1] = \
+			open(mini_sh->exec->hr_name[i_last_read - 1], O_RDONLY, 0644);
 			if (!mini_sh->exec->hr_name[i_last_read - 1])
-				return ; 
+				return ;
 			mini_sh->exec->fd_in = mini_sh->exec->fd_hr[i_last_read - 1];
 		}
 	}
 }
 
-
 int	one_l_multi_hr(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
-	int	l_check;
-	int	hr_check;
+	int		l_check;
+	int		hr_check;
 
 	l_check = FAIL;
 	hr_check = FAIL;
@@ -229,7 +235,8 @@ int	one_l_multi_hr(t_mini_sh *mini_sh)
 	}
 	while (tmp)
 	{
-		if (tmp->type == HR_DOC && tmp->next && tmp->next->next && tmp->next->next->type == HR_DOC)
+		if (tmp->type == HR_DOC && tmp->next && \
+		tmp->next->next && tmp->next->next->type == HR_DOC)
 		{
 			hr_check = SUCCESS;
 			break ;
@@ -241,22 +248,23 @@ int	one_l_multi_hr(t_mini_sh *mini_sh)
 	return (FAIL);
 }
 
-
-
 void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 {
 	close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr]);
 	mini_sh->exec->fd_hr[mini_sh->exec->check_hr] = \
 	open(mini_sh->exec->hr_name[mini_sh->exec->check_hr], O_RDONLY, 0644);
-	if (mini_sh->sep_2 &&  mini_sh->sep_type && (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
+	if (mini_sh->sep_2 && mini_sh->sep_type && \
+	(mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
-	if (mini_sh->sep_type && do_good_redir_l(mini_sh, i_exec) == SUCCESS && one_l_multi_hr(mini_sh) == FAIL)
+	if (mini_sh->sep_type && do_good_redir_l(mini_sh, \
+	i_exec) == SUCCESS && one_l_multi_hr(mini_sh) == FAIL)
 	{
 		go_to_last_read(mini_sh, i_exec);
 		mini_sh->exec->fd_out = 1;
 	}
-	else if (mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] != FAIL )
+	else if (mini_sh->sep_type[i_exec + 1] && \
+	mini_sh->sep_type[i_exec + 1] != FAIL)
 	{
 		go_to_last_read(mini_sh, i_exec);
 		do_good_redir(mini_sh, i_exec);

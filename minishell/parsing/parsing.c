@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 16:13:31 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 21:53:28 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		remove_quote_2(mini_sh);
 		set_index(mini_sh);
 		all_move(mini_sh);
-		// ft_print_rl_out(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
 		if (prepare_exec(mini_sh) < 0)

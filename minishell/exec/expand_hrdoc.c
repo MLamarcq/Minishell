@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_hrdoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 23:06:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 17:31:50 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:15:30 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_stt;
 
-int	hrdoc_ft_isthere_dollar(t_mini_sh *mini_sh, char *word, int *i_isdollar)
+int	hrdoc_isthere_dollar(t_mini_sh *mini_sh, char *word, int *i_isdollar)
 {
 	int	rtn_val;
 
@@ -74,7 +74,7 @@ void	hrdoc_expand(t_mini_sh *mini_sh, char **word)
 	save = FAIL;
 	i_dollar = FAIL;
 	init_quote(mini_sh);
-	i_dollar = hrdoc_ft_isthere_dollar(mini_sh, *word, &i_dollar);
+	i_dollar = hrdoc_isthere_dollar(mini_sh, *word, &i_dollar);
 	save = i_dollar;
 	while (i_dollar != -1)
 	{
@@ -82,7 +82,7 @@ void	hrdoc_expand(t_mini_sh *mini_sh, char **word)
 		hrdoc_replace_dollar(mini_sh, word, &i_dollar);
 		i_dollar = save;
 		i_dollar--;
-		i_dollar = hrdoc_ft_isthere_dollar(mini_sh, *word, &i_dollar);
+		i_dollar = hrdoc_isthere_dollar(mini_sh, *word, &i_dollar);
 	}
 	hrdoc_exit_code(word);
 }

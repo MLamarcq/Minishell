@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:55:23 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 17:08:07 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 21:53:35 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,3 @@ void	ft_parent(t_mini_sh *mini_sh, int *i_exec)
 		unlink_hr_dc(mini_sh);
 	exec_signal(1);
 }
-
-

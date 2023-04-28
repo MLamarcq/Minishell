@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_redirr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:39:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/28 15:39:27 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:17:00 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void	glue_redirr(t_mini_sh *mini_sh)
 			ite++;
 		while (mini_sh->output[ite] \
 		&& ft_is_sep_parse(mini_sh->output[ite]) == FAIL)
-			inside_glue_redirr(mini_sh, &ite, &is_did, &glue);
+			in_glue_redirr(mini_sh, &ite, &is_did, &glue);
 	}
 }
 
-void	inside_glue_redirr(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue)
+void	in_glue_redirr(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue)
 {
 	count_quote_arg(mini_sh->output, ite);
 	if (*ite != 0)

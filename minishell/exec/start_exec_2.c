@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/28 17:29:38 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:20:18 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,18 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	int		i;
 
 	tmp = mini_sh->rl_out_head;
-	if (mini_sh->sep_type)
-	{
-		free(mini_sh->sep_type);
-		mini_sh->sep_type = NULL;
-	}
+	free_sep_type(mini_sh);
 	if (mini_sh->redir_alone && mini_sh->redir_alone == SUCCESS)
 		mini_sh->sep_type = (int *)malloc(sizeof(int) * (2));
 	else
-	{
 		mini_sh->sep_type = (int *)malloc(sizeof(int) * (mini_sh->sep_2 + 1));
-	}
 	if (!mini_sh->sep_type)
 		return (FAIL_MALLOC);
 	i = 0;
 	while (tmp)
 	{
 		if (is_sep(tmp->word) == SUCCESS && tmp->type && i < mini_sh->sep_2)
-		{
-			mini_sh->sep_type[i] = tmp->type;
-			i++;
-		}
+			mini_sh->sep_type[i++] = tmp->type;
 		tmp = tmp->next;
 	}
 	mini_sh->sep_type[i] = FAIL;
@@ -85,7 +76,6 @@ int	init_tab_fd(t_mini_sh *mini_sh)
 	}
 	init_redir_fd(mini_sh);
 	return (SUCCESS);
-	(void)i_init_fd;
 }
 
 int	exec_builtin(t_mini_sh *mini_sh, int i)
@@ -133,8 +123,8 @@ int	is_there_a_redir(t_mini_sh *mini_sh)
 
 int	first_is_a_redir(t_mini_sh *mini_sh)
 {
-	t_parse *tmp;
-	
+	t_parse	*tmp;
+
 	tmp = mini_sh->rl_out_head;
 	if (is_all(tmp->type) == SUCCESS)
 		return (SUCCESS);
@@ -143,7 +133,7 @@ int	first_is_a_redir(t_mini_sh *mini_sh)
 
 int	count_redir_in_line(t_mini_sh *mini_sh, int type)
 {
-	t_parse *temp;
+	t_parse	*temp;
 
 	while (mini_sh->rl_check_redir)
 	{
@@ -155,7 +145,7 @@ int	count_redir_in_line(t_mini_sh *mini_sh, int type)
 				if (is_sep(temp->word) == SUCCESS)
 				{
 					if (temp->type == type)
-						return(SUCCESS);
+						return (SUCCESS);
 					else
 						return (FAIL);
 				}
@@ -221,7 +211,8 @@ int	start_exec(t_mini_sh *mini_sh)
 		}
 		else
 			mini_sh->pids[i_exec] = FAIL;
-		if (mini_sh->sep_type && i_exec < mini_sh->sep_2 && i_exec < mini_sh->len_prepare_exec - 2)
+		if (mini_sh->sep_type && i_exec < mini_sh->sep_2 \
+		&& i_exec < mini_sh->len_prepare_exec - 2)
 			increase_check(mini_sh, mini_sh->sep_type[i_exec]);
 		i_exec++;
 	}

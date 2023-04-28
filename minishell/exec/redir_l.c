@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_l.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 17:55:26 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:17:54 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	init_redir_l_tab(t_mini_sh *mini_sh)
 int	one_hr_multi_l(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
-	int	l_check;
-	int	hr_check;
+	int		l_check;
+	int		hr_check;
 
 	l_check = FAIL;
 	hr_check = FAIL;
@@ -125,7 +125,8 @@ int	one_hr_multi_l(t_mini_sh *mini_sh)
 	}
 	while (tmp)
 	{
-		if (tmp->type == REDIR_L && tmp->next && tmp->next->next && tmp->next->next->type == REDIR_L)
+		if (tmp->type == REDIR_L && tmp->next && \
+		tmp->next->next && tmp->next->next->type == REDIR_L)
 			hr_check = SUCCESS;
 		tmp = tmp->next;
 	}
@@ -137,8 +138,8 @@ int	one_hr_multi_l(t_mini_sh *mini_sh)
 void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec)
 {
 	int	i_last_read;
-	int check;
-	int i;
+	int	check;
+	int	i;
 
 	i = -1;
 	i_last_read = i_exec;
@@ -159,4 +160,3 @@ void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec)
 	if (check_last_read(mini_sh, i_last_read, check, i) == FAIL)
 		return ;
 }
-

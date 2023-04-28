@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 17:41:56 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:07:44 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void	when_append_after(t_mini_sh *mini_sh, int i)
 
 void	change_nbr_r(t_mini_sh *mini_sh)
 {
-	int check;
-	t_parse *tmp;
-	t_parse *temp;
+	int		check;
+	t_parse	*tmp;
+	t_parse	*temp;
 
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
@@ -77,14 +77,8 @@ void	change_nbr_r(t_mini_sh *mini_sh)
 			temp = tmp->next;
 			while (temp)
 			{
-				if (is_sep(temp->word) == SUCCESS)
-				{
-					if (temp->type == REDIR_R)
-						check = 1;
-					if (check == 1)
-						mini_sh->exec->nbr_fd_r = mini_sh->exec->nbr_fd_r - 1;
+				if (change_nbr_r_util(mini_sh, temp, &check) == SUCCESS)
 					break ;
-				}
 				temp = temp->next;
 			}
 		}
@@ -94,8 +88,8 @@ void	change_nbr_r(t_mini_sh *mini_sh)
 
 int	init_redir_r_tab(t_mini_sh *mini_sh)
 {
-	int i;
-	t_parse *tmp;
+	int		i;
+	t_parse	*tmp;
 
 	tmp = mini_sh->rl_out_head;
 	if (mini_sh->exec->nbr_fd_r == 0)
@@ -117,7 +111,8 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 				analyse_redir_before_alloc(mini_sh, tmp);
 				if (mini_sh->exec->fd_r[i] != FAIL)
 					close(mini_sh->exec->fd_r[i]);
-				mini_sh->exec->fd_r[i] = open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
+				mini_sh->exec->fd_r[i] = \
+				open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
 				if (mini_sh->exec->fd_r[i] == -1)
 					return (FAIL);
 				tmp = tmp->next;
@@ -128,22 +123,4 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 		}
 	}
 	return (SUCCESS);
-}
-
-void	do_redir_r(t_mini_sh *mini_sh, int i_exec)
-{
-	if (mini_sh->sep_2 != 0)
-	{
-		close(mini_sh->exec->tab_fd[i_exec][1]);
-		close(mini_sh->exec->tab_fd[i_exec][0]);
-	}
-	mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
-}
-
-void	free_redir_r(t_mini_sh *mini_sh)
-{
-	if (mini_sh->exec->nbr_fd_r > 0)
-	{
-			free(mini_sh->exec->fd_r);
-	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 14:22:35 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:07:17 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	print_word2(char *new_w)
 void	ft_print_rl_out(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
-	int	i;
-	
+	int		i;
+
 	i = 0;
 	tmp = mini_sh->rl_out_head;
 	printf("\n...............start..................\n\n");
@@ -56,9 +56,6 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 		if (!tmp->next)
 			break ;
 		tmp = tmp->next;
-		if (i > 10)
-			break ;
-		i++;
 	}
 	printf("\n.............reverse...................\n\n");
 	while (tmp->prev)
@@ -67,9 +64,6 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 		if (tmp->type)
 			print_type(tmp->type);
 		tmp = tmp->prev;
-		if (i > 10)
-			break ;
-		i++;
 	}
 	print_word(tmp->word);
 	if (tmp->type)

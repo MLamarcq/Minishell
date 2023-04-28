@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 15:48:44 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 22:14:17 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ft_minishell.h"
+#include "ft_minishell.h"
 
 int	g_exit_stt;
 
@@ -42,8 +42,21 @@ void	init_rl(t_mini_sh *mini_sh)
 	mini_sh->exec = NULL;
 	mini_sh->pids = NULL;
 	mini_sh->rl_out = NULL;
-	memset( &mini_sh->rl_out, 0, sizeof( t_parse ) );
-	memset( &mini_sh->data, 0, sizeof( t_env ) );
+	memset(&mini_sh->rl_out, 0, sizeof(t_parse));
+	memset(&mini_sh->data, 0, sizeof(t_env));
+}
+
+void	launch_cmd(t_mini_sh *mini_sh)
+{
+	if (ft_parsing(mini_sh) == SUCCESS)
+	{
+		if (mini_sh->sep_2 >= 1 || mini_sh->redir_alone == SUCCESS)
+			init_sep_type(mini_sh);
+		init_exec(mini_sh);
+		if (mini_sh->sep_2 >= 1 || mini_sh->redir_alone == SUCCESS)
+			init_tab_fd(mini_sh);
+		start_exec(mini_sh);
+	}
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -66,15 +79,7 @@ int	main(int argc, char *argv[], char **envp)
 		if (mini_sh.output[0])
 			add_history(mini_sh.output);
 		exec_signal(1);
-		if (ft_parsing(&mini_sh) == SUCCESS)
-		{
-			if (mini_sh.sep_2 >= 1|| mini_sh.redir_alone == SUCCESS)
-				init_sep_type(&mini_sh);
-			init_exec(&mini_sh);
-			if (mini_sh.sep_2 >= 1 || mini_sh.redir_alone == SUCCESS)
-				init_tab_fd(&mini_sh);
-			start_exec(&mini_sh);
-		}
+		launch_cmd(&mini_sh);
 		free_each_prpt(&mini_sh);
 	}
 	free_all(&mini_sh);
