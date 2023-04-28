@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 14:27:46 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:13:31 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,6 @@ int	build_result_output(t_mini_sh *mini_sh, char *line)
 	return (SUCCESS);
 }
 
-// void	check_rdr_follow(t_mini_sh *mini_sh)
-// {
-// 	mini_sh->rl_out = mini_sh->rl_out_head;
-// 	while (mini_sh->rl_out)
-// 	{
-// 		if ()
-// 		mini_sh->rl_out = mini_sh->rl_out->next;
-// 	}
-// }
-
 int	check_rdr_follow(t_mini_sh *mini_sh)
 {
 	int	err;
@@ -101,23 +91,19 @@ int	check_rdr_follow(t_mini_sh *mini_sh)
 		if (is_sep_int(mini_sh->rl_out->type) == SUCCESS \
 		&& mini_sh->rl_out->next \
 		&& is_sep_int(mini_sh->rl_out->next->type) == SUCCESS)
-		{
-				err = SUCCESS;
-		}
-		if (is_sep_int(mini_sh->rl_out->type) == SUCCESS)
-		{
-			if (mini_sh->rl_out->next && (ft_strncmp(">", mini_sh->rl_out->next->word, 0) == 0 || ft_strncmp("<", mini_sh->rl_out->next->word, 0) == 0 || ft_strncmp(">>", mini_sh->rl_out->next->word, 1) == 0 || ft_strncmp("<<", mini_sh->rl_out->next->word, 1) == 0))
-				err = SUCCESS;
-		}
+			err = SUCCESS;
+		if (is_sep_int(mini_sh->rl_out->type) == SUCCESS && \
+		(mini_sh->rl_out->next && (ft_strncmp(">", \
+		mini_sh->rl_out->next->word, 0) == 0 || ft_strncmp("<", \
+		mini_sh->rl_out->next->word, 0) == 0 || ft_strncmp(">>", \
+		mini_sh->rl_out->next->word, 1) == 0 || ft_strncmp("<<", \
+		mini_sh->rl_out->next->word, 1) == 0)))
+			err = SUCCESS;
 		if (mini_sh->rl_out->type == PIPE && mini_sh->rl_out->next \
 		&& issep_read(mini_sh->rl_out->next->type) == SUCCESS)
 			err = FAIL;
 		if (err == SUCCESS)
-		{
-			printf("minishell: syntax error near unexpected token %s\n", \
-			mini_sh->rl_out->word);
-			return (SUCCESS);
-		}
+			return (print_error(4, mini_sh->rl_out), SUCCESS);
 		mini_sh->rl_out = mini_sh->rl_out->next;
 	}
 	return (FAIL);
@@ -129,11 +115,7 @@ int	ft_parsing(t_mini_sh *mini_sh)
 	mini_sh->is_squote = FAIL;
 	if (check_quote_is_closed(mini_sh->output) > 0)
 	{
-		glue_pipe(mini_sh);
-		glue_hrdoc(mini_sh);
-		glue_app(mini_sh);
-		glue_redirr(mini_sh);
-		glue_redirl(mini_sh);
+		all_glue(mini_sh);
 		if (build_result_output(mini_sh, mini_sh->output) < 0)
 			return (FAIL);
 		expand(mini_sh);
@@ -141,12 +123,10 @@ int	ft_parsing(t_mini_sh *mini_sh)
 			return (FAIL);
 		if (check_rdr_follow(mini_sh) == SUCCESS)
 			return (FAIL);
-		ft_print_rl_out(mini_sh);
 		remove_quote_2(mini_sh);
 		set_index(mini_sh);
-		move_1(mini_sh);
-		move_2(mini_sh);
-		move_3(mini_sh);
+		all_move(mini_sh);
+		// ft_print_rl_out(mini_sh);
 		if (check_redi_r_append_error(mini_sh) == FAIL)
 			return (FAIL);
 		if (prepare_exec(mini_sh) < 0)
@@ -156,5 +136,3 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		return (FAIL);
 	return (SUCCESS);
 }
-
-

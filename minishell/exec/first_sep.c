@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/24 15:38:44 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:32:04 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	check_first_is_sep(t_mini_sh *mini_sh)
 	{
 		if (tmp->type == PIPE)
 		{
-			printf("*minishell: syntax error near unexpected token '|'\n");
+			printf("minishell: syntax error near unexpected token '|'\n");
 			return (FAIL);
 		}
 		else if (tmp->type != REDIR_L && !tmp->next)
 		{
-			printf("minishell: syntax error near unexpected token 'newline'");
+			printf("minishell: syntax error near unexpected token 'newline'\n");
 			return (FAIL);
 		}
 	}

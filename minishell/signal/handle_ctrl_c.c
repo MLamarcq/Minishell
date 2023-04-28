@@ -6,13 +6,13 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:06:27 by mael              #+#    #+#             */
-/*   Updated: 2023/04/25 16:28:17 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:59:21 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-extern int g_exit_stt;
+extern int	g_exit_stt;
 
 void	handle_ctrl_c(int signal)
 {

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 14:08:42 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:57:09 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,6 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 	mini_sh->exec->fd_hr = malloc(sizeof(int) * mini_sh->exec->nbr_fd_hr + 1);
 	if (!mini_sh->exec->fd_hr)
 		return (FAIL_MALLOC);
-	//change_hr_doc(mini_sh);
-	printf(BOLD_GREEN"nbr_hr_doc = %d"RST"\n", mini_sh->exec->nbr_fd_hr);
-	// mini_sh->exec->fd_hr[mini_sh->exec->nbr_fd_hr] = 0;
 	mini_sh->exec->hr_name = malloc(sizeof(char *) * (mini_sh->exec->nbr_fd_hr + 1));
 	if (!mini_sh->exec->hr_name)
 		return (FAIL_MALLOC);
@@ -93,14 +90,11 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 		{
 			if (tmp->type == HR_DOC)
 			{
-				//analyse_hrdoc_before_alloc(mini_sh, tmp);
 				mini_sh->exec->hr_name[i] = ft_strjoin_rfree(".heredoc", ft_itoa(i));
 				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT , 0644);
 				if (mini_sh->exec->fd_hr[i] == -1)
 					return (FAIL);
-				printf(GREEN"fd_hr[%i] == %d\t%s"RST"\n", i, mini_sh->exec->fd_hr[i], tmp->next->word);
 				tmp = tmp->next;
-				//if (mini_sh->exec->ana_hr == 0)
 				break ;
 			}
 			tmp = tmp->next;
@@ -120,7 +114,6 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp)
 		input = readline("&>");
 		if (g_exit_stt == 130)
 		{
-			printf(BACK_RED"free_all hrdoc"RST"\n");
 			close_all(mini_sh);
 			free_all(mini_sh);
 			exit(130);
@@ -176,8 +169,6 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
-		//g_exit_stt = 130;
-		//close_all(mini_sh);
 		waitpid(child, &g_exit_stt, 0);
 		if (WIFEXITED(g_exit_stt))
 		{
@@ -203,16 +194,13 @@ void	go_to_last_read(t_mini_sh *mini_sh, int i_exec)
 	}
 	if (check == 1)
 	{
-		print_type(mini_sh->sep_type[i_last_read]);
 		if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == REDIR_L)
 			mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
 		else if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == HR_DOC && mini_sh->exec->fd_hr[i_last_read - 1])
 		{
 			if (mini_sh->exec->fd_hr[i_last_read - 1])
 				close (mini_sh->exec->fd_hr[i_last_read - 1]);
-
 			mini_sh->exec->fd_hr[i_last_read - 1] = open(mini_sh->exec->hr_name[i_last_read - 1], O_RDONLY, 0644);
-			
 			if (!mini_sh->exec->hr_name[i_last_read - 1])
 				return ; 
 			mini_sh->exec->fd_in = mini_sh->exec->fd_hr[i_last_read - 1];
@@ -248,8 +236,6 @@ int	one_l_multi_hr(t_mini_sh *mini_sh)
 		}
 		tmp = tmp->next;
 	}
-	printf(BACK_CYAN"l_check: %i"RST"\n", l_check);
-	printf(BACK_CYAN"hr_check: %i"RST"\n", hr_check);
 	if (l_check == SUCCESS && hr_check == SUCCESS)
 		return (SUCCESS);
 	return (FAIL);
@@ -265,51 +251,13 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 	if (mini_sh->sep_2 &&  mini_sh->sep_type && (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
-	// if (mini_sh->sep_type && i_exec > 0 && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
-	// 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
-	// if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1])
-	// {
-	// 	printf(RED"YOUPI\n"RST);
-	// 	if (mini_sh->sep_type[i_exec + 1] == PIPE)
-	// 		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
-	// 	else if (mini_sh->sep_type[i_exec + 1] == REDIR_R)
-	// 		mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
-	// 	else if (mini_sh->sep_type[i_exec + 1] == APPEND)
-	// 		mini_sh->exec->fd_out = 
-	// 		mini_sh->exec->fd_app[mini_sh->exec->check_app];
-	// }
-	if (mini_sh->sep_type && do_good_redir_l(mini_sh, i_exec) == SUCCESS && one_l_multi_hr(mini_sh) == FAIL)// mini_sh->sep_type[i_exec + 2] == FAIL)
+	if (mini_sh->sep_type && do_good_redir_l(mini_sh, i_exec) == SUCCESS && one_l_multi_hr(mini_sh) == FAIL)
 	{
-		printf(BACK_RED"start"RST"\n");
-		// printf(BACK_CYAN"mini_sh->sep_type[i_exec + 1]: %i"RST"\n", mini_sh->sep_type[i_exec + 1]);
-		// print_type(mini_sh->sep_type[i_exec + 1]);
-		// if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
-		// 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
-		// else if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == HR_DOC)
-		// {
-			// close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1]);
-			// mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1] = 
-			// open(mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1], O_RDONLY, 0644);
-			// if (!mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1])
-			// 	return ; 
-			// mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1];
-		// }
 		go_to_last_read(mini_sh, i_exec);
 		mini_sh->exec->fd_out = 1;
 	}
 	else if (mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] != FAIL )
 	{
-		// if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
-		// 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
-		// else if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == HR_DOC)
-		// {
-		// 	// close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1]);
-		// 	// mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1] = 
-		// 	// open(mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1], O_RDONLY, 0644);
-		// 	// if (!mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1])
-		// 	// 	return ; 
-		// 	// mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1];
-		// }
 		go_to_last_read(mini_sh, i_exec);
 		do_good_redir(mini_sh, i_exec);
 	}

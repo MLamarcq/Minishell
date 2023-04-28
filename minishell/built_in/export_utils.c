@@ -6,12 +6,11 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:35:49 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/28 14:36:20 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:58:37 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
-
 
 int	init_env_sorted(t_mini_sh *mini_sh)
 {
@@ -39,8 +38,8 @@ int	if_arg(char **argv, t_mini_sh *mini_sh)
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
 		if (argv[1] && argv[1][0] == '-')
-				printf("minishell: export: `%s' : option are not alllowed\n", \
-				argv[1]);
+			printf("minishell: export: `%s' : option are not alllowed\n", \
+			argv[1]);
 		if (argv[1] && ft_isdigit(argv[1][0]) == 0)
 		{
 			mini_sh->data->dest = ft_strdup(argv[1]);
@@ -73,9 +72,10 @@ void	ft_free_tab(char **tab)
 
 int	are_they_the_same(t_mini_sh *mini_sh, int i)
 {
-	int j;
-	char *buf;
-	j =0;
+	int		j;
+	char	*buf;
+
+	j = 0;
 	while (mini_sh->data->new_envp[i][j])
 	{
 		if (mini_sh->data->new_envp[i][j] == '=')
@@ -94,10 +94,10 @@ int	are_they_the_same(t_mini_sh *mini_sh, int i)
 
 int	already_here(t_mini_sh *mini)
 {
-	int i;
-	int j;
-	char *buf;
-	
+	int		i;
+	int		j;
+	char	*buf;
+
 	i = 0;
 	while (mini->env[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/24 16:04:24 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:45:34 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,21 @@ void	glue_hrdoc(t_mini_sh *mini_sh)
 			ite++;
 		while (mini_sh->output[ite] \
 		&& ft_is_sep_parse(mini_sh->output[ite]) == FAIL)
-		{
-			count_quote_arg(mini_sh->output, &ite);
-			if (ite != 0)
-				detect_hrdoc_glue(mini_sh, &is_did, &glue, ite);
-			else
-				detect_hrdoc_glue_2(mini_sh, &is_did, &glue, ite);
-			if (is_did == SUCCESS)
-			{
-				set_after_glue_hrdoc(mini_sh, glue);
-				ite = 0;
-			}
-			ite++;
-		}
+			inside_glue_hrdoc(mini_sh, &ite, &is_did, &glue);
 	}
+}
+
+void	inside_glue_hrdoc(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue)
+{
+	count_quote_arg(mini_sh->output, ite);
+	if (*ite != 0)
+		detect_hrdoc_glue(mini_sh, is_did, glue, *ite);
+	else
+		detect_hrdoc_glue_2(mini_sh, is_did, glue, *ite);
+	if (*is_did == SUCCESS)
+	{
+		set_after_glue_hrdoc(mini_sh, *glue);
+		*ite = 0;
+	}
+	(*ite)++;
 }

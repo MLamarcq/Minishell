@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 14:16:05 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:48:44 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,7 @@ void	init_rl(t_mini_sh *mini_sh)
 	mini_sh->exec = NULL;
 	mini_sh->pids = NULL;
 	mini_sh->rl_out = NULL;
-	// mini_sh->rl_out = &test;
-	// mini_sh->rl_out->type = 0;
-	// mini_sh->rl_out->word = NULL;
-	// mini_sh->rl_out->next = NULL;
-	// mini_sh->rl_out->prev = NULL;
 	memset( &mini_sh->rl_out, 0, sizeof( t_parse ) );
-	//memset( &mini_sh->exec, 0, sizeof( t_exec_t ) );
 	memset( &mini_sh->data, 0, sizeof( t_env ) );
 }
 
@@ -87,6 +81,3 @@ int	main(int argc, char *argv[], char **envp)
 	(void)argv;
 	return (0);
 }
-
-
-// tttt1tttt

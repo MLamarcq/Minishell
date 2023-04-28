@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:39:44 by mael              #+#    #+#             */
-/*   Updated: 2023/04/23 22:48:14 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/28 14:55:47 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,40 +16,22 @@ extern int	g_exit_stt;
 
 int	to_empty_line(char **argv, t_mini_sh *mini_sh)
 {
-	char	*env_ctt;
-	char	*dest;
-	int		len;
-	int		j;
-	int		i;
-
-	j = 0;
-	i = -1;
-	env_ctt = ft_find_var_env(mini_sh->env, argv[1]);
+	mini_sh->data->env_ctt = ft_find_var_env(mini_sh->env, argv[1]);
 	if (!argv || !argv[1])
 		return (FAIL);
-	while (mini_sh->env[++i])
+	while (mini_sh->env[mini_sh->data->i])
 	{
-		if (ft_strncmp(mini_sh->env[i], argv[1], ft_strlen(argv[1]) - 1) == 0)
+		if (ft_strncmp(mini_sh->env[mini_sh->data->i], argv[1], \
+		ft_strlen(argv[1]) - 1) == 0)
 		{
-			len = ft_strlen(argv[1]) + 1;
-			dest = malloc(sizeof(char) * ft_strlen(env_ctt) + 1);
-			if (!dest)
-				return (FAIL_MALLOC);
-			while (mini_sh->env[i][len] && env_ctt[mini_sh->data->ite_genv] \
-			&& mini_sh->env[i][len] == env_ctt[mini_sh->data->ite_genv])
-			{
-				dest[j] = mini_sh->env[i][len];
-				to_empty_line_utils(mini_sh, &len, &j);
-			}
-			dest[j] = '\0';
-			if (ft_strncmp(dest, env_ctt, ft_strlen(dest)) == 0)
-			{
-				strcmp_empty_line(mini_sh, &dest, &i, &env_ctt);
+			if (to_empty_line_utils(mini_sh, argv) != SUCCESS)
+				return (FAIL);
+			if (strcmp_empty_line(mini_sh) == SUCCESS)
 				break ;
-			}
 		}
+		mini_sh->data->i++;
 	}
-	end_empty_line(&env_ctt);
+	end_empty_line(mini_sh);
 	return (SUCCESS);
 }
 

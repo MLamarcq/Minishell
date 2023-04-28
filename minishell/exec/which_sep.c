@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 13:29:33 by mael              #+#    #+#             */
-/*   Updated: 2023/04/28 13:21:34 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:22:41 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,53 +40,3 @@ int	init_exec(t_mini_sh *mini_sh)
 	mini_sh->exec->already_hr = 0;
 	return (SUCCESS);
 }
-
-// int	if_redir_r(t_mini_sh *mini_sh, int i_exec)
-// {
-// 	t_parse	*tmp;
-
-// 	tmp = mini_sh->rl_out_head;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == REDIR_R)
-// 		{
-// 			tmp = tmp->next;
-// 			if (opendir(tmp->word) != NULL)
-// 			{
-// 				printf("minishell: %s: Is a directory\n", tmp->word);
-// 				return (FAIL);
-// 			}
-// 			else if (tmp->type == _FILE || tmp->type == CMD_ABS)
-// 			{
-// 				if (access(tmp->word, W_OK) == -1)
-// 				{
-// 					printf("minishell: %s: permission denied\n", tmp->word);
-// 					return (FAIL);
-// 				}
-// 			}
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	(void)i_exec;
-// 	return (SUCCESS);
-// }
-
-// int	if_redir_l(t_mini_sh *mini_sh)
-// {
-// 	t_parse	*tmp;
-
-// 	tmp = mini_sh->rl_out_head;
-// 	if (init_exec(mini_sh) < 0)
-// 		return (FAIL);
-// 	if (tmp->type == REDIR_L)
-// 	{
-// 		tmp = tmp->next;
-// 		mini_sh->exec->fd_l = open(tmp->word, O_RDONLY, 0777);
-// 		if (!mini_sh->exec->fd_l)
-// 		{
-// 			printf("Failure during opening the file");
-// 			return (FAIL);
-// 		}
-// 	}
-// 	return (SUCCESS);
-// }

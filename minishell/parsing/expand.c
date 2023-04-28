@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 12:19:16 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:24:10 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,9 @@ void	expand(t_mini_sh *mini_sh)
 		ft_strlen(mini_sh->rl_out->word)) == 0)
 		dest = ft_strdup(mini_sh->rl_out->word);
 		inside_expand(mini_sh, &save, &i_dollar, dest);
-		if (dest != NULL)
-		{
-			free(dest);
-			dest = NULL;
-		}
+		free_dest_expand(&dest);
 	}
-	if (dest != NULL)
-	{
-		free(dest);
-		dest = NULL;
-	}
+	free_dest_expand(&dest);
 }
 
 void	inside_expand(t_mini_sh *mini_sh, int *save, int *i_dollar, char *dest)

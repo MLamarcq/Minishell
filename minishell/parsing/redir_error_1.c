@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/27 11:49:54 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:57:14 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,26 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 	DIR		*dir_name;
 
 	tmp = mini_sh->rl_out_head;
-	dir_name = opendir(tmp->word);
+	dir_name = NULL;
 	while (tmp)
 	{
 		if (tmp->next && (tmp->type == REDIR_R || tmp->type == APPEND))
 		{
 			tmp = tmp->next;
-			if (dir_name != NULL)
-			{
-				if (print_error(1, tmp) == FAIL)
-					return (closedir(dir_name), FAIL);
-			}
-			if (tmp->type == _FILE || tmp->type == CMD_ABS)
+			dir_name = opendir(tmp->word);
+			if (dir_name != NULL && print_error(1, tmp) == FAIL)
+				return (closedir(dir_name), FAIL);
+			if (tmp->type == _FILE || access(tmp->word, X_OK) == 0)
 			{
 				if (access(tmp->word, W_OK) == -1)
-				{
-					if (print_error(2, tmp) == FAIL)
-						return (FAIL);
-				}
+					return (closedir(dir_name), print_error(2, tmp), FAIL);
 			}
 		}
 		tmp = tmp->next;
 	}
-	return (closedir(dir_name), SUCCESS);
+	if (dir_name != NULL)
+		closedir(dir_name);
+	return (SUCCESS);
 }
 
 int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
@@ -61,9 +58,6 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 					return (FAIL);
 			}
 		}
-		if (tmp->type == PIPE && ((tmp->next->type == REDIR_R) \
-		|| (tmp->next->type == APPEND)) && print_error(4, tmp) == FAIL)
-			return (FAIL);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
@@ -71,12 +65,12 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 
 int	check_redi_r_append_error(t_mini_sh *mini_sh)
 {
-	// if (check_redir_follow(mini_sh) == FAIL)
-	// 	return (FAIL);
 	if (check_redi_r_append_error_1(mini_sh) == FAIL)
 		return (FAIL);
-	// else if (check_redi_r_append_error_2(mini_sh) == FAIL)
-	// 	return (FAIL);
+	else if (redir_r_error_2(mini_sh) == FAIL)
+		return (FAIL);
+	else if (check_redi_r_append_error_2(mini_sh) == FAIL)
+		return (FAIL);
 	else if (redir_l_error(mini_sh) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
@@ -97,7 +91,7 @@ int	print_error(int index, t_parse *tmp)
 	else if (index == 3)
 	{
 		printf("%s: connot access '%s' : No such file or directory\n", \
-		tmp->next->word, tmp->next->word);
+		tmp->word, tmp->word);
 		return (FAIL);
 	}
 	else if (index == 4)

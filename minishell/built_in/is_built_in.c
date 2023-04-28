@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_built_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:10:09 by mael              #+#    #+#             */
-/*   Updated: 2023/04/23 22:51:31 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/28 14:44:31 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	init_env(t_mini_sh *mini_sh)
 	mini_sh->data->size = envp_size(mini_sh->env);
 	mini_sh->data->count = 0;
 	mini_sh->data->ite_genv = 0;
+	mini_sh->data->env_ctt = NULL;
+	mini_sh->data->dest = NULL;
+	mini_sh->data->len = 0;
+	mini_sh->data->j = 0;
+	mini_sh->data->i = 0;
 	return (SUCCESS);
 }
 

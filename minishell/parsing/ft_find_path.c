@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_find_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 14:54:57 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/27 19:28:46 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/28 15:48:16 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	ft_find_cmd(t_mini_sh *mini_sh, int ite_env)
 		free(path_absolue);
 		if (access(cmd_path_absolue, X_OK) == 0)
 		{
-		//	printf(BACK_GREEN"cmd_path_absolue: %s"RST"\n", cmd_path_absolue);
 			free(cmd_path_absolue);
 			ft_free_all(cmd, path_cmd);
 			return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 17:38:32 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/23 22:43:28 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/28 15:23:44 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,13 @@ void	start_rplc_dlr(t_mini_sh *mini_sh, int *save, int *save2, int *i_rplc)
 	&& valid_id(mini_sh->rl_out->word[(*i_rplc)]) == SUCCESS)
 		(*i_rplc)++;
 	*save2 = (*i_rplc);
+}
+
+void	free_dest_expand(char **dest)
+{
+	if ((*dest) != NULL)
+	{
+		free((*dest));
+		(*dest) = NULL;
+	}
 }

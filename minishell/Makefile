@@ -34,7 +34,7 @@ built_in/echo.c \
 built_in/cd.c \
 built_in/pwd.c \
 built_in/env.c \
-built_in/exit.c \
+built_in/exit_build.c \
 built_in/export_arg.c \
 built_in/export_simple.c \
 built_in/unset.c \
@@ -56,6 +56,7 @@ parsing/glue_hrdoc.c \
 parsing/glue_append.c \
 parsing/glue_redirr.c \
 parsing/glue_redirl.c \
+parsing/is_sep_parsing.c \
 parsing/replace_dollar.c \
 parsing/quote.c \
 parsing/remove_quote_2.c \
@@ -68,6 +69,8 @@ parsing/move_rdr_cmd.c \
 parsing/str_wo_qt.c \
 parsing/set_type_utils.c \
 parsing/set_index.c \
+parsing/move_rdr_utils.c \
+parsing/move_rdr_case.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
@@ -85,6 +88,7 @@ exec/heredoc_2.c \
 exec/exit.c \
 exec/expand_hrdoc.c \
 exec/expand_hrdoc_utils.c \
+exec/utils_append.c \
 
 # hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
 # hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell

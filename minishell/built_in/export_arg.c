@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:44:47 by mael              #+#    #+#             */
-/*   Updated: 2023/04/28 14:39:51 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:57:07 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	alloc_new_tab(t_mini_sh *mini_sh)
 		if (!mini_sh->data->new_envp)
 			return (FAIL_MALLOC);
 		mini_sh->data->new_envp[mini_sh->data->size + 1] = 0;
-
 	}
 	return (SUCCESS);
 }
@@ -63,8 +62,9 @@ int	realloc_tab_util(t_mini_sh *mini_sh, int *check, int *i)
 
 int	realloc_tab(int *i, t_mini_sh *mini_sh)
 {
-	int check = 0;
+	int	check;
 
+	check = 0;
 	if (alloc_new_tab(mini_sh) < 0)
 		return (FAIL);
 	(*i) = -1;

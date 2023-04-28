@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:55:23 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/25 16:20:29 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:08:07 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,31 @@
 
 extern int	g_exit_stt;
 
-void	exit_status(t_mini_sh *mini_sh, int i_exec)
+void	ft_parent(t_mini_sh *mini_sh, int *i_exec)
 {
 	int	err;
 
-	while (mini_sh->prepare_exec[i_exec])
+	close_all(mini_sh);
+	(*i_exec) = 0;
+	while (mini_sh->prepare_exec[(*i_exec)] && mini_sh->pids \
+	&& mini_sh->pids[(*i_exec)] && mini_sh->pids[(*i_exec)] != FAIL)
 	{
-		// printf("g_exit_stt : %d\n", g_exit_stt);
-		if (mini_sh->pids[i_exec] != FAIL)
-			waitpid(mini_sh->pids[i_exec], &g_exit_stt, 0);
-		// printf("start  err : %d\n", g_exit_stt);
+		if (mini_sh->pids[(*i_exec)] != FAIL)
+			waitpid(mini_sh->pids[(*i_exec)], &g_exit_stt, 0);
 		if (WIFEXITED(g_exit_stt))
 		{
-			//err = WIFEXITED(g_exit_stt);
-			// printf("bef err : %d\n", g_exit_stt);
 			err = WEXITSTATUS(g_exit_stt);
-			// printf("aft err : %d\n", err);
 			g_exit_stt = err;
-			// fprintf(stderr, "mini_sh->prepare_exec[%i][0] = %s\n", i_exec, mini_sh->prepare_exec[i_exec][0]);
-			// printf("exit_stt : %d\n", g_exit_stt);
 		}
 		else if (WIFSIGNALED(g_exit_stt))
 			g_exit_stt = 128 + WTERMSIG(g_exit_stt);
-		i_exec++;
+		if (g_exit_stt == 131)
+			write(1, "Quit (core dumped)\n", 19);
+		(*i_exec)++;
 	}
+	if (mini_sh->exec->nbr_fd_hr > 0)
+		unlink_hr_dc(mini_sh);
+	exec_signal(1);
 }
+
+

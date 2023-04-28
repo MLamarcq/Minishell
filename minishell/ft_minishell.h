@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 14:39:51 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:09:41 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ typedef struct s_env
 	int		size;
 	int 	count;
 	int		ite_genv;
+	char	*env_ctt;
+	char	*dest_unset;
+	int		len;
+	int		j;
+	int		i;
 }			t_env;
 
 typedef struct s_mini_sh
@@ -146,6 +151,10 @@ typedef struct s_mini_sh
 	t_parse		*rl_check_redir;
 	t_parse		*rl_out;
 	t_parse		*rl_out_head;
+	t_parse		*temp;
+	t_parse		*tmp;
+	t_parse		*tmp_2;
+	t_parse		*tmp_3;
 }				t_mini_sh;
 // ---------------------------- end struct ---------------------------------- //
 
@@ -180,20 +189,28 @@ void	repeat_part(char **str_wo_qt, char *str, int i_start, int i_end);
 void	second_part(char *str, int *last_qt, int *i_act);
 char	*write_without_qt_2(char *str);
 //parsing/move_rdr_cmd.c
-int		case_1(t_mini_sh *mini_sh);
-int		case_2(t_mini_sh *mini_sh);
-int		case_3(t_mini_sh *mini_sh);
+void	all_move(t_mini_sh *mini_sh);
+int		move_1(t_mini_sh *mini_sh);
+int		move_2(t_mini_sh *mini_sh);
+void	move_2_3(t_mini_sh *mini, t_parse *tmp, t_parse *temp, t_parse *tmp_2);
+int		move_3(t_mini_sh *mini_sh);
+//parsing/is_sep_parsing.c
 int		is_all(int type);
 int		issep_read(int type);
 int		issep_write(int type);
-int		move_1(t_mini_sh *mini_sh);
-int		move_2(t_mini_sh *mini_sh);
-int		move_3(t_mini_sh *mini_sh);
+//parsing/move_rdr_utils.c
+void	move_last(t_mini_sh *mini, t_parse *temp, t_parse *tmp, t_parse *tmp_3);
+void	move_middle(t_mini_sh *mini_sh);
 //parsing/glue_redirl.c
 void	detect_redirl_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
-void	detect_redirl_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
+void	detect_redirl_glue_2(t_mini_sh *mini, int *is_did, int *glue, int ite);
 void	glue_redirl(t_mini_sh *mini_sh);
+void	inside_glue_redirl(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue);
 void	set_after_glue_redirl(t_mini_sh *mini_sh, int glue);
+//parsing/move_rdr_case.c
+int		case_1(t_mini_sh *mini_sh);
+int		case_2(t_mini_sh *mini_sh);
+int		case_3(t_mini_sh *mini_sh);
 //parsing/glue_pipe.c
 void	detect_space_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void	glue_pipe(t_mini_sh *mini_sh);
@@ -202,11 +219,13 @@ void	set_after_glue_pipe(t_mini_sh *mini_sh, int glue);
 void	detect_hrdoc_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void	detect_hrdoc_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void	glue_hrdoc(t_mini_sh *mini_sh);
+void	inside_glue_hrdoc(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue);
 void	set_after_glue_hrdoc(t_mini_sh *mini_sh, int glue);
 //parsing/remove_quote_2.c
 int		isthere_quote(t_mini_sh *mini_sh);
 void	remove_quote_2(t_mini_sh *mini_sh);
 //parsing/replace_dollar.c
+void	free_dest_expand(char **dest);
 void	replace_dollar(t_mini_sh *mini_sh, int *i_replace);
 void	start_rplc_dlr(t_mini_sh *mini_sh, int *save, int *save2, int *i_rplc);
 //parsing/quote.c
@@ -220,15 +239,18 @@ int		check_redi_r_append_error_1(t_mini_sh *mini_sh);
 int		check_redi_r_append_error_2(t_mini_sh *mini_sh);
 int		print_error(int index, t_parse *tmp);
 //parsing/set_index.c
+void	all_glue(t_mini_sh *mini_sh);
 void	set_index(t_mini_sh *mini_sh);
 //parsing/glue_redirr.c
 void	detect_redirr_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
-void	detect_redirr_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
+void	detect_redirr_glue_2(t_mini_sh *mini, int *is_did, int *glue, int ite);
 void	glue_redirr(t_mini_sh *mini_sh);
+void	inside_glue_redirr(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue);
 void	set_after_glue_redirr(t_mini_sh *mini_sh, int glue);
 //parsing/redir_error_2.c
 int		check_redir_follow(t_mini_sh *mini_sh);
 int		redir_l_error(t_mini_sh *mini_sh);
+int		redir_r_error_2(t_mini_sh *mini_sh);
 //parsing/parsing.c
 int		build_result_output(t_mini_sh *mini_sh, char *line);
 int		check_rdr_follow(t_mini_sh *mini_sh);
@@ -239,6 +261,7 @@ void	put_word_in_minish(t_mini_sh *mini, char *lne, int *sv, int *ite);
 void	detect_app_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void	detect_app_glue_2(t_mini_sh *mini_sh, int *is_did, int *glue, int ite);
 void	glue_app(t_mini_sh *mini_sh);
+void	inside_glue_app(t_mini_sh *mini_sh, int *ite, int *is_did, int *glue);
 void	set_after_glue_app(t_mini_sh *mini_sh, int glue);
 //parsing/set_type.c
 int		set_type(t_mini_sh *mini_sh);
@@ -285,7 +308,7 @@ int		init_hr_dc_tab(t_mini_sh *mini_sh);
 int		one_l_multi_hr(t_mini_sh *mini_sh);
 void	unlink_hr_dc(t_mini_sh *mini_sh);
 //exec/exit.c
-void	exit_status(t_mini_sh *mini_sh, int i_exec);
+void	ft_parent(t_mini_sh *mini_sh, int *i_exec);
 //exec/init_fd.c
 void	count_redir_for_alloc(t_parse *tmp, t_mini_sh *mini_sh);
 void	init_redir_fd(t_mini_sh *mini_sh);
@@ -313,7 +336,7 @@ int		exec_builtin(t_mini_sh *mini_sh, int i);
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
 int		exec_redir(t_mini_sh *mini_sh, int i_exec);
 int		first_is_a_redir(t_mini_sh *mini_sh);
-void	increase_check(t_mini_sh *mini_sh, int i_exec, int type);
+void	increase_check(t_mini_sh *mini_sh, int type);
 int		init_fd_exec(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);
 int		init_tab_fd(t_mini_sh *mini_sh);
@@ -327,8 +350,6 @@ char	*ft_find_path_2(t_mini_sh *mini_sh, char *cmd_to_find);
 //exec/append.c
 void	analyse_append_before_alloc(t_mini_sh *mini_sh, t_parse *tmp);
 void	change_nbr_append(t_mini_sh *mini_sh);
-void	do_append(t_mini_sh *mini_sh, int i_exec);
-void	free_append(t_mini_sh *mini_sh);
 int		init_append_tab(t_mini_sh *mini_sh);
 int		init_fd_app(t_mini_sh *mini_sh, t_parse **tmp, int *i);
 void	when_redir_r_after(t_mini_sh *mini_sh, int i);
@@ -337,6 +358,11 @@ int		count_sep_2(t_mini_sh *mini_sh);
 void	is_redir_alone(t_mini_sh *mini_sh);
 int		is_sep(char *word);
 int		is_sep_int(int type);
+//exec/utils_append.c
+int		change_nbr_append_util(t_mini_sh *mini_sh, t_parse *temp, int *check);
+void	do_append(t_mini_sh *mini_sh, int i_exec);
+void	free_append(t_mini_sh *mini_sh);
+int		init_append_tab_util(t_mini_sh *mini_sh, t_parse *tmp, int *i);
 //exec/expand_hrdoc_utils.c
 void	hrdoc_replace_dollar(t_mini_sh *mini_sh, char **word, int *i_replace);
 void	hrdoc_start_rplc_dlr(char **word, int *sv, int *sv2, int *i_rplc);
@@ -408,20 +434,14 @@ int		exec_unset(char **argv, t_mini_sh *mini_sh);
 int		to_empty_line(char **argv, t_mini_sh *mini_sh);
 int		unset(char **argv, t_mini_sh *mini_sh);
 //built_in/empty_line_utils.c
-void	end_empty_line(char **env_ctt);
-void	strcmp_empty_line(t_mini_sh *mini, char **dest, int *i, char **env_ctt);
-void	to_empty_line_utils(t_mini_sh *mini_sh, int *len, int *j);
+void	end_empty_line(t_mini_sh *mini_sh);
+int		strcmp_empty_line(t_mini_sh *mini_sh);
+int		to_empty_line_utils(t_mini_sh *mini_sh, char **argv);
 //built_in/export_arg.c
 int		alloc_new_tab(t_mini_sh *mini_sh);
 int		export_arg(char **argv, t_mini_sh *mini_sh);
 int		realloc_tab(int *i, t_mini_sh *mini_sh);
 int		realloc_tab_util(t_mini_sh *mini_sh, int *check, int *i);
-//built_in/exit.c
-void	check_arg(t_mini_sh *mini_sh);
-int		check_num(char **tab);
-int		exit_len(char **tab);
-void	ft_exit(char **tab, t_mini_sh *mini_sh);
-void	ft_exit_1(char **tab, t_mini_sh *mini_sh);
 //built_in/export_simple.c
 int		export(char **argv, t_mini_sh *mini_sh);
 int		is_sorted(t_mini_sh *mini_sh);
@@ -439,6 +459,12 @@ int		do_built_in(t_mini_sh *mini_sh, int i);
 int		init_env(t_mini_sh *mini_sh);
 int		is_built_in_2(int i, t_mini_sh *mini_sh);
 void	is_built_in_3(t_mini_sh *mini_sh, int i);
+//built_in/exit_build.c
+void	check_arg(t_mini_sh *mini_sh);
+int		check_num(char **tab);
+int		exit_len(char **tab);
+void	ft_exit(char **tab, t_mini_sh *mini_sh);
+void	ft_exit_1(char **tab, t_mini_sh *mini_sh);
 //built_in/cd.c
 int		do_cd(int *i, char *home, char **str, t_mini_sh *mini_sh);
 int		export_cd(char **str, t_mini_sh *mini_sh);
