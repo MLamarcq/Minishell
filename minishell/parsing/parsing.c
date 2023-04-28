@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 14:10:55 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 16:47:26 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 10:09:32 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,15 @@ int	ft_parsing(t_mini_sh *mini_sh)
 		expand(mini_sh);
 		if (set_type(mini_sh) == FAIL)
 			return (FAIL);
+		//ici erreurs qd 2 redirs se suivent
 		remove_quote_2(mini_sh);
 		//check_rdr_follow(mini_sh);
 		set_index(mini_sh);
 		//move_redir_cmd(mini_sh);
 		// move_1(mini_sh);
-		move_1(mini_sh);
-		move_2(mini_sh);
-		move_3(mini_sh);
+		// move_1(mini_sh);
+		// move_2(mini_sh);
+		// move_3(mini_sh);
 
 		//printf(BOLD_BLUE"res case 1 = %d"RST"\n", case_1(mini_sh));
 		//if (move_1(mini_sh) == SUCCESS)

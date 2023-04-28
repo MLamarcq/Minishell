@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:44:47 by mael              #+#    #+#             */
-/*   Updated: 2023/04/27 13:37:57 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:57:53 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,139 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
+int	are_they_the_same(t_mini_sh *mini_sh, int i)
+{
+	int j;
+	char *buf;
+	j =0;
+	//printf(PURPLE"mini_sh->data->new_envp[%d] = %s"RST"\n", i, mini_sh->data->new_envp[(i)]);
+	while (mini_sh->data->new_envp[i][j])
+	{
+		if (mini_sh->data->new_envp[i][j] == '=')
+			break ;
+		j++;
+	}
+	buf = ft_strdup_len(mini_sh->data->new_envp[i], 0, j);
+	// if (buf)
+	// 	printf("buf = %s\n", buf);
+	// printf(BOLD_BLUE"dest = %s"RST"\n", mini_sh->data->dest);
+	// printf("j = %d\n", j);
+	// printf("len_buf = %d\n", ft_strlen(buf));
+	// printf("res = %d\n", ft_strncmp(buf, mini_sh->data->dest, ft_strlen(buf) - 1));
+	if (ft_strncmp(buf, mini_sh->data->dest, ft_strlen(buf) - 1) == 0)
+	{
+		//printf(BOLD_GREEN"on y est"RST"\n");
+		free(buf);
+		return (SUCCESS);
+	}
+	//printf(BOLD_YELLOW"on y est pas"RST"\n");
+	free(buf);
+	return (FAIL);
+}
+
+int	already_here(t_mini_sh *mini_sh)
+{
+	int i;
+	int j;
+	char *buf;
+	
+	i = 0;
+	while (mini_sh->env[i])
+	{
+		j = 0;
+		while (mini_sh->env[i][j])
+		{
+			if (mini_sh->env[i][j] == '=')
+			{
+				buf = ft_strdup_len(mini_sh->env[i], 0, j);
+				if (ft_strncmp(buf, mini_sh->data->dest, ft_strlen(buf) - 1) == 0)
+				{
+					free(buf);
+					return (SUCCESS);
+				}
+				free(buf);
+			}
+			j++;
+		}
+		i++;
+	}
+	// buf = ft_strdup_len(mini_sh->data->env[i], 0, j);
+	// if (ft_strncmp(buf, mini_sh->data->dest, ft_strlen(buf) - 1) == 0)
+	// {
+	// 	free(buf);
+	// 	return (SUCCESS);
+	// }
+	// free(buf);
+	return (FAIL);
+}
+
+int	alloc_new_tab(t_mini_sh *mini_sh)
+{
+	if (already_here(mini_sh) == SUCCESS)
+	{
+		mini_sh->data->new_envp = (char **)malloc(sizeof (char *) * \
+			(mini_sh->data->size + 1));
+		if (!mini_sh->data->new_envp)
+			return (FAIL_MALLOC);
+		mini_sh->data->new_envp[mini_sh->data->size] = 0;
+	}
+	else
+	{
+		mini_sh->data->new_envp = (char **)malloc(sizeof (char *) * \
+		(mini_sh->data->size + 2));
+		if (!mini_sh->data->new_envp)
+			return (FAIL_MALLOC);
+		mini_sh->data->new_envp[mini_sh->data->size + 1] = 0;
+
+	}
+	return (SUCCESS);
+}
+
 int	realloc_tab(int *i, t_mini_sh *mini_sh)
 {
-	mini_sh->data->new_envp = (char **)malloc(sizeof (char *) * \
-		(mini_sh->data->size + 2));
-	if (!mini_sh->data->new_envp)
-		return (FAIL_MALLOC);
-	mini_sh->data->new_envp[mini_sh->data->size + 1] = 0;
+	int check = 0;
+	// mini_sh->data->new_envp = (char **)malloc(sizeof (char *) * 
+	// 	(mini_sh->data->size + 2));
+	// if (!mini_sh->data->new_envp)
+	// 	return (FAIL_MALLOC);
+	// mini_sh->data->new_envp[mini_sh->data->size + 1] = 0;
+	if (alloc_new_tab(mini_sh) < 0)
+		return (FAIL);
 	(*i) = -1;
 	while (mini_sh->env[++(*i)])
+	{
 		mini_sh->data->new_envp[(*i)] = ft_strdup(mini_sh->env[(*i)]);
-	mini_sh->data->new_envp[(*i)] = ft_strdup(mini_sh->data->dest);
+		if (are_they_the_same(mini_sh, *i) == SUCCESS)
+		{
+			free(mini_sh->data->new_envp[(*i)]);
+			mini_sh->data->new_envp[(*i)] = ft_strdup(mini_sh->data->dest);
+			check = 1;
+		}
+	}
+	if (check == 0)
+		mini_sh->data->new_envp[(*i)] = ft_strdup(mini_sh->data->dest);
 	ft_free_tab(mini_sh->env);
-	mini_sh->env = (char **)malloc(sizeof (char *) * \
+	if (check == 0)
+	{
+		mini_sh->env = (char **)malloc(sizeof (char *) * \
 		(mini_sh->data->size + 2));
-	if (!mini_sh->env)
-		return (FAIL_MALLOC);
+		if (!mini_sh->env)
+			return (FAIL_MALLOC);
+	}
+	else
+	{
+		mini_sh->env = (char **)malloc(sizeof (char *) * \
+		(mini_sh->data->size + 1));
+		if (!mini_sh->env)
+			return (FAIL_MALLOC);
+	}
 	(*i) = -1;
 	while (mini_sh->data->new_envp[++(*i)])
 		mini_sh->env[(*i)] = ft_strdup(mini_sh->data->new_envp[(*i)]);
-	mini_sh->env[mini_sh->data->size + 1] = 0;
+	if (check == 0)
+		mini_sh->env[mini_sh->data->size + 1] = 0;
+	else
+		mini_sh->env[mini_sh->data->size] = 0;
 	ft_free_tab(mini_sh->data->new_envp);
 	return (SUCCESS);
 }
