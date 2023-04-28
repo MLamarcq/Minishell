@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:07:31 by mael              #+#    #+#             */
-/*   Updated: 2023/04/27 13:43:59 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:49:17 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ void	exec_signal(int index)
 		//g_exit_stt = 130;
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (index == 4)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, &handle_sigquit);
+	}
+}
+
+void	handle_sigquit(int sig)
+{
+	g_exit_stt += sig;
+	if (sig == 3)
+	{
+		g_exit_stt = 131;
+		rl_replace_line("", 0);
+		rl_redisplay();
+		exit (131);
 	}
 }
 

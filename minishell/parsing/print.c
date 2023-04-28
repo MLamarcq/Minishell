@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 19:29:20 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/28 14:22:35 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	print_word(char *new_w)
 	x = 0;
 	while (new_w[x])
 	{
-		// printf(BACK_CYAN"%c"RST"", new_w[x]);
+		printf(BACK_CYAN"%c"RST"", new_w[x]);
 		x++;
 	}
-	// printf(BACK_RED"%i"RST"\n", new_w[x]);
+	printf(BACK_RED"%i"RST"\n", new_w[x]);
 }
 
 void	print_word2(char *new_w)
@@ -45,7 +45,7 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 	
 	i = 0;
 	tmp = mini_sh->rl_out_head;
-	// printf("\n...............start..................\n\n");
+	printf("\n...............start..................\n\n");
 	while (tmp->prev)
 		tmp = tmp->prev;
 	while (tmp)
@@ -60,7 +60,7 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 			break ;
 		i++;
 	}
-	// printf("\n.............reverse...................\n\n");
+	printf("\n.............reverse...................\n\n");
 	while (tmp->prev)
 	{
 		print_word(tmp->word);
@@ -74,7 +74,7 @@ void	ft_print_rl_out(t_mini_sh *mini_sh)
 	print_word(tmp->word);
 	if (tmp->type)
 		print_type(tmp->type);
-	// printf("\n............end................\n\n");
+	printf("\n............end................\n\n");
 }
 
 void	print_type(int type)

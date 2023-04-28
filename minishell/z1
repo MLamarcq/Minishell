@@ -1,5 +1,5 @@
 total 912
-drwxr-xr-x 8 mlamarcq 2022_paris   4096 Apr 28 14:27 .
+drwxr-xr-x 8 mlamarcq 2022_paris   4096 Apr 28 14:29 .
 drwxr-xr-x 5 mlamarcq 2022_paris   4096 Apr 28 11:10 ..
 drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 28 14:27 built_in
 -rw-r--r-- 1 mlamarcq 2022_paris   2423 Apr 28 11:10 color.h
@@ -13,17 +13,18 @@ drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 28 14:27 lib
 -rw-r--r-- 1 mlamarcq 2022_paris 203824 Apr 28 14:27 main.o
 -rw-r--r-- 1 mlamarcq 2022_paris   3349 Apr 28 11:13 Makefile
 -rwxr-xr-x 1 mlamarcq 2022_paris 632296 Apr 28 14:27 minishell
+-rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 14:29 mlamarcq
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 11:11 outfile
 drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 28 14:27 parsing
 drwxr-xr-x 2 mlamarcq 2022_paris   4096 Apr 28 14:27 signal
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 11:11 sqve
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 14:28 t1
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 12:03 t2
--rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 12:03 t3
+-rw-r--r-- 1 mlamarcq 2022_paris   1704 Apr 28 14:28 t3
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 12:03 t4
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 12:03 t5
 -rw-r--r-- 1 mlamarcq 2022_paris   5133 Apr 28 12:04 t6
--rw-r--r-- 1 mlamarcq 2022_paris   1648 Apr 28 12:25 z1
+-rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 14:29 z1
 -rw-r--r-- 1 mlamarcq 2022_paris     45 Apr 28 14:05 z2
 -rw-r--r-- 1 mlamarcq 2022_paris    180 Apr 28 13:59 z3
 -rw-r--r-- 1 mlamarcq 2022_paris      0 Apr 28 12:01 z4

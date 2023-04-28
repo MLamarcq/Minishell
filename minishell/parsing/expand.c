@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 02:21:41 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 22:40:53 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/04/28 12:19:16 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,13 @@ void	expand(t_mini_sh *mini_sh)
 		save = i_dollar;
 		if (ft_strncmp(mini_sh->rl_out->word, "<<", \
 		ft_strlen(mini_sh->rl_out->word)) == 0)
-			dest = ft_strdup(mini_sh->rl_out->word);
+		dest = ft_strdup(mini_sh->rl_out->word);
 		inside_expand(mini_sh, &save, &i_dollar, dest);
+		if (dest != NULL)
+		{
+			free(dest);
+			dest = NULL;
+		}
 	}
 	if (dest != NULL)
 	{

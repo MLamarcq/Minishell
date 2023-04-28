@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 16:55:46 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:39:51 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,9 @@ typedef struct s_exec_tools
 	int		check_hr;
 	int		ana_hr;
 	int		fd[2];
-	int		**tab_fd;
+	int		**tab_fd; 
+	int		already_hr;
+	int		already_l;
 } t_exec_t;
 
 typedef struct s_env
@@ -150,6 +152,7 @@ typedef struct s_mini_sh
 //signal/exec_signal.c
 void	exec_signal(int index);
 void	handle_sigint_2(int sig);
+void	handle_sigquit(int sig);
 //signal/handle_ctrl_c.c
 void	handle_ctrl_c(int signal);
 //main.c
@@ -228,6 +231,7 @@ int		check_redir_follow(t_mini_sh *mini_sh);
 int		redir_l_error(t_mini_sh *mini_sh);
 //parsing/parsing.c
 int		build_result_output(t_mini_sh *mini_sh, char *line);
+int		check_rdr_follow(t_mini_sh *mini_sh);
 int		ft_parsing(t_mini_sh *mini_sh);
 int		is_built_in(t_mini_sh *mini_sh);
 void	put_word_in_minish(t_mini_sh *mini, char *lne, int *sv, int *ite);
@@ -276,7 +280,9 @@ void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp);
 void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec);
 int		exec_all_hr_doc(t_mini_sh *mini_sh);
 void	free_hr_doc(t_mini_sh *mini_sh);
+void	go_to_last_read(t_mini_sh *mini_sh, int i_exec);
 int		init_hr_dc_tab(t_mini_sh *mini_sh);
+int		one_l_multi_hr(t_mini_sh *mini_sh);
 void	unlink_hr_dc(t_mini_sh *mini_sh);
 //exec/exit.c
 void	exit_status(t_mini_sh *mini_sh, int i_exec);
@@ -295,7 +301,9 @@ void	do_good_redir(t_mini_sh *mini_sh, int i_exec);
 int		do_good_redir_l(t_mini_sh *mini_sh, int i_exec);
 void	do_redir_l(t_mini_sh *mini_sh, int i_exec);
 void	free_redir_l(t_mini_sh *mini_sh);
+void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec);
 int		init_redir_l_tab(t_mini_sh *mini_sh);
+int		one_hr_multi_l(t_mini_sh *mini_sh);
 //exec/start_exec_2.c
 void	child_process(t_mini_sh *mini_sh, int i_exec);
 void	close_all(t_mini_sh *mini_sh);
@@ -404,11 +412,10 @@ void	end_empty_line(char **env_ctt);
 void	strcmp_empty_line(t_mini_sh *mini, char **dest, int *i, char **env_ctt);
 void	to_empty_line_utils(t_mini_sh *mini_sh, int *len, int *j);
 //built_in/export_arg.c
+int		alloc_new_tab(t_mini_sh *mini_sh);
 int		export_arg(char **argv, t_mini_sh *mini_sh);
-void	ft_free_tab(char **tab);
-int		if_arg(char **argv, t_mini_sh *mini_sh);
-int		init_env_sorted(t_mini_sh *mini_sh);
 int		realloc_tab(int *i, t_mini_sh *mini_sh);
+int		realloc_tab_util(t_mini_sh *mini_sh, int *check, int *i);
 //built_in/exit.c
 void	check_arg(t_mini_sh *mini_sh);
 int		check_num(char **tab);
@@ -421,6 +428,12 @@ int		is_sorted(t_mini_sh *mini_sh);
 int		print_export(char **argv, t_mini_sh *mini_sh);
 void	sort_export(t_mini_sh *mini_sh);
 void	swap_line(int i, t_mini_sh *mini_sh);
+//built_in/export_utils.c
+int		already_here(t_mini_sh *mini);
+int		are_they_the_same(t_mini_sh *mini_sh, int i);
+void	ft_free_tab(char **tab);
+int		if_arg(char **argv, t_mini_sh *mini_sh);
+int		init_env_sorted(t_mini_sh *mini_sh);
 //built_in/is_built_in.c
 int		do_built_in(t_mini_sh *mini_sh, int i);
 int		init_env(t_mini_sh *mini_sh);

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 13:29:33 by mael              #+#    #+#             */
-/*   Updated: 2023/04/27 16:23:57 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 13:21:34 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	init_exec(t_mini_sh *mini_sh)
 	mini_sh->exec->fd_l = 0;
 	mini_sh->exec->fd_r = 0;
 	mini_sh->exec->tab_fd = NULL;
+	mini_sh->exec->already_l = 0;
+	mini_sh->exec->already_hr = 0;
 	return (SUCCESS);
 }
 

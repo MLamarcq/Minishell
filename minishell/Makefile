@@ -41,6 +41,7 @@ built_in/unset.c \
 built_in/is_built_in.c \
 built_in/built_in_utils.c \
 built_in/empty_line_utils.c \
+built_in/export_utils.c \
 signal/exec_signal.c \
 signal/handle_ctrl_c.c \
 free/free_parsing.c \

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/26 17:02:56 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:06:52 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,35 @@ int	init_redir_l_tab(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
+int	one_hr_multi_l(t_mini_sh *mini_sh)
+{
+	t_parse	*tmp;
+	int	l_check;
+	int	hr_check;
+
+	l_check = FAIL;
+	hr_check = FAIL;
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		if (tmp->type == HR_DOC)
+		{
+			l_check = SUCCESS;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	while (tmp)
+	{
+		if (tmp->type == REDIR_L && tmp->next && tmp->next->next && tmp->next->next->type == REDIR_L)
+			hr_check = SUCCESS;
+		tmp = tmp->next;
+	}
+	if (l_check == SUCCESS && hr_check == SUCCESS)
+		return (SUCCESS);
+	return (FAIL);
+}
+
 void	do_good_redir(t_mini_sh *mini_sh, int i_exec)
 {
 	// t_parse	*tmp;
@@ -148,6 +177,8 @@ int	do_good_redir_l(t_mini_sh *mini_sh, int i_exec)
 	// else if (mini_sh->sep_type[i] == APPEND)
 	// 	mini_sh->exec->fd_out = 
 	// 	mini_sh->exec->fd_app[mini_sh->exec->check_app];
+	if (i == mini_sh->sep_2 - 1)
+		return (FAIL);
 	while (mini_sh->sep_type && mini_sh->sep_type[i] && i < mini_sh->sep_2)
 	{
 		if (mini_sh->sep_type[i] != REDIR_L && mini_sh->sep_type[i] != HR_DOC)
@@ -158,16 +189,55 @@ int	do_good_redir_l(t_mini_sh *mini_sh, int i_exec)
 }
 
 
+void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec)
+{
+	int	i_last_read;
+	int check;
+	int i;
+
+	i = -1;
+	i_last_read = i_exec;
+	check = 0;
+	while (mini_sh->sep_type[i_last_read] && (issep_write(mini_sh->sep_type[i_last_read]) == FAIL || mini_sh->sep_type[i_last_read] != FAIL) && (i_last_read < (mini_sh->sep_2)))
+	{
+		if (issep_read(mini_sh->sep_type[i_last_read]) == SUCCESS)
+		{
+			if (mini_sh->sep_type[i_last_read] == HR_DOC)
+				i++;
+			check = 1;
+		}
+		i_last_read++;
+	}
+	printf(RED"check = %d\n", check);
+	if (check == 1)
+	{
+		print_type(mini_sh->sep_type[i_last_read]);
+		if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == REDIR_L && mini_sh->exec->fd_l[i_last_read - 1])
+			mini_sh->exec->fd_in = mini_sh->exec->fd_l[i_last_read - 1];
+		else if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == HR_DOC)
+		{
+			close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr + i]);
+			printf(BACK_GREEN"mini_sh->exec->hr_name[mini_sh->exec->check_hr + i]: %s"RST"\n", mini_sh->exec->hr_name[mini_sh->exec->check_hr + i]);
+			mini_sh->exec->fd_hr[mini_sh->exec->check_hr + i] = open(mini_sh->exec->hr_name[mini_sh->exec->check_hr + i], O_RDONLY, 0644);
+			if (!mini_sh->exec->hr_name[mini_sh->exec->check_hr + i])
+				return ; 
+			mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr + i];
+		}
+	}
+}
+
+
 void	do_redir_l(t_mini_sh *mini_sh, int i_exec)
 {
-	if (mini_sh->sep_2 == 1)
+	if (mini_sh->sep_2 && mini_sh->sep_type && (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
-	if (mini_sh->sep_type && do_good_redir_l(mini_sh, i_exec) == SUCCESS)// mini_sh->sep_type[i_exec + 2] == FAIL)
+	if (mini_sh->sep_type && do_good_redir_l(mini_sh, i_exec) == SUCCESS && one_hr_multi_l(mini_sh) == FAIL)// mini_sh->sep_type[i_exec + 2] == FAIL)
 	{
 		printf(BACK_RED"start"RST"\n");
 		// printf(BACK_CYAN"mini_sh->sep_type[i_exec + 1]: %i"RST"\n", mini_sh->sep_type[i_exec + 1]);
 		// print_type(mini_sh->sep_type[i_exec + 1]);
+		go_to_last_read_2(mini_sh, i_exec);
 		mini_sh->exec->fd_out = 1;
 	}
 	else if (mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] != FAIL )
@@ -184,6 +254,7 @@ void	do_redir_l(t_mini_sh *mini_sh, int i_exec)
 		// else if (mini_sh->sep_type[i_exec + 1] == APPEND)
 		// 	mini_sh->exec->fd_out = 
 		// 	mini_sh->exec->fd_app[mini_sh->exec->check_app];
+		//go_to_last_read_2(mini_sh, i_exec);
 		do_good_redir(mini_sh, i_exec);
 	}
 	else //if (mini_sh->sep_type[i_exec + 1] == FAIL)

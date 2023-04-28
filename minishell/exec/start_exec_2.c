@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/27 19:28:12 by mael             ###   ########.fr       */
+/*   Updated: 2023/04/28 12:13:17 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,7 +347,8 @@ void	child_process(t_mini_sh *mini_sh, int i_exec)
 	if (init_fd_exec(mini_sh, i_exec) == FAIL)
 		exit (1);
 //	travel_through_the_read(mini_sh, i_exec);
-	// fprintf(stderr, BACK_PURPLE" %s "PURPLE"\nin : %i\nout : %i\n\n"RST, mini_sh->prepare_exec[i_exec][0], mini_sh->exec->fd_in, mini_sh->exec->fd_out);
+	fprintf(stderr, BACK_PURPLE" %s "PURPLE"\nin : %i\nout : %i\n\n"RST, mini_sh->prepare_exec[i_exec][0], mini_sh->exec->fd_in, mini_sh->exec->fd_out);
+	exec_signal(4);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);
 	close_all(mini_sh);
@@ -469,7 +470,7 @@ int	start_exec(t_mini_sh *mini_sh)
 	i_exec = 0;
 	//exit_status(mini_sh, i_exec);
 	int	err;
-	while (mini_sh->prepare_exec[i_exec])
+	while (mini_sh->prepare_exec[i_exec] && mini_sh->pids && mini_sh->pids[i_exec] && mini_sh->pids[i_exec] != FAIL)
 	{
 		// printf("g_exit_stt : %d\n", g_exit_stt);
 		if (mini_sh->pids[i_exec] != FAIL)
@@ -487,10 +488,13 @@ int	start_exec(t_mini_sh *mini_sh)
 		}
 		else if (WIFSIGNALED(g_exit_stt))
 			g_exit_stt = 128 + WTERMSIG(g_exit_stt);
+		if (g_exit_stt == 131)
+			write(1, "Quit (core dumped)\n", 19);
 		i_exec++;
 	}
 	// close_all(mini_sh);
 	if (mini_sh->exec->nbr_fd_hr > 0)
 		unlink_hr_dc(mini_sh);
+	exec_signal(1);
 	return (SUCCESS);
 }

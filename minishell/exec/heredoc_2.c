@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:24 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/27 13:58:58 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:08:42 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,14 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 		{
 			if (tmp->type == HR_DOC)
 			{
-				analyse_hrdoc_before_alloc(mini_sh, tmp);
+				//analyse_hrdoc_before_alloc(mini_sh, tmp);
 				mini_sh->exec->hr_name[i] = ft_strjoin_rfree(".heredoc", ft_itoa(i));
 				mini_sh->exec->fd_hr[i] = open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT , 0644);
 				if (mini_sh->exec->fd_hr[i] == -1)
 					return (FAIL);
 				printf(GREEN"fd_hr[%i] == %d\t%s"RST"\n", i, mini_sh->exec->fd_hr[i], tmp->next->word);
 				tmp = tmp->next;
+				//if (mini_sh->exec->ana_hr == 0)
 				break ;
 			}
 			tmp = tmp->next;
@@ -176,7 +177,7 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 	{
 		signal(SIGINT, SIG_IGN);
 		//g_exit_stt = 130;
-		close_all(mini_sh);
+		//close_all(mini_sh);
 		waitpid(child, &g_exit_stt, 0);
 		if (WIFEXITED(g_exit_stt))
 		{
@@ -187,30 +188,135 @@ int	exec_all_hr_doc(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
+void	go_to_last_read(t_mini_sh *mini_sh, int i_exec)
+{
+	int	i_last_read;
+	int check;
+	
+	i_last_read = i_exec;
+	check = 0;
+	while (mini_sh->sep_type[i_last_read] && (issep_write(mini_sh->sep_type[i_last_read]) == FAIL || mini_sh->sep_type[i_last_read] != FAIL) && (i_last_read < (mini_sh->sep_2)))
+	{
+		if (issep_read(mini_sh->sep_type[i_last_read]) == SUCCESS)
+			check = 1;
+		i_last_read++;
+	}
+	if (check == 1)
+	{
+		print_type(mini_sh->sep_type[i_last_read]);
+		if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == REDIR_L)
+			mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
+		else if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] && mini_sh->sep_type[i_last_read - 1] == HR_DOC && mini_sh->exec->fd_hr[i_last_read - 1])
+		{
+			if (mini_sh->exec->fd_hr[i_last_read - 1])
+				close (mini_sh->exec->fd_hr[i_last_read - 1]);
+
+			mini_sh->exec->fd_hr[i_last_read - 1] = open(mini_sh->exec->hr_name[i_last_read - 1], O_RDONLY, 0644);
+			
+			if (!mini_sh->exec->hr_name[i_last_read - 1])
+				return ; 
+			mini_sh->exec->fd_in = mini_sh->exec->fd_hr[i_last_read - 1];
+		}
+	}
+}
+
+
+int	one_l_multi_hr(t_mini_sh *mini_sh)
+{
+	t_parse	*tmp;
+	int	l_check;
+	int	hr_check;
+
+	l_check = FAIL;
+	hr_check = FAIL;
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		if (tmp->type == REDIR_L)
+		{
+			l_check = SUCCESS;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	while (tmp)
+	{
+		if (tmp->type == HR_DOC && tmp->next && tmp->next->next && tmp->next->next->type == HR_DOC)
+		{
+			hr_check = SUCCESS;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	printf(BACK_CYAN"l_check: %i"RST"\n", l_check);
+	printf(BACK_CYAN"hr_check: %i"RST"\n", hr_check);
+	if (l_check == SUCCESS && hr_check == SUCCESS)
+		return (SUCCESS);
+	return (FAIL);
+}
+
+
+
 void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 {
 	close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr]);
 	mini_sh->exec->fd_hr[mini_sh->exec->check_hr] = \
 	open(mini_sh->exec->hr_name[mini_sh->exec->check_hr], O_RDONLY, 0644);
-	if (mini_sh->sep_2 && (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
+	if (mini_sh->sep_2 &&  mini_sh->sep_type && (mini_sh->sep_2 == 1 || !mini_sh->sep_type[i_exec + 1]))
 		close(mini_sh->exec->tab_fd[i_exec][1]);
 	mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr];
-	if (mini_sh->sep_type && i_exec > 0 && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
-		mini_sh->exec->fd_out = 1;
-	if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1])
+	// if (mini_sh->sep_type && i_exec > 0 && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
+	// 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
+	// if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1])
+	// {
+	// 	printf(RED"YOUPI\n"RST);
+	// 	if (mini_sh->sep_type[i_exec + 1] == PIPE)
+	// 		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
+	// 	else if (mini_sh->sep_type[i_exec + 1] == REDIR_R)
+	// 		mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
+	// 	else if (mini_sh->sep_type[i_exec + 1] == APPEND)
+	// 		mini_sh->exec->fd_out = 
+	// 		mini_sh->exec->fd_app[mini_sh->exec->check_app];
+	// }
+	if (mini_sh->sep_type && do_good_redir_l(mini_sh, i_exec) == SUCCESS && one_l_multi_hr(mini_sh) == FAIL)// mini_sh->sep_type[i_exec + 2] == FAIL)
 	{
-		printf(RED"YOUPI\n"RST);
-		if (mini_sh->sep_type[i_exec + 1] == PIPE)
-			mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i_exec + 1][1];
-		else if (mini_sh->sep_type[i_exec + 1] == REDIR_R)
-			mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
-		else if (mini_sh->sep_type[i_exec + 1] == APPEND)
-			mini_sh->exec->fd_out = \
-			mini_sh->exec->fd_app[mini_sh->exec->check_app];
+		printf(BACK_RED"start"RST"\n");
+		// printf(BACK_CYAN"mini_sh->sep_type[i_exec + 1]: %i"RST"\n", mini_sh->sep_type[i_exec + 1]);
+		// print_type(mini_sh->sep_type[i_exec + 1]);
+		// if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
+		// 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
+		// else if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == HR_DOC)
+		// {
+			// close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1]);
+			// mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1] = 
+			// open(mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1], O_RDONLY, 0644);
+			// if (!mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1])
+			// 	return ; 
+			// mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1];
+		// }
+		go_to_last_read(mini_sh, i_exec);
+		mini_sh->exec->fd_out = 1;
+	}
+	else if (mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] != FAIL )
+	{
+		// if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == REDIR_L)
+		// 	mini_sh->exec->fd_in = mini_sh->exec->fd_l[mini_sh->exec->check_l];
+		// else if (mini_sh->sep_type && mini_sh->sep_type[i_exec + 1] && mini_sh->sep_type[i_exec + 1] == HR_DOC)
+		// {
+		// 	// close (mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1]);
+		// 	// mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1] = 
+		// 	// open(mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1], O_RDONLY, 0644);
+		// 	// if (!mini_sh->exec->hr_name[mini_sh->exec->check_hr + 1])
+		// 	// 	return ; 
+		// 	// mini_sh->exec->fd_in = mini_sh->exec->fd_hr[mini_sh->exec->check_hr + 1];
+		// }
+		go_to_last_read(mini_sh, i_exec);
+		do_good_redir(mini_sh, i_exec);
 	}
 	else
 	{
 		close(mini_sh->exec->tab_fd[i_exec][1]);
+		mini_sh->exec->fd_out = 1;
 	}
 }
 
