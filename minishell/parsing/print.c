@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 22:07:17 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/01 14:17:26 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	print_word2(char *new_w)
 void	ft_print_rl_out(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	tmp = mini_sh->rl_out_head;
 	printf("\n...............start..................\n\n");
 	while (tmp->prev)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:00:33 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 22:06:34 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/01 16:38:13 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	change_nbr_r_util(t_mini_sh *mini_sh, t_parse *temp, int *check)
 			(*check) = 1;
 		if ((*check) == 1)
 			mini_sh->exec->nbr_fd_r = mini_sh->exec->nbr_fd_r - 1;
+
 		return (SUCCESS);
 	}
 	return (FAIL);

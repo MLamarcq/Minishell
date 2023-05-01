@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_simple.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 15:32:26 by mael              #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:35 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/05/01 17:01:46 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	is_sorted(t_mini_sh *mini_sh)
 
 	i = 0;
 	j = 0;
+	if (!mini_sh->data->env_sorted)
+		return (-2);
 	while (mini_sh->data->env_sorted[i + 1])
 	{
 		j = 0;
@@ -74,6 +76,8 @@ void	sort_export(t_mini_sh *mini_sh)
 
 int	export(char **argv, t_mini_sh *mini_sh)
 {
+	if (!mini_sh->data->env_sorted)
+		return (FAIL);
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 		sort_export(mini_sh);
 	else

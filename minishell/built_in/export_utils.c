@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:35:49 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/28 14:58:37 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:35:50 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	init_env_sorted(t_mini_sh *mini_sh)
 	int	i;
 
 	i = 0;
+	if (!mini_sh->env[i])
+		return (FAIL);
 	mini_sh->data->env_sorted = (char **)malloc(sizeof(char *) * \
 		(mini_sh->data->size + 1));
 	if (!mini_sh->data->env_sorted)

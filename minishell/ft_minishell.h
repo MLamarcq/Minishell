@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minishell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 22:17:00 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/01 16:43:03 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,10 @@ typedef struct s_env
 
 typedef struct s_mini_sh
 {
+	int			count_redir_r;
+	int			count_redir_l;
+	int			count_hr_doc;
+	int			count_append;
 	int			check;
 	int			redir_alone;
 	int			sep_id;

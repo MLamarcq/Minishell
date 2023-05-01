@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 22:07:44 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/01 16:52:08 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	when_append_after(t_mini_sh *mini_sh, int i)
 				{
 					mini_sh->exec->fd_r[i] = \
 					mini_sh->exec->fd_app[mini_sh->exec->check_app];
+					mini_sh->count_redir_r = 1;
 				}
 				temp = temp->next;
 			}

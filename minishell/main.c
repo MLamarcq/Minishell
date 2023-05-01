@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 22:14:17 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/01 16:43:09 by mael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ void	init_rl(t_mini_sh *mini_sh)
 	mini_sh->exec = NULL;
 	mini_sh->pids = NULL;
 	mini_sh->rl_out = NULL;
+	mini_sh->count_redir_r = 0;
+	mini_sh->count_redir_l = 0;
+	mini_sh->count_hr_doc = 0;
+	mini_sh->count_append = 0;
 	memset(&mini_sh->rl_out, 0, sizeof(t_parse));
 	memset(&mini_sh->data, 0, sizeof(t_env));
 }
