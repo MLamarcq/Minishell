@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 16:01:39 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:02:42 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,11 +179,6 @@ void	expand(t_mini_sh *mini_sh);
 int		ft_isthere_dollar(t_mini_sh *mini_sh, int *i_isdollar);
 void	inside_expand(t_mini_sh *mini_sh, int *save, int *i_dollar, char *dest);
 void	toggle_quote(t_mini_sh *mini_sh, char chr);
-//parsing/print.c
-void	ft_print_rl_out(t_mini_sh *mini_sh);
-void	print_type(int type);
-void	print_word(char *new_w);
-void	print_word2(char *new_w);
 //parsing/ft_find_path.c
 int		ft_find_cmd(t_mini_sh *mini_sh, int ite_env);
 int		ft_find_env(t_mini_sh *mini_sh);
@@ -421,7 +416,7 @@ void	ft_lstclear(t_parse **lst);
 int		ft_strcmp(char *str, char *dest);
 int		ft_strncmp(char *str, char *dest, int n);
 //lib/ft_lstnew_word.c
-t_parse	*ft_lstnew_word(char *content, int save, int ite);
+t_parse *ft_lstnew_word(char *content, int save, int ite);
 //lib/ft_lstadd_back.c
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 //lib/bzero.c
