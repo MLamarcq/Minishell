@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 11:23:47 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:00:14 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,15 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	tmp = tmp->next;
 	while (tmp && tmp->next != NULL)
 	{
-		if (is_sep_int(tmp->type) == SUCCESS && is_sep_int(tmp->next->type) == SUCCESS)
+		if (is_sep_int(tmp->type) == SUCCESS && \
+		is_sep_int(tmp->next->type) == SUCCESS)
 			tmp = tmp->next;
 		if (is_sep_int(tmp->type) == SUCCESS)
 			mini_sh->sep_2++;
 		if (tmp)
 			tmp = tmp->next;
 	}
-
 	if (tmp && is_sep_int(tmp->type) == SUCCESS)
-	{
-		if (tmp->type == PIPE)
-			return (printf("minishell: syntax error near \
-			unexpected token '|'"), FAIL);
-		else
-			return (printf("minishell: syntax error near \
-			unexpected token 'newline'\n"), FAIL);
-	}
+		return (print_error(4, tmp), FAIL);
 	return (SUCCESS);
 }

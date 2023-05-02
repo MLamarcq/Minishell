@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glue_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:32:17 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 18:25:39 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/05/02 14:26:02 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	detect_space_glue(t_mini_sh *mini_sh, int *is_did, int *glue, int ite)
 {
 	*is_did = FAIL;
 	if (mini_sh->output[ite] == '|' \
-	&& ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL)
+	&& (ite - 1) > 0 && ft_is_sep_parse(mini_sh->output[ite - 1]) == FAIL)
 	{
 		*glue = ite;
 		*is_did = SUCCESS;

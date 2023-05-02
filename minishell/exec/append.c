@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/01 16:40:46 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 14:15:46 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	when_redir_r_after(t_mini_sh *mini_sh, int i)
 				{
 					mini_sh->exec->fd_app[i] = \
 					mini_sh->exec->fd_r[mini_sh->exec->check_r];
-					
 				}
 				else
 					break ;

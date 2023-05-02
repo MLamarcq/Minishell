@@ -63,7 +63,6 @@ parsing/quote.c \
 parsing/remove_quote_2.c \
 parsing/find_var_env.c \
 parsing/ft_find_path.c \
-parsing/print.c \
 parsing/redir_error_1.c \
 parsing/redir_error_2.c \
 parsing/move_rdr_cmd.c \
@@ -72,6 +71,7 @@ parsing/set_type_utils.c \
 parsing/set_index.c \
 parsing/move_rdr_utils.c \
 parsing/move_rdr_case.c \
+exec/change_nbr_utils.c \
 exec/prepare_exec.c \
 exec/sep.c \
 exec/which_sep.c \
@@ -93,8 +93,12 @@ exec/utils_append.c \
 exec/close.c \
 exec/child_process_utils.c \
 exec/redir_l_utils.c \
+exec/redir_l_utils_2.c \
 exec/redir_r_utils.c \
 exec/heredoc_utils.c \
+exec/tab_fd.c \
+exec/rdr_start_exec.c \
+exec/heredoc_3.c \
 
 # hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
 # hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell

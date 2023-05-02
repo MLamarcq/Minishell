@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:28:22 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/28 17:42:59 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:19:30 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,25 @@ void	print_cmd_not_found(t_mini_sh *mini_sh, int i_exec)
 	close_all(mini_sh);
 	free_all(mini_sh);
 	exit (127);
+}
+
+void	cmd_not_found(t_mini_sh *mini_sh, int i_exec)
+{
+	t_parse	*tmp;
+
+	tmp = NULL;
+	if (i_exec > 0 && mini_sh->sep_type && mini_sh->sep_type[i_exec - 1] \
+	&& mini_sh->sep_type[i_exec - 1] != PIPE)
+		end_exec_cmd(mini_sh);
+	else if (i_exec == 0 && is_there_a_redir(mini_sh) == SUCCESS)
+		end_exec_cmd(mini_sh);
+	else
+	{
+		tmp = mini_sh->rl_out_head;
+		while (tmp->next)
+			tmp = tmp->next;
+		if (tmp->prev && issep_read(tmp->prev->type) == SUCCESS)
+			end_exec_cmd(mini_sh);
+		print_cmd_not_found(mini_sh, i_exec);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/01 16:52:08 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 15:16:35 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,28 @@ void	change_nbr_r(t_mini_sh *mini_sh)
 	}
 }
 
+int	middle_redir_r(t_mini_sh *mini_sh, t_parse *tmp, int i)
+{
+	while (tmp)
+	{
+		if (tmp->type == REDIR_R)
+		{
+			analyse_redir_before_alloc(mini_sh, tmp);
+			if (mini_sh->exec->fd_r[i] != FAIL)
+				close(mini_sh->exec->fd_r[i]);
+			mini_sh->exec->fd_r[i] = \
+			open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
+			if (mini_sh->exec->fd_r[i] == -1)
+				return (FAIL);
+			tmp = tmp->next;
+			if (mini_sh->exec->ana_r == 0)
+				break ;
+		}
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
+}
+
 int	init_redir_r_tab(t_mini_sh *mini_sh)
 {
 	int		i;
@@ -105,23 +127,8 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	i = -1;
 	while (++i < mini_sh->exec->nbr_fd_r)
 	{
-		while (tmp)
-		{
-			if (tmp->type == REDIR_R)
-			{
-				analyse_redir_before_alloc(mini_sh, tmp);
-				if (mini_sh->exec->fd_r[i] != FAIL)
-					close(mini_sh->exec->fd_r[i]);
-				mini_sh->exec->fd_r[i] = \
-				open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
-				if (mini_sh->exec->fd_r[i] == -1)
-					return (FAIL);
-				tmp = tmp->next;
-				if (mini_sh->exec->ana_r == 0)
-					break ;
-			}
-			tmp = tmp->next;
-		}
+		if (middle_redir_r(mini_sh, tmp, i) == SUCCESS)
+			return (FAIL);
 	}
 	return (SUCCESS);
 }

@@ -6,11 +6,13 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 11:32:12 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:24:41 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
+
+extern int	g_exit_stt;
 
 int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 {
@@ -47,11 +49,11 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_R || tmp->type == APPEND)
+		if ((tmp->type == REDIR_R || tmp->type == APPEND) && tmp->next)
 		{
 			tmp = tmp->next;
-			if ((tmp->type == _FILE && (access(tmp->word, W_OK) == 0)) \
-			|| tmp->type == ARG)
+			if (tmp && ((tmp->type == _FILE && (access(tmp->word, W_OK) == 0)) \
+			|| tmp->type == ARG))
 			{
 				if (tmp->next && (is_sep_int(tmp->next->type) == FAIL) \
 				&& print_error(4, tmp) == FAIL)
@@ -78,26 +80,22 @@ int	check_redi_r_append_error(t_mini_sh *mini_sh)
 
 int	print_error(int index, t_parse *tmp)
 {
+	g_exit_stt = 1;
+	if (index > 2)
+		g_exit_stt = 2;
 	if (index == 1)
-	{
-		printf("minishell: %s: Is a directory\n", tmp->word);
-		return (FAIL);
-	}
+		return (printf("minishell: %s: Is a directory\n", tmp->word), FAIL);
 	else if (index == 2)
-	{
-		printf("minishell: %s: permission denied\n", tmp->word);
-		return (FAIL);
-	}
+		return (printf("minishell: %s: permission denied\n", tmp->word), FAIL);
 	else if (index == 3)
-	{
-		printf("%s: connot access '%s' : No such file or directory\n", \
-		tmp->word, tmp->word);
-		return (FAIL);
-	}
+		return (printf("%s: connot access '%s' : No such file or directory\n", \
+		tmp->word, tmp->word), FAIL);
 	else if (index == 4)
+		return (printf("minishell: syntax error near unexpected token '%s'\n", \
+		tmp->word), FAIL);
+	else if (index == 5)
 	{
-		printf("minishell: syntax error near unexpected token '%s'\n", \
-		tmp->word);
+		printf("minishell: syntax error near unexpected token 'newline'\n");
 		return (FAIL);
 	}
 	return (SUCCESS);

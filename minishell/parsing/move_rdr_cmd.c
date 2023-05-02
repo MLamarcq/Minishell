@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:53:35 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 10:21:51 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:07:41 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,6 @@ void	move_2_3(t_mini_sh *mini, t_parse *tmp, t_parse *temp, t_parse *tmp_2)
 void	all_move(t_mini_sh *mini_sh)
 {
 	move_1(mini_sh);
-	// ft_print_rl_out(mini_sh);
 	move_2(mini_sh);
-	// printf("\n.....................................\n\n");
-	// ft_print_rl_out(mini_sh);
 	move_3(mini_sh);
 }
-// < main.c /usr/bin/cat -e

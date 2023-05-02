@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 11:29:47 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:22:11 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,9 @@ int	check_first_is_sep(t_mini_sh *mini_sh)
 	if (is_sep_int(tmp->type) == SUCCESS)
 	{
 		if (tmp->type == PIPE)
-		{
-			printf("minishell: syntax error near unexpected token '|'\n");
-			return (FAIL);
-		}
+			return (print_error(4, tmp), FAIL);
 		else if (tmp->type != REDIR_L && !tmp->next)
-		{
-			printf("minishell: syntax error near unexpected token 'newline'\n");
-			return (FAIL);
-		}
+			return (print_error(5, tmp), FAIL);
 	}
 	return (SUCCESS);
 }
@@ -42,13 +36,11 @@ int	check_first_is_sep_2(t_mini_sh *mini_sh)
 	{
 		if (tmp->type == REDIR_L)
 		{
-			if (tmp->next && tmp->next->type != _FILE
-				&& tmp->next->type != CMD_ABS)
-				return (printf("minishell: %s: No such file \
-				or directory", tmp->next->word), FAIL);
+			if (tmp->next && tmp->next->type != _FILE \
+			&& tmp->next->type != CMD_ABS)
+				return (print_error(3, tmp->next), FAIL);
 			if (!tmp->next)
-				return (printf("minishell: syntax error near \
-				unexpected token 'newline'\n"), FAIL);
+				return (print_error(5, tmp), FAIL);
 		}
 	}
 	return (SUCCESS);

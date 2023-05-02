@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 13:43:12 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:01:39 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,13 @@ void	hrdoc_expand(t_mini_sh *mini_sh, char **word);
 int		hrdoc_isthere_dollar(t_mini_sh *mini_sh, char *word, int *i_isdollar);
 //exec/which_sep.c
 int		init_exec(t_mini_sh *mini_sh);
+void	init_exec_2(t_mini_sh *mini_sh);
+//exec/rdr_start_exec.c
+int		count_redir_in_line(t_mini_sh *mini_sh, int type);
+int		exec_redir(t_mini_sh *mini, int i_exec);
+int		first_is_a_redir(t_mini_sh *mini_sh);
+void	increase_check(t_mini_sh *mini_sh, int type);
+int		is_there_a_redir(t_mini_sh *mini_sh);
 //exec/first_sep.c
 int		check_first_is_sep(t_mini_sh *mini_sh);
 int		check_first_is_sep_2(t_mini_sh *mini_sh);
@@ -299,45 +306,44 @@ int		check_first_sep_error_2(t_mini_sh *mini_sh);
 void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp);
 void	change_nbr_r(t_mini_sh *mini_sh);
 int		init_redir_r_tab(t_mini_sh *mini_sh);
+int		middle_redir_r(t_mini_sh *mini_sh, t_parse *tmp, int i);
 void	when_append_after(t_mini_sh *mini_sh, int i);
 //exec/heredoc_2.c
-void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp);
-void	change_hr_doc(t_mini_sh *mini_sh);
+void	child_hrdoc(t_mini_sh *mini_sh, t_parse *tmp, int i);
 void	do_heredoc(t_mini_sh *mini_sh, int i, t_parse *tmp);
-void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec);
 int		exec_all_hr_doc(t_mini_sh *mini_sh);
-void	free_hr_doc(t_mini_sh *mini_sh);
-void	go_to_last_read(t_mini_sh *mini_sh, int i_exec);
-int		init_hr_dc_tab(t_mini_sh *mini_sh);
-int		one_l_multi_hr(t_mini_sh *mini_sh);
-void	unlink_hr_dc(t_mini_sh *mini_sh);
+int		handle_input(t_mini_sh *mini_sh, t_parse *tmp, char **input);
+int		middle_last_read(t_mini_sh *mini_sh, int i_last_read, int check);
 //exec/exit.c
 void	ft_parent(t_mini_sh *mini_sh, int *i_exec);
 //exec/init_fd.c
 void	count_redir_for_alloc(t_parse *tmp, t_mini_sh *mini_sh);
 void	init_redir_fd(t_mini_sh *mini_sh);
+//exec/tab_fd.c
+int		fill_fd_tab(t_mini_sh *mini_sh, int i_init_fd, t_parse *tmp);
+int		init_tab_fd(t_mini_sh *mini_sh);
+int		start_to_alloc(t_mini_sh *mini_sh);
 //exec/sep_test.c
 void	if_hr_doc(t_mini_sh *mini_sh);
 //exec/exec_utils.c
 void	fill_little_tab(t_mini_sh *mini_sh, int trple);
 int		init_big_tab(t_mini_sh *mini_sh);
+//exec/change_nbr_utils.c
+int		change_nbr_hr_util(t_mini_sh *mini_sh, t_parse *temp, int *check);
+int		change_nbr_l_util(t_mini_sh *mini_sh, t_parse *temp, int *check);
+int		change_nbr_r_util(t_mini_sh *mini_sh, t_parse *temp, int *check);
 //exec/redir_l.c
 void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse *tmp);
 void	change_nbr_l(t_mini_sh *mini_sh);
-void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec);
 int		init_redir_l_tab(t_mini_sh *mini_sh);
+int		middle_redir_l(t_mini_sh *mini_sh, t_parse *tmp, int i);
 int		one_hr_multi_l(t_mini_sh *mini_sh);
 //exec/start_exec_2.c
-int		count_redir_in_line(t_mini_sh *mini_sh, int type);
-int		exec_builtin(t_mini_sh *mini_sh, int i);
-int		exec_redir(t_mini_sh *mini, int i_exec);
-int		first_is_a_redir(t_mini_sh *mini_sh);
-void	increase_check(t_mini_sh *mini_sh, int type);
+int		execution(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);
-int		init_tab_fd(t_mini_sh *mini_sh);
-int		is_there_a_redir(t_mini_sh *mini_sh);
 int		start_exec(t_mini_sh *mini_sh);
 //exec/child_process_utils.c
+void	cmd_not_found(t_mini_sh *mini_sh, int i_exec);
 void	end_exec_cmd(t_mini_sh *mini_sh);
 void	print_cmd_not_found(t_mini_sh *mini_sh, int i_exec);
 //exec/redir_l_utils.c
@@ -346,6 +352,15 @@ void	do_good_redir(t_mini_sh *mini_sh, int i_exec);
 int		do_good_redir_l(t_mini_sh *mini_sh, int i_exec);
 void	do_redir_l(t_mini_sh *mini_sh, int i_exec);
 void	free_redir_l(t_mini_sh *mini_sh);
+//exec/redir_l_utils_2.c
+void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec);
+void	rdr_l_hr_success(t_parse *tmp, int *hr_check);
+//exec/heredoc_3.c
+void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec);
+void	free_hr_doc(t_mini_sh *mini_sh);
+void	go_to_last_read(t_mini_sh *mini_sh, int i_exec);
+void	one_l_multi_hr_util(t_parse *tmp, int *hr_check);
+void	unlink_hr_dc(t_mini_sh *mini_sh);
 //exec/child_process.c
 void	child_process(t_mini_sh *mini_sh, int i_exec);
 void	exec_cmd(t_mini_sh *mini_sh, int i_exec);
@@ -364,7 +379,6 @@ void	is_redir_alone(t_mini_sh *mini_sh);
 int		is_sep(char *word);
 int		is_sep_int(int type);
 //exec/redir_r_utils.c
-int		change_nbr_r_util(t_mini_sh *mini_sh, t_parse *temp, int *check);
 void	do_redir_r(t_mini_sh *mini_sh, int i_exec);
 void	free_redir_r(t_mini_sh *mini_sh);
 //exec/close.c
@@ -380,10 +394,11 @@ int		init_append_tab_util(t_mini_sh *mini_sh, t_parse *tmp, int *i);
 void	hrdoc_replace_dollar(t_mini_sh *mini_sh, char **word, int *i_replace);
 void	hrdoc_start_rplc_dlr(char **word, int *sv, int *sv2, int *i_rplc);
 //exec/heredoc.c
-int		do_simple_heredoc(t_mini_sh *mini_sh, int i_exec);
-int		init_heredoc(t_mini_sh *mini_sh);
-int		init_tab_hrdoc(t_mini_sh *mini_sh, int j);
-int		there_is_a_heredoc(t_mini_sh *mini_sh, int i_exec);
+void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp);
+void	change_hr_doc(t_mini_sh *mini_sh);
+int		init_hr_dc_tab(t_mini_sh *mini_sh);
+int		middle_hrdoc_tab(t_mini_sh *mini_sh, t_parse *tmp, int i);
+int		one_l_multi_hr(t_mini_sh *mini_sh);
 //free/free_all.c
 void	free_all(t_mini_sh *mini_sh);
 void	free_all_redir(t_mini_sh *mini_sh);
@@ -406,7 +421,7 @@ void	ft_lstclear(t_parse **lst);
 int		ft_strcmp(char *str, char *dest);
 int		ft_strncmp(char *str, char *dest, int n);
 //lib/ft_lstnew_word.c
-t_parse *ft_lstnew_word(char *content, int save, int ite);
+t_parse	*ft_lstnew_word(char *content, int save, int ite);
 //lib/ft_lstadd_back.c
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 //lib/bzero.c
@@ -494,6 +509,7 @@ int		env(char **argv, t_mini_sh *mini_sh);
 int		fill_n(char *str);
 int		ft_echo(char **tab);
 //built_in/built_in_utils.c
+int		exec_builtin(t_mini_sh *mini_sh, int i);
 int		export_specific(char *to_export, t_mini_sh *mini_sh);
 //built_in/pwd.c
 int		check_pwd_option(char **argv);

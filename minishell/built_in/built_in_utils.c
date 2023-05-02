@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:52:55 by mael              #+#    #+#             */
-/*   Updated: 2023/05/02 10:31:59 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:00:13 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,16 @@ int	export_specific(char *to_export, t_mini_sh *mini_sh)
 	ft_free_tab(mini_sh->data->new_envp);
 	sort_export(mini_sh);
 	return (SUCCESS);
+}
+
+int	exec_builtin(t_mini_sh *mini_sh, int i)
+{
+	if (mini_sh->len_prepare_exec == 1)
+	{
+		if (do_built_in(mini_sh, i) == FAIL)
+			return (FAIL);
+		else
+			return (SUCCESS);
+	}
+	return (FAIL);
 }

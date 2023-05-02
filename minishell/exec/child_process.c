@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:55:14 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 11:12:56 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:45:52 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,5 @@ void	exec_cmd(t_mini_sh *mini_sh, int i_exec)
 		execve(cmd_abs_path, mini_sh->prepare_exec[i_exec], mini_sh->env);
 	}
 	else
-	{
-		if (i_exec > 0 && mini_sh->sep_type && mini_sh->sep_type[i_exec - 1] \
-		&& mini_sh->sep_type[i_exec - 1] != PIPE)
-			end_exec_cmd(mini_sh);
-		else if (i_exec == 0 && is_there_a_redir(mini_sh) == SUCCESS)
-			end_exec_cmd(mini_sh);
-		else
-			print_cmd_not_found(mini_sh, i_exec);
-	}
+		cmd_not_found(mini_sh, i_exec);
 }

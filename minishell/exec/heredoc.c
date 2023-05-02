@@ -3,89 +3,128 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:53:46 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:54 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/05/02 16:00:19 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-int	init_tab_hrdoc(t_mini_sh *mini_sh, int j)
+void	analyse_hrdoc_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 {
-	mini_sh->hr_doc_tab = (int *)malloc(sizeof(int) * j + 1);
-	if (!mini_sh->hr_doc_tab)
-		return (FAIL_MALLOC);
-	return (SUCCESS);
-}
+	t_parse	*temp;
 
-int	init_heredoc(t_mini_sh *mini_sh)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (mini_sh->sep_type[++i])
+	temp = tmp;
+	if (temp->type == HR_DOC)
 	{
-		if (mini_sh->sep_type[i] == HR_DOC)
-			j++;
-	}
-	if (init_tab_hrdoc(mini_sh, j) == FAIL_MALLOC)
-		return (FAIL_MALLOC);
-	mini_sh->hr_doc_tab[j] = 0;
-	i = 0;
-	while (j > 0)
-	{
-		mini_sh->file_heredoc = ft_strjoin_rfree(".heredoc", ft_itoa(i));
-		mini_sh->hr_doc_tab[i] = open(mini_sh->file_heredoc, \
-		O_CREAT | O_RDWR, 0777);
-		if (!mini_sh->hr_doc_tab[i])
-			return (FAIL_MALLOC);
-		i++;
-		j--;
-	}
-	return (SUCCESS);
-}
-
-int	there_is_a_heredoc(t_mini_sh *mini_sh, int i_exec)
-{
-	if (init_heredoc(mini_sh) != 1)
-		return (FAIL);
-	else
-	{
-		if (i_exec == 0 || mini_sh->sep_type[i_exec - 1] == PIPE)
-			do_simple_heredoc(mini_sh, i_exec);
-	}
-	return (SUCCESS);
-}
-
-int	do_simple_heredoc(t_mini_sh *mini_sh, int i_exec)
-{
-	int		i_close;
-	char	*input;
-
-	while (1)
-	{
-		dup2(0, 0);
-		dup2(1, 1);
-		input = readline("&>");
-		if (ft_strncmp(input, mini_sh->prepare_exec[i_exec][0], \
-		ft_strlen(mini_sh->prepare_exec[i_exec][0])) == 0)
+		temp = temp->next;
+		while (temp)
 		{
-			i_close = 0;
-			while (mini_sh->exec->tab_fd[i_close])
+			if (temp->type == HR_DOC)
 			{
-				close(mini_sh->exec->tab_fd[i_close][0]);
-				close(mini_sh->exec->tab_fd[i_close][1]);
-				i_close++;
+				mini_sh->exec->ana_hr = 1;
+				break ;
 			}
-			exit(1);
+			else if (temp->type == PIPE)
+			{
+				mini_sh->exec->ana_hr = 0;
+				break ;
+			}
+			temp = temp->next;
 		}
-		ft_putstr_fd(input, mini_sh->hr_doc_tab[0]);
 	}
-	unlink(mini_sh->file_heredoc);
-	free(mini_sh->file_heredoc);
+}
+
+void	change_hr_doc(t_mini_sh *mini_sh)
+{
+	int		check;
+	t_parse	*tmp;
+	t_parse	*temp;
+
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		check = 0;
+		if (tmp->type == HR_DOC)
+		{
+			temp = tmp->next;
+			while (temp)
+			{
+				if (change_nbr_hr_util(mini_sh, temp, &check) == SUCCESS)
+					break ;
+				temp = temp->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	middle_hrdoc_tab(t_mini_sh *mini_sh, t_parse *tmp, int i)
+{
+	while (tmp)
+	{
+		if (tmp->type == HR_DOC)
+		{
+			mini_sh->exec->hr_name[i] = \
+			ft_strjoin_rfree(".heredoc", ft_itoa(i));
+			mini_sh->exec->fd_hr[i] = \
+			open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT, 0644);
+			if (mini_sh->exec->fd_hr[i] == -1)
+				return (FAIL);
+			tmp = tmp->next;
+			break ;
+		}
+		tmp = tmp->next;
+	}
 	return (SUCCESS);
+}
+
+int	init_hr_dc_tab(t_mini_sh *mini_sh)
+{
+	int		i;
+	t_parse	*tmp;
+
+	tmp = mini_sh->rl_out_head;
+	i = 0;
+	mini_sh->exec->fd_hr = malloc(sizeof(int) * mini_sh->exec->nbr_fd_hr + 1);
+	if (!mini_sh->exec->fd_hr)
+		return (FAIL_MALLOC);
+	mini_sh->exec->hr_name = malloc(sizeof(char *) * \
+	(mini_sh->exec->nbr_fd_hr + 1));
+	if (!mini_sh->exec->hr_name)
+		return (FAIL_MALLOC);
+	mini_sh->exec->hr_name[mini_sh->exec->nbr_fd_hr] = 0;
+	while (i < mini_sh->exec->nbr_fd_hr)
+	{
+		if (middle_hrdoc_tab(mini_sh, tmp, i) == FAIL)
+			return (FAIL);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	one_l_multi_hr(t_mini_sh *mini_sh)
+{
+	t_parse	*tmp;
+	int		l_check;
+	int		hr_check;
+
+	l_check = FAIL;
+	hr_check = FAIL;
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
+	{
+		if (tmp->type == REDIR_L)
+		{
+			l_check = SUCCESS;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	one_l_multi_hr_util(tmp, &hr_check);
+	if (l_check == SUCCESS && hr_check == SUCCESS)
+		return (SUCCESS);
+	return (FAIL);
 }
