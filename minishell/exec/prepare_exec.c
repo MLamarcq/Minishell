@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:52:27 by gael              #+#    #+#             */
-/*   Updated: 2023/04/11 16:59:05 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/05/02 11:30:48 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	count_word_for_alloc(t_mini_sh *mini_sh, t_parse *rlout)
 	mini_sh->nbr_word = 0;
 	if (!tmp)
 		return (FAIL);
-	if (is_sep(tmp->word) == SUCCESS)
+	if (is_sep_int(tmp->type) == SUCCESS)
 		tmp = tmp->next;
 	while (tmp)
 	{
-		if (is_sep(tmp->word) == SUCCESS)
+		if (is_sep_int(tmp->type) == SUCCESS)
 			return (SUCCESS);
 		mini_sh->nbr_word++;
 		if (tmp)
@@ -52,7 +52,7 @@ int	prepare_exec(t_mini_sh *mini_sh)
 			break ;
 		else
 		{
-			while (is_sep(mini_sh->rl_out->word) == SUCCESS)
+			while (is_sep_int(mini_sh->rl_out->type) == SUCCESS)
 				mini_sh->rl_out = mini_sh->rl_out->next;
 		}
 	}

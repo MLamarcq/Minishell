@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:56:00 by gael              #+#    #+#             */
-/*   Updated: 2023/04/23 17:35:45 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/05/02 10:14:30 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_lstclear(t_parse **lst)
 	tmp = NULL;
 	if (!(*lst))
 		return ;
+	while ((*lst)->prev)
+		(*lst) = (*lst)->prev;
 	while (*lst)
 	{
 		tmp = (*lst)->next;

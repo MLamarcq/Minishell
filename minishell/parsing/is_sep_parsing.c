@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_sep_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 15:02:35 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/28 15:52:30 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	issep_read(int type)
 {
-	if (type == RDR_L)
+	if (type == REDIR_L)
 		return (SUCCESS);
 	if (type == HR_DOC)
 		return (SUCCESS);
@@ -23,7 +23,7 @@ int	issep_read(int type)
 
 int	issep_write(int type)
 {
-	if (type == RDR_R)
+	if (type == REDIR_R)
 		return (SUCCESS);
 	if (type == APPEND)
 		return (SUCCESS);
@@ -32,11 +32,11 @@ int	issep_write(int type)
 
 int	is_all(int type)
 {
-	if (type == RDR_R)
+	if (type == REDIR_R)
 		return (SUCCESS);
 	if (type == APPEND)
 		return (SUCCESS);
-	if (type == RDR_L)
+	if (type == REDIR_L)
 		return (SUCCESS);
 	if (type == HR_DOC)
 		return (SUCCESS);

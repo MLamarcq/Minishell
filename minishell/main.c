@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:43:09 by gael              #+#    #+#             */
-/*   Updated: 2023/05/01 16:43:09 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 12:02:40 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	init_env_2(char **envp, t_mini_sh *mini_sh)
 {
 	int	env_length;
 
+	if (!isatty(0))
+	{
+		write(2, "Error invalid STDIN\n", 21);
+		exit(1);
+	}
 	env_length = 0;
 	exec_signal(1);
 	while (envp[env_length])
@@ -46,8 +51,8 @@ void	init_rl(t_mini_sh *mini_sh)
 	mini_sh->count_redir_l = 0;
 	mini_sh->count_hr_doc = 0;
 	mini_sh->count_append = 0;
-	memset(&mini_sh->rl_out, 0, sizeof(t_parse));
-	memset(&mini_sh->data, 0, sizeof(t_env));
+	ft_memset(&mini_sh->rl_out, 0, sizeof(t_parse));
+	ft_memset(&mini_sh->data, 0, sizeof(t_env));
 }
 
 void	launch_cmd(t_mini_sh *mini_sh)

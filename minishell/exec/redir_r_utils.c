@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 22:00:33 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 07:35:31 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 11:31:10 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,16 @@ void	free_redir_r(t_mini_sh *mini_sh)
 		free(mini_sh->exec->fd_r);
 }
 
-int	init_fail_rtab(t_mini_sh *mini_sh, int *i)
+int	change_nbr_r_util(t_mini_sh *mini_sh, t_parse *temp, int *check)
 {
-	mini_sh->exec->fd_r = malloc(sizeof(int) * mini_sh->exec->nbr_fd_r + 1);
-	if (!mini_sh->exec->fd_r)
-		return (FAIL_MALLOC);
-	(*i) = -1;
-	while (++(*i) < mini_sh->exec->nbr_fd_r)
-		mini_sh->exec->fd_r[(*i)] = FAIL;
-	(*i) = -1;
-	return (SUCCESS);
-}
+	if (is_sep_int(temp->type) == SUCCESS)
+	{
+		if (temp->type == REDIR_R)
+			(*check) = 1;
+		if ((*check) == 1)
+			mini_sh->exec->nbr_fd_r = mini_sh->exec->nbr_fd_r - 1;
 
-int	init_fail_ltab(t_mini_sh *mini_sh, int *i)
-{
-	mini_sh->exec->fd_l = malloc(sizeof(int) * mini_sh->exec->nbr_fd_l + 1);
-	if (!mini_sh->exec->fd_l)
-		return (FAIL_MALLOC);
-	(*i) = -1;
-	while (++(*i) < mini_sh->exec->nbr_fd_l)
-		mini_sh->exec->fd_l[(*i)] = FAIL;
-	(*i) = -1;
-	return (SUCCESS);
+		return (SUCCESS);
+	}
+	return (FAIL);
 }

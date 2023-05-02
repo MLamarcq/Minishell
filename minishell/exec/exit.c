@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:55:23 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 21:53:35 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 11:51:55 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_parent(t_mini_sh *mini_sh, int *i_exec)
 
 	close_all(mini_sh);
 	(*i_exec) = 0;
+	exec_signal(5);
 	while (mini_sh->prepare_exec[(*i_exec)] && mini_sh->pids \
 	&& mini_sh->pids[(*i_exec)] && mini_sh->pids[(*i_exec)] != FAIL)
 	{

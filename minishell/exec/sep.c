@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 11:23:47 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	is_sep(char *word)
 
 int	is_sep_int(int type)
 {
-	if (type == RDR_R)
+	if (type == REDIR_R)
 		return (SUCCESS);
-	else if (type == RDR_L)
+	else if (type == REDIR_L)
 		return (SUCCESS);
 	else if (type == APPEND)
 		return (SUCCESS);
@@ -61,17 +61,20 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	if (check_first_sep_error_2(mini_sh) == FAIL)
 		return (FAIL);
 	is_redir_alone(mini_sh);
+	if (mini_sh->redir_alone == SUCCESS)
+		return (SUCCESS);
 	tmp = tmp->next;
 	while (tmp && tmp->next != NULL)
 	{
-		if (is_sep(tmp->word) == SUCCESS && is_sep(tmp->next->word) == SUCCESS)
+		if (is_sep_int(tmp->type) == SUCCESS && is_sep_int(tmp->next->type) == SUCCESS)
 			tmp = tmp->next;
-		if (is_sep(tmp->word) == SUCCESS)
+		if (is_sep_int(tmp->type) == SUCCESS)
 			mini_sh->sep_2++;
 		if (tmp)
 			tmp = tmp->next;
 	}
-	if (tmp && is_sep(tmp->word) == SUCCESS)
+
+	if (tmp && is_sep_int(tmp->type) == SUCCESS)
 	{
 		if (tmp->type == PIPE)
 			return (printf("minishell: syntax error near \

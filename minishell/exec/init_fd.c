@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_fd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:57:20 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/13 14:37:33 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	count_redir_for_alloc(t_parse *tmp, t_mini_sh *mini_sh)
 {
-	if (tmp->type == RDR_R)
+	if (tmp->type == REDIR_R)
 		mini_sh->exec->nbr_fd_r++;
-	else if (tmp->type == RDR_L)
+	else if (tmp->type == REDIR_L)
 		mini_sh->exec->nbr_fd_l++;
 	else if (tmp->type == APPEND)
 		mini_sh->exec->nbr_fd_app++;

@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:06:13 by mael              #+#    #+#             */
-/*   Updated: 2023/04/13 14:37:19 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 11:38:25 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	fill_little_tab(t_mini_sh *mini_sh, int trple)
 
 	dble = 0;
 	mini_sh->nbr_word = 0;
-	while (mini_sh->rl_out && is_sep(mini_sh->rl_out->word) == FAIL)
+	while (mini_sh->rl_out && is_sep_int(mini_sh->rl_out->type) == FAIL)
 	{
 		mini_sh->prepare_exec[trple][dble] = ft_strdup(mini_sh->rl_out->word);
 		dble++;
@@ -39,7 +39,7 @@ int	init_big_tab(t_mini_sh *mini_sh)
 	(mini_sh->sep_2 + 2));
 	if (!mini_sh->prepare_exec)
 		return (FAIL_MALLOC);
-	if (is_sep(mini_sh->rl_out->word) == SUCCESS)
+	if (is_sep_int(mini_sh->rl_out->type) == SUCCESS)
 		mini_sh->rl_out = mini_sh->rl_out->next;
 	return (SUCCESS);
 }

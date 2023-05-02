@@ -30,6 +30,7 @@ lib/ft_strjoin.c \
 lib/ft_strlen.c \
 lib/ft_itoa.c \
 lib/ft_putstr_fd.c \
+lib/ft_memset.c \
 built_in/echo.c \
 built_in/cd.c \
 built_in/pwd.c \
@@ -94,7 +95,6 @@ exec/child_process_utils.c \
 exec/redir_l_utils.c \
 exec/redir_r_utils.c \
 exec/heredoc_utils.c \
-exec/rdr_utils.c \
 
 # hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
 # hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell

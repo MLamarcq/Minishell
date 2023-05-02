@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:55:14 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 08:16:07 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 11:12:56 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int	init_fd_exec(t_mini_sh *mini, int i_exec)
 		mini->exec->fd_in = mini->exec->tab_fd[i_exec - 1][0];
 	else
 	{
-		if (mini->sep_type[i_exec - 1] != RDR_L \
+		if (mini->sep_type[i_exec - 1] != REDIR_L \
 		&& mini->sep_type[i_exec - 1] != HR_DOC)
 			mini->exec->fd_in = mini->exec->tab_fd[i_exec - 1][0];
 		else
 		{
-			if (mini->sep_type[i_exec - 1] == RDR_L)
+			if (mini->sep_type[i_exec - 1] == REDIR_L)
 				mini->exec->fd_in = mini->exec->fd_l[mini->exec->check_l];
 			else if (mini->sep_type[i_exec - 1] == HR_DOC)
 				mini->exec->fd_in = mini->exec->fd_hr[mini->exec->check_hr];
@@ -85,8 +85,11 @@ int	init_fd_exec(t_mini_sh *mini, int i_exec)
 
 void	child_process(t_mini_sh *mini_sh, int i_exec)
 {
-	if (init_fd_exec(mini_sh, i_exec) == FAIL)
-		exit (1);
+	if (mini_sh->sep_2 >= 1 || mini_sh->redir_alone == SUCCESS)
+	{
+		if (init_fd_exec(mini_sh, i_exec) == FAIL)
+			exit (1);
+	}
 	exec_signal(4);
 	dup2(mini_sh->exec->fd_in, 0);
 	dup2(mini_sh->exec->fd_out, 1);

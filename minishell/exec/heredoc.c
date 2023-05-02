@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:53:46 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 08:12:32 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/21 18:14:54 by ggosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	do_simple_heredoc(t_mini_sh *mini_sh, int i_exec)
 	{
 		dup2(0, 0);
 		dup2(1, 1);
-		input = readline(">");
+		input = readline("&>");
 		if (ft_strncmp(input, mini_sh->prepare_exec[i_exec][0], \
 		ft_strlen(mini_sh->prepare_exec[i_exec][0])) == 0)
 		{

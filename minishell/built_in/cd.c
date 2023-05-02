@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggosse <ggosse@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:58:39 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:30 by ggosse           ###   ########.fr       */
+/*   Updated: 2023/05/02 10:33:20 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	replace_pwd(t_mini_sh *mini_sh, int *is_exist, char *oldpwd)
 
 	new_pwd = getcwd(NULL, 0);
 	i = 0;
+	if (!oldpwd)
+	{
+		free(new_pwd);
+		return ;
+	}
 	while (mini_sh->env[i])
 	{
 		if (ft_strncmp(mini_sh->env[i], "PWD=", 3) == 0)
@@ -46,6 +51,8 @@ int	export_cd(char **str, t_mini_sh *mini_sh)
 
 	dest = getcwd(NULL, 0);
 	is_exist = 0;
+	if (!dest)
+		return (printf("YO\n"), FAIL);
 	oldpwd = ft_strjoin_rfree("OLDPWD=", dest);
 	if (chdir(str[1]) == 0)
 		replace_pwd(mini_sh, &is_exist, oldpwd);
@@ -64,7 +71,10 @@ void	export_home(char *home, t_mini_sh *mini_sh)
 
 	dest = getcwd(NULL, 0);
 	is_exist = 0;
-	oldpwd = ft_strjoin_rfree("OLDPWD=", dest);
+	if (dest)
+		oldpwd = ft_strjoin_rfree("OLDPWD=", dest);
+	else
+		oldpwd = NULL;
 	if (chdir(home) == 0)
 		replace_pwd(mini_sh, &is_exist, oldpwd);
 	else
@@ -74,7 +84,7 @@ void	export_home(char *home, t_mini_sh *mini_sh)
 		free(home);
 		home = NULL;
 	}
-	if (is_exist == 0)
+	if (is_exist == 0 && oldpwd)
 		export_specific(oldpwd, mini_sh);
 }
 

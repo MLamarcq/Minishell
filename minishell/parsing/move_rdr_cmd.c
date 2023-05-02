@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 17:53:35 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 16:16:20 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 10:21:51 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,33 @@ int	move_3(t_mini_sh *mini_sh)
 void	move_2_3(t_mini_sh *mini, t_parse *tmp, t_parse *temp, t_parse *tmp_2)
 {
 	tmp = mini->rl_out;
-	while (tmp && tmp->type != CMD)
+	while (tmp && tmp->type != CMD && tmp->type != CMD_ABS)
 		tmp = tmp->prev;
-	temp = tmp->next;
-	tmp_2 = mini->rl_out->prev;
-	tmp_2->next = mini->rl_out->next;
+	if (tmp)
+		temp = tmp->next;
+	if (mini->rl_out)
+		tmp_2 = mini->rl_out->prev;
+	if (tmp_2 && mini->rl_out)
+		tmp_2->next = mini->rl_out->next;
 	if (mini->rl_out->next)
 		mini->rl_out->next->prev = mini->rl_out->next->prev->prev;
-	mini->rl_out->next = temp;
-	temp->prev = mini->rl_out;
-	tmp->next = mini->rl_out;
-	mini->rl_out->prev = tmp;
+	if (mini->rl_out)
+		mini->rl_out->next = temp;
+	if (temp)
+		temp->prev = mini->rl_out;
+	if (tmp)
+		tmp->next = mini->rl_out;
+	if (mini->rl_out)
+		mini->rl_out->prev = tmp;
 }
 
 void	all_move(t_mini_sh *mini_sh)
 {
 	move_1(mini_sh);
+	// ft_print_rl_out(mini_sh);
 	move_2(mini_sh);
+	// printf("\n.....................................\n\n");
+	// ft_print_rl_out(mini_sh);
 	move_3(mini_sh);
 }
+// < main.c /usr/bin/cat -e

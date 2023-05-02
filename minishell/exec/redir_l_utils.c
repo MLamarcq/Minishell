@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 17:34:03 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
+/*   Updated: 2023/04/28 22:18:42 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	do_good_redir_l(t_mini_sh *mini_sh, int i_exec)
 		return (FAIL);
 	while (mini_sh->sep_type && mini_sh->sep_type[i] && i < mini_sh->sep_2)
 	{
-		if (mini_sh->sep_type[i] != RDR_L && mini_sh->sep_type[i] != HR_DOC)
+		if (mini_sh->sep_type[i] != REDIR_L && mini_sh->sep_type[i] != HR_DOC)
 			return (FAIL);
 		i++;
 	}
@@ -62,12 +62,12 @@ void	do_good_redir(t_mini_sh *mini_sh, int i_exec)
 
 	i = i_exec;
 	while (mini_sh->sep_type && mini_sh->sep_type[i] != FAIL && \
-	(mini_sh->sep_type[i] != PIPE && mini_sh->sep_type[i] != RDR_R \
+	(mini_sh->sep_type[i] != PIPE && mini_sh->sep_type[i] != REDIR_R \
 	&& mini_sh->sep_type[i] != APPEND))
 		i++;
 	if (mini_sh->sep_type[i] == PIPE)
 		mini_sh->exec->fd_out = mini_sh->exec->tab_fd[i][1];
-	else if (mini_sh->sep_type[i] == RDR_R)
+	else if (mini_sh->sep_type[i] == REDIR_R)
 		mini_sh->exec->fd_out = mini_sh->exec->fd_r[mini_sh->exec->check_r];
 	else if (mini_sh->sep_type[i] == APPEND)
 		mini_sh->exec->fd_out = \
@@ -81,7 +81,7 @@ int	check_last_read(t_mini_sh *mini_sh, int i_last_read, int check, int i)
 		if (i_last_read < mini_sh->sep_2 && mini_sh->sep_type \
 		&& mini_sh->sep_type[i_last_read - 1] \
 		&& mini_sh->sep_type[i_last_read - 1] == \
-		RDR_L && mini_sh->exec->fd_l[i_last_read - 1])
+		REDIR_L && mini_sh->exec->fd_l[i_last_read - 1])
 		mini_sh->exec->fd_in = mini_sh->exec->fd_l[i_last_read - 1];
 		else if (mini_sh->sep_type && mini_sh->sep_type[i_last_read - 1] \
 		&& mini_sh->sep_type[i_last_read - 1] == HR_DOC)

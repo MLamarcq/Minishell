@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_exec_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/05/02 08:31:09 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 11:31:38 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	i = 0;
 	while (tmp)
 	{
-		if (is_sep(tmp->word) == SUCCESS && tmp->type && i < mini_sh->sep_2)
+		if (is_sep_int(tmp->type) == SUCCESS && tmp->type && i < mini_sh->sep_2)
 			mini_sh->sep_type[i++] = tmp->type;
 		tmp = tmp->next;
 	}
@@ -39,54 +39,37 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-int	middle_tab_fd(t_mini_sh *mini_sh, t_parse *tmp, int i_init_fd)
-{
-	if (!tmp)
-		return (0);
-	while (tmp && is_sep_int(tmp->type) == FAIL)
-		tmp = tmp->next;
-	if (!tmp)
-		return (0);
-	mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
-	mini_sh->exec->tab_fd[i_init_fd][2] = 0;
-	if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
-		return (printf("pipe not working\n"), FAIL);
-	if (tmp && tmp->type == PIPE && is_sep_int(tmp->next->type) == SUCCESS)
-	{
-		close(mini_sh->exec->tab_fd[i_init_fd][0]);
-		mini_sh->exec->tab_fd[i_init_fd][0] = 0;
-		tmp = tmp->next;
-	}
-	return (SUCCESS);
-}
-
-int	start_tab_fd(t_mini_sh *mini_sh, int *i_init_fd)
-{
-	(*i_init_fd) = 0;
-	mini_sh->exec->tab_fd = NULL;
-	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
-	if (!mini_sh->exec->tab_fd)
-		return (FAIL_MALLOC);
-	return (SUCCESS);
-}
-
 int	init_tab_fd(t_mini_sh *mini_sh)
 {
 	int		i_init_fd;
-	int		res;
 	t_parse	*tmp;
 
-	res = -42;
 	tmp = mini_sh->rl_out_head;
-	start_tab_fd(mini_sh, &i_init_fd);
+	i_init_fd = 0;
+	mini_sh->exec->tab_fd = NULL;
+	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
+	fprintf(stderr, RED"nbr_sep = %d\n"RST, mini_sh->sep_2);
+	if (!mini_sh->exec->tab_fd)
+		return (FAIL_MALLOC);
 	mini_sh->exec->tab_fd[mini_sh->sep_2] = 0;
 	while (tmp)
 	{
-		res = middle_tab_fd(mini_sh, tmp, i_init_fd);
-		if (res == FAIL)
-			return (FAIL);
-		else if (res == 0)
+		if (!tmp)
 			break ;
+		while (tmp && is_sep_int(tmp->type) == FAIL)
+			tmp = tmp->next;
+		if (!tmp)
+			break ;
+		mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
+		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
+		if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
+			return (printf("pipe not working\n"), FAIL);
+		if (tmp && tmp->type == PIPE && is_sep_int(tmp->next->type) == SUCCESS)
+		{
+			close(mini_sh->exec->tab_fd[i_init_fd][0]);
+			mini_sh->exec->tab_fd[i_init_fd][0] = 0;
+			tmp = tmp->next;
+		}
 		if (tmp)
 			count_redir_for_alloc(tmp, mini_sh);
 		i_init_fd++;
@@ -111,7 +94,7 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 int	exec_redir(t_mini_sh *mini, int i_exec)
 {
 	if (i_exec < mini->sep_2 && mini->sep_type \
-	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == RDR_R)
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == REDIR_R)
 		do_redir_r(mini, i_exec);
 	else if (i_exec < mini->sep_2 && mini->sep_type \
 	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == APPEND)
@@ -120,7 +103,7 @@ int	exec_redir(t_mini_sh *mini, int i_exec)
 	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == HR_DOC)
 		do_heredoc_redir(mini, i_exec);
 	else if (i_exec < mini->sep_2 && mini->sep_type \
-	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == RDR_L)
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == REDIR_L)
 		do_redir_l(mini, i_exec);
 	return (SUCCESS);
 }
@@ -160,7 +143,7 @@ int	count_redir_in_line(t_mini_sh *mini_sh, int type)
 			temp = mini_sh->rl_check_redir->next;
 			while (temp)
 			{
-				if (is_sep(temp->word) == SUCCESS)
+				if (is_sep_int(temp->type) == SUCCESS)
 				{
 					if (temp->type == type)
 						return (SUCCESS);
@@ -177,7 +160,7 @@ int	count_redir_in_line(t_mini_sh *mini_sh, int type)
 
 void	increase_check(t_mini_sh *mini_sh, int type)
 {
-	if (type == RDR_R)
+	if (type == REDIR_R)
 	{
 		if (mini_sh->exec->check_r < mini_sh->exec->nbr_fd_r && \
 		count_redir_in_line(mini_sh, type) == FAIL)
@@ -195,7 +178,7 @@ void	increase_check(t_mini_sh *mini_sh, int type)
 		count_redir_in_line(mini_sh, type) == FAIL)
 			mini_sh->exec->check_hr++;
 	}
-	else if (type == RDR_L)
+	else if (type == REDIR_L)
 	{
 		if (mini_sh->exec->check_l < mini_sh->exec->nbr_fd_l && \
 		count_redir_in_line(mini_sh, type) == FAIL)
@@ -221,8 +204,11 @@ int	start_exec(t_mini_sh *mini_sh)
 			return (FAIL);
 		if (exec_builtin(mini_sh, i_exec) == FAIL)
 		{
-			if (do_exec(mini_sh, i_exec) == FAIL)
+			mini_sh->pids[i_exec] = fork();
+			if (mini_sh->pids[i_exec] == -1)
 				return (FAIL);
+			if (mini_sh->pids[i_exec] == 0)
+				child_process(mini_sh, i_exec);
 		}
 		else
 			mini_sh->pids[i_exec] = FAIL;
@@ -232,15 +218,5 @@ int	start_exec(t_mini_sh *mini_sh)
 		i_exec++;
 	}
 	ft_parent(mini_sh, &i_exec);
-	return (SUCCESS);
-}
-
-int	do_exec(t_mini_sh *mini_sh, int i_exec)
-{
-	mini_sh->pids[i_exec] = fork();
-	if (mini_sh->pids[i_exec] == -1)
-		return (FAIL);
-	if (mini_sh->pids[i_exec] == 0)
-		child_process(mini_sh, i_exec);
 	return (SUCCESS);
 }

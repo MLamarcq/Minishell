@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 14:35:49 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/05/01 15:35:50 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 13:44:37 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@ int	init_env_sorted(t_mini_sh *mini_sh)
 
 int	if_arg(char **argv, t_mini_sh *mini_sh)
 {
-	int	i;
-
-	i = 0;
 	if (ft_strncmp(argv[0], "export", 6) == 0)
 	{
 		if (argv[1] && argv[1][0] == '-')
@@ -45,12 +42,7 @@ int	if_arg(char **argv, t_mini_sh *mini_sh)
 		if (argv[1] && ft_isdigit(argv[1][0]) == 0)
 		{
 			mini_sh->data->dest = ft_strdup(argv[1]);
-			while (mini_sh->data->dest[i])
-			{
-				if (mini_sh->data->dest[i] == '=')
-					return (SUCCESS);
-				i++;
-			}
+			return (SUCCESS);
 		}
 		else
 			printf("minishell: export: `%s' : not a valid identifier\n", \

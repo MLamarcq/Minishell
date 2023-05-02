@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_l.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 08:31:40 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 11:30:59 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse *tmp)
 	t_parse	*temp;
 
 	temp = tmp;
-	if (temp->type == RDR_L)
+	if (temp->type == REDIR_L)
 	{
 		temp = temp->next;
 		while (temp)
 		{
-			if (temp->type == RDR_L)
+			if (temp->type == REDIR_L)
 			{
 				mini_sh->exec->ana_l = 1;
 				break ;
@@ -47,13 +47,19 @@ void	change_nbr_l(t_mini_sh *mini_sh)
 	while (tmp)
 	{
 		check = 0;
-		if (tmp->type == RDR_L)
+		if (tmp->type == REDIR_L)
 		{
 			temp = tmp->next;
 			while (temp)
 			{
-				if (change_nbr_l_util(mini_sh, temp, &check) == SUCCESS)
+				if (is_sep_int(temp->type) == SUCCESS)
+				{
+					if (temp->type == REDIR_L)
+						check = 1;
+					if (check == 1)
+						mini_sh->exec->nbr_fd_l = mini_sh->exec->nbr_fd_l - 1;
 					break ;
+				}
 				temp = temp->next;
 			}
 		}
@@ -67,17 +73,28 @@ int	init_redir_l_tab(t_mini_sh *mini_sh)
 	int		i;
 
 	tmp = mini_sh->rl_out_head;
+	i = -1;
 	if (mini_sh->exec->nbr_fd_l == 0)
 		return (FAIL);
 	change_nbr_l(mini_sh);
-	init_fail_ltab(mini_sh, &i);
+	mini_sh->exec->fd_l = malloc(sizeof(int) * mini_sh->exec->nbr_fd_l + 1);
+	if (!mini_sh->exec->fd_l)
+		return (FAIL_MALLOC);
+	while (++i < mini_sh->exec->nbr_fd_l)
+		mini_sh->exec->fd_l[i] = FAIL;
+	i = -1;
 	while (++i < mini_sh->exec->nbr_fd_l)
 	{
 		while (tmp)
 		{
-			if (tmp->type == RDR_L)
+			if (tmp->type == REDIR_L)
 			{
-				init_redir_l_util(mini_sh, tmp, i);
+				analyse_redir_before_alloc_2(mini_sh, tmp);
+				if (mini_sh->exec->fd_l[i] != FAIL)
+					close(mini_sh->exec->fd_l[i]);
+				mini_sh->exec->fd_l[i] = open(tmp->next->word, O_RDONLY, 0644);
+				if (mini_sh->exec->fd_l[i] == -1)
+					return (printf("something wrong happened\n"), FAIL);
 				tmp = tmp->next;
 				if (mini_sh->exec->ana_l == 0)
 					break ;
@@ -88,50 +105,34 @@ int	init_redir_l_tab(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-int	init_redir_l_util(t_mini_sh *mini_sh, t_parse *tmp, int i)
-{
-	analyse_redir_before_alloc_2(mini_sh, tmp);
-	if (mini_sh->exec->fd_l[i] != FAIL)
-		close(mini_sh->exec->fd_l[i]);
-	mini_sh->exec->fd_l[i] = open(tmp->next->word, O_RDONLY, 0644);
-	if (mini_sh->exec->fd_l[i] == -1)
-		return (printf("something wrong happened\n"), FAIL);
-	return (SUCCESS);
-}
-
 int	one_hr_multi_l(t_mini_sh *mini_sh)
 {
-	t_parse	*t;
+	t_parse	*tmp;
 	int		l_check;
 	int		hr_check;
 
 	l_check = FAIL;
 	hr_check = FAIL;
-	t = mini_sh->rl_out_head;
-	while (t)
+	tmp = mini_sh->rl_out_head;
+	while (tmp)
 	{
-		if (t->type == HR_DOC)
+		if (tmp->type == HR_DOC)
 		{
 			l_check = SUCCESS;
 			break ;
 		}
-		t = t->next;
+		tmp = tmp->next;
 	}
-	hr_success(t, &hr_check);
+	while (tmp)
+	{
+		if (tmp->type == REDIR_L && tmp->next && \
+		tmp->next->next && tmp->next->next->type == REDIR_L)
+			hr_check = SUCCESS;
+		tmp = tmp->next;
+	}
 	if (l_check == SUCCESS && hr_check == SUCCESS)
 		return (SUCCESS);
 	return (FAIL);
-}
-
-void	hr_success(t_parse *t, int *hr_check)
-{
-	while (t)
-	{
-		if (t->type == RDR_L && t->next && \
-		t->next->next && t->next->next->type == RDR_L)
-			(*hr_check) = SUCCESS;
-		t = t->next;
-	}
 }
 
 void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec)
