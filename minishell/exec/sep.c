@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 14:00:14 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:53:17 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@ int	count_sep_2(t_mini_sh *mini_sh)
 	is_redir_alone(mini_sh);
 	if (mini_sh->redir_alone == SUCCESS)
 		return (SUCCESS);
-	tmp = tmp->next;
+	if (issep_read(tmp->type) == FAIL)
+		tmp = tmp->next;
 	while (tmp && tmp->next != NULL)
 	{
 		if (is_sep_int(tmp->type) == SUCCESS && \
-		is_sep_int(tmp->next->type) == SUCCESS)
+		issep_write(tmp->next->type) == SUCCESS)
 			tmp = tmp->next;
 		if (is_sep_int(tmp->type) == SUCCESS)
 			mini_sh->sep_2++;

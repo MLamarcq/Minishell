@@ -6,17 +6,17 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:56:38 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 15:17:15 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:56:47 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse *tmp)
+void	analyse_redir_before_alloc_2(t_mini_sh *mini_sh, t_parse **tmp)
 {
 	t_parse	*temp;
 
-	temp = tmp;
+	temp = (*tmp);
 	if (temp->type == REDIR_L)
 	{
 		temp = temp->next;
@@ -79,29 +79,29 @@ int	init_redir_l_tab(t_mini_sh *mini_sh)
 	i = -1;
 	while (++i < mini_sh->exec->nbr_fd_l)
 	{
-		if (middle_redir_l(mini_sh, tmp, i) == FAIL)
+		if (middle_redir_l(mini_sh, &tmp, i) == FAIL)
 			return (FAIL);
 	}
 	return (SUCCESS);
 }
 
-int	middle_redir_l(t_mini_sh *mini_sh, t_parse *tmp, int i)
+int	middle_redir_l(t_mini_sh *mini_sh, t_parse **tmp, int i)
 {
-	while (tmp)
+	while ((*tmp))
 	{
-		if (tmp->type == REDIR_L)
+		if ((*tmp)->type == REDIR_L)
 		{
 			analyse_redir_before_alloc_2(mini_sh, tmp);
 			if (mini_sh->exec->fd_l[i] != FAIL)
 				close(mini_sh->exec->fd_l[i]);
-			mini_sh->exec->fd_l[i] = open(tmp->next->word, O_RDONLY, 0644);
+			mini_sh->exec->fd_l[i] = open((*tmp)->next->word, O_RDONLY, 0644);
 			if (mini_sh->exec->fd_l[i] == -1)
 				return (printf("something wrong happened\n"), FAIL);
-			tmp = tmp->next;
+			(*tmp) = (*tmp)->next;
 			if (mini_sh->exec->ana_l == 0)
 				break ;
 		}
-		tmp = tmp->next;
+		(*tmp) = (*tmp)->next;
 	}
 	return (SUCCESS);
 }

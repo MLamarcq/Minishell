@@ -6,17 +6,17 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 15:16:35 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:40:03 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
+void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse **tmp)
 {
 	t_parse	*temp;
 
-	temp = tmp;
+	temp = (*tmp);
 	if (temp->type == REDIR_R)
 	{
 		temp = temp->next;
@@ -87,24 +87,24 @@ void	change_nbr_r(t_mini_sh *mini_sh)
 	}
 }
 
-int	middle_redir_r(t_mini_sh *mini_sh, t_parse *tmp, int i)
+int	middle_redir_r(t_mini_sh *mini_sh, t_parse **tmp, int i)
 {
-	while (tmp)
+	while ((*tmp))
 	{
-		if (tmp->type == REDIR_R)
+		if ((*tmp)->type == REDIR_R)
 		{
 			analyse_redir_before_alloc(mini_sh, tmp);
 			if (mini_sh->exec->fd_r[i] != FAIL)
 				close(mini_sh->exec->fd_r[i]);
 			mini_sh->exec->fd_r[i] = \
-			open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
+			open((*tmp)->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
 			if (mini_sh->exec->fd_r[i] == -1)
 				return (FAIL);
-			tmp = tmp->next;
+			(*tmp) = (*tmp)->next;
 			if (mini_sh->exec->ana_r == 0)
 				break ;
 		}
-		tmp = tmp->next;
+		(*tmp) = (*tmp)->next;
 	}
 	return (SUCCESS);
 }
@@ -124,11 +124,12 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	i = -1;
 	while (++i < mini_sh->exec->nbr_fd_r)
 		mini_sh->exec->fd_r[i] = FAIL;
-	i = -1;
-	while (++i < mini_sh->exec->nbr_fd_r)
+	i = 0;
+	while (i < mini_sh->exec->nbr_fd_r)
 	{
-		if (middle_redir_r(mini_sh, tmp, i) == SUCCESS)
+		if (middle_redir_r(mini_sh, &tmp, i) == FAIL)
 			return (FAIL);
+		i++;
 	}
 	return (SUCCESS);
 }

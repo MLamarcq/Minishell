@@ -6,17 +6,17 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 14:15:46 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:00:50 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
 
-void	analyse_append_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
+void	analyse_append_before_alloc(t_mini_sh *mini_sh, t_parse **tmp)
 {
 	t_parse	*temp;
 
-	temp = tmp;
+	temp = (*tmp);
 	if (temp->type == APPEND)
 	{
 		temp = temp->next;
@@ -117,8 +117,7 @@ int	init_append_tab(t_mini_sh *mini_sh)
 	{
 		while (tmp)
 		{
-			res = init_append_tab_util(mini_sh, tmp, &i);
-			printf("res = %d\n", res);
+			res = init_append_tab_util(mini_sh, &tmp, &i);
 			if (res == FAIL)
 				return (FAIL);
 			if (res == -42)

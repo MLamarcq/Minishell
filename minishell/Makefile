@@ -115,6 +115,8 @@ exec/heredoc_3.c \
 # ls -l | < main.c wc -l | ls -la
 # >''><
 # >l>l>l
+# << eof > t6 | < main.c cat -e > t7
+# ls -la > t5 | < main.c cat > t6 | < Makefile cat -e > t7 | << eof cat >> t8 | < main.c cat -e >> t9 
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)

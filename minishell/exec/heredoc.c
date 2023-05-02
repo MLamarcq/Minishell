@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:53:46 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/02 16:00:19 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:52:45 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void	change_hr_doc(t_mini_sh *mini_sh)
 	}
 }
 
-int	middle_hrdoc_tab(t_mini_sh *mini_sh, t_parse *tmp, int i)
+int	middle_hrdoc_tab(t_mini_sh *mini_sh, t_parse **tmp, int i)
 {
-	while (tmp)
+	while ((*tmp))
 	{
-		if (tmp->type == HR_DOC)
+		if ((*tmp)->type == HR_DOC)
 		{
 			mini_sh->exec->hr_name[i] = \
 			ft_strjoin_rfree(".heredoc", ft_itoa(i));
@@ -73,10 +73,10 @@ int	middle_hrdoc_tab(t_mini_sh *mini_sh, t_parse *tmp, int i)
 			open(mini_sh->exec->hr_name[i], O_WRONLY | O_CREAT, 0644);
 			if (mini_sh->exec->fd_hr[i] == -1)
 				return (FAIL);
-			tmp = tmp->next;
+			(*tmp) = (*tmp)->next;
 			break ;
 		}
-		tmp = tmp->next;
+		(*tmp) = (*tmp)->next;
 	}
 	return (SUCCESS);
 }
@@ -98,7 +98,7 @@ int	init_hr_dc_tab(t_mini_sh *mini_sh)
 	mini_sh->exec->hr_name[mini_sh->exec->nbr_fd_hr] = 0;
 	while (i < mini_sh->exec->nbr_fd_hr)
 	{
-		if (middle_hrdoc_tab(mini_sh, tmp, i) == FAIL)
+		if (middle_hrdoc_tab(mini_sh, &tmp, i) == FAIL)
 			return (FAIL);
 		i++;
 	}
