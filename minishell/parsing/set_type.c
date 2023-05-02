@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_type.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 23:12:05 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 16:15:56 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	type_utils_3(t_mini_sh *mini_sh)
 		&& mini_sh->rl_out->type == FAIL)
 	{
 		if (ft_strlen(mini_sh->rl_out->word) == 1)
-			mini_sh->rl_out->type = REDIR_R;
+			mini_sh->rl_out->type = RDR_R;
 		else
 			return (printf("minishell: syntax error with >\n"), FAIL);
 	}
@@ -73,7 +73,7 @@ int	type_utils_3(t_mini_sh *mini_sh)
 		&& mini_sh->rl_out->type == FAIL)
 	{
 		if (ft_strlen(mini_sh->rl_out->word) == 1)
-			mini_sh->rl_out->type = REDIR_L;
+			mini_sh->rl_out->type = RDR_L;
 		else
 			return (printf("minishell: syntax error with <\n"), FAIL);
 	}

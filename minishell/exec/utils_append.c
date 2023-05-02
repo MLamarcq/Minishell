@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_append.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 16:33:12 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/05/01 16:46:48 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 07:22:39 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minishell.h"
-
-int	change_nbr_append_util(t_mini_sh *mini_sh, t_parse *temp, int *check)
-{
-	if (is_sep(temp->word) == SUCCESS)
-	{
-		if (temp->type == APPEND)
-			(*check) = 1;
-		if ((*check) == 1)
-			mini_sh->exec->nbr_fd_app = mini_sh->exec->nbr_fd_app - 1;
-		return (SUCCESS);
-	}
-	return (FAIL);
-}
 
 int	init_append_tab_util(t_mini_sh *mini_sh, t_parse *tmp, int *i)
 {

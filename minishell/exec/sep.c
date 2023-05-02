@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sep.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/27 15:46:16 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	is_sep(char *word)
 
 int	is_sep_int(int type)
 {
-	if (type == REDIR_R)
+	if (type == RDR_R)
 		return (SUCCESS);
-	else if (type == REDIR_L)
+	else if (type == RDR_L)
 		return (SUCCESS);
 	else if (type == APPEND)
 		return (SUCCESS);

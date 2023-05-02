@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_error_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:50:30 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 16:12:16 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	redir_l_error(t_mini_sh *mini_sh)
 	dir_name = NULL;
 	while (tmp)
 	{
-		if (tmp->next && tmp->type == REDIR_L)
+		if (tmp->next && tmp->type == RDR_L)
 		{
 			dir_name = opendir(tmp->next->word);
 			if (dir_name != NULL)
@@ -45,7 +45,7 @@ int	redir_r_error_2(t_mini_sh *mini_sh)
 	dir_name = NULL;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->type == REDIR_R || tmp->type == APPEND))
+		if (tmp->next && (tmp->type == RDR_R || tmp->type == APPEND))
 		{
 			dir_name = opendir(tmp->next->word);
 			if (dir_name != NULL)

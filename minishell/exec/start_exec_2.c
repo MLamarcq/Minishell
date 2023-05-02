@@ -6,7 +6,7 @@
 /*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:33:14 by mael              #+#    #+#             */
-/*   Updated: 2023/04/28 22:20:18 by gael             ###   ########.fr       */
+/*   Updated: 2023/05/02 08:31:09 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,54 @@ int	init_sep_type(t_mini_sh *mini_sh)
 	return (SUCCESS);
 }
 
-int	init_tab_fd(t_mini_sh *mini_sh)
+int	middle_tab_fd(t_mini_sh *mini_sh, t_parse *tmp, int i_init_fd)
 {
-	int		i_init_fd;
-	t_parse	*tmp;
+	if (!tmp)
+		return (0);
+	while (tmp && is_sep_int(tmp->type) == FAIL)
+		tmp = tmp->next;
+	if (!tmp)
+		return (0);
+	mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
+	mini_sh->exec->tab_fd[i_init_fd][2] = 0;
+	if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
+		return (printf("pipe not working\n"), FAIL);
+	if (tmp && tmp->type == PIPE && is_sep_int(tmp->next->type) == SUCCESS)
+	{
+		close(mini_sh->exec->tab_fd[i_init_fd][0]);
+		mini_sh->exec->tab_fd[i_init_fd][0] = 0;
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
+}
 
-	tmp = mini_sh->rl_out_head;
-	i_init_fd = 0;
+int	start_tab_fd(t_mini_sh *mini_sh, int *i_init_fd)
+{
+	(*i_init_fd) = 0;
 	mini_sh->exec->tab_fd = NULL;
 	mini_sh->exec->tab_fd = malloc(sizeof(int *) * (mini_sh->sep_2 + 1));
 	if (!mini_sh->exec->tab_fd)
 		return (FAIL_MALLOC);
+	return (SUCCESS);
+}
+
+int	init_tab_fd(t_mini_sh *mini_sh)
+{
+	int		i_init_fd;
+	int		res;
+	t_parse	*tmp;
+
+	res = -42;
+	tmp = mini_sh->rl_out_head;
+	start_tab_fd(mini_sh, &i_init_fd);
 	mini_sh->exec->tab_fd[mini_sh->sep_2] = 0;
 	while (tmp)
 	{
-		if (!tmp)
+		res = middle_tab_fd(mini_sh, tmp, i_init_fd);
+		if (res == FAIL)
+			return (FAIL);
+		else if (res == 0)
 			break ;
-		while (tmp && is_sep_int(tmp->type) == FAIL)
-			tmp = tmp->next;
-		if (!tmp)
-			break ;
-		mini_sh->exec->tab_fd[i_init_fd] = malloc(sizeof(int) * 3);
-		mini_sh->exec->tab_fd[i_init_fd][2] = 0;
-		if (pipe(mini_sh->exec->tab_fd[i_init_fd]) == -1)
-			return (printf("pipe not working\n"), FAIL);
-		if (tmp && tmp->type == PIPE && is_sep_int(tmp->next->type) == SUCCESS)
-		{
-			close(mini_sh->exec->tab_fd[i_init_fd][0]);
-			mini_sh->exec->tab_fd[i_init_fd][0] = 0;
-			tmp = tmp->next;
-		}
 		if (tmp)
 			count_redir_for_alloc(tmp, mini_sh);
 		i_init_fd++;
@@ -93,7 +111,7 @@ int	exec_builtin(t_mini_sh *mini_sh, int i)
 int	exec_redir(t_mini_sh *mini, int i_exec)
 {
 	if (i_exec < mini->sep_2 && mini->sep_type \
-	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == REDIR_R)
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == RDR_R)
 		do_redir_r(mini, i_exec);
 	else if (i_exec < mini->sep_2 && mini->sep_type \
 	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == APPEND)
@@ -102,7 +120,7 @@ int	exec_redir(t_mini_sh *mini, int i_exec)
 	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == HR_DOC)
 		do_heredoc_redir(mini, i_exec);
 	else if (i_exec < mini->sep_2 && mini->sep_type \
-	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == REDIR_L)
+	&& mini->sep_type[i_exec] != FAIL && mini->sep_type[i_exec] == RDR_L)
 		do_redir_l(mini, i_exec);
 	return (SUCCESS);
 }
@@ -159,7 +177,7 @@ int	count_redir_in_line(t_mini_sh *mini_sh, int type)
 
 void	increase_check(t_mini_sh *mini_sh, int type)
 {
-	if (type == REDIR_R)
+	if (type == RDR_R)
 	{
 		if (mini_sh->exec->check_r < mini_sh->exec->nbr_fd_r && \
 		count_redir_in_line(mini_sh, type) == FAIL)
@@ -177,7 +195,7 @@ void	increase_check(t_mini_sh *mini_sh, int type)
 		count_redir_in_line(mini_sh, type) == FAIL)
 			mini_sh->exec->check_hr++;
 	}
-	else if (type == REDIR_L)
+	else if (type == RDR_L)
 	{
 		if (mini_sh->exec->check_l < mini_sh->exec->nbr_fd_l && \
 		count_redir_in_line(mini_sh, type) == FAIL)
@@ -203,11 +221,8 @@ int	start_exec(t_mini_sh *mini_sh)
 			return (FAIL);
 		if (exec_builtin(mini_sh, i_exec) == FAIL)
 		{
-			mini_sh->pids[i_exec] = fork();
-			if (mini_sh->pids[i_exec] == -1)
+			if (do_exec(mini_sh, i_exec) == FAIL)
 				return (FAIL);
-			if (mini_sh->pids[i_exec] == 0)
-				child_process(mini_sh, i_exec);
 		}
 		else
 			mini_sh->pids[i_exec] = FAIL;
@@ -217,5 +232,15 @@ int	start_exec(t_mini_sh *mini_sh)
 		i_exec++;
 	}
 	ft_parent(mini_sh, &i_exec);
+	return (SUCCESS);
+}
+
+int	do_exec(t_mini_sh *mini_sh, int i_exec)
+{
+	mini_sh->pids[i_exec] = fork();
+	if (mini_sh->pids[i_exec] == -1)
+		return (FAIL);
+	if (mini_sh->pids[i_exec] == 0)
+		child_process(mini_sh, i_exec);
 	return (SUCCESS);
 }

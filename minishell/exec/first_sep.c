@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_sep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 13:25:36 by gael              #+#    #+#             */
-/*   Updated: 2023/04/28 15:32:04 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:07 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_first_is_sep(t_mini_sh *mini_sh)
 			printf("minishell: syntax error near unexpected token '|'\n");
 			return (FAIL);
 		}
-		else if (tmp->type != REDIR_L && !tmp->next)
+		else if (tmp->type != RDR_L && !tmp->next)
 		{
 			printf("minishell: syntax error near unexpected token 'newline'\n");
 			return (FAIL);
@@ -40,7 +40,7 @@ int	check_first_is_sep_2(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	if (is_sep(tmp->word) == SUCCESS)
 	{
-		if (tmp->type == REDIR_L)
+		if (tmp->type == RDR_L)
 		{
 			if (tmp->next && tmp->next->type != _FILE
 				&& tmp->next->type != CMD_ABS)

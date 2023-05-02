@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 23:46:59 by gael              #+#    #+#             */
-/*   Updated: 2023/05/01 14:17:26 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ void	print_word2(char *new_w)
 void	ft_print_rl_out(t_mini_sh *mini_sh)
 {
 	t_parse	*tmp;
-	// int		i;
 
-	// i = 0;
 	tmp = mini_sh->rl_out_head;
 	printf("\n...............start..................\n\n");
 	while (tmp->prev)
@@ -81,14 +79,14 @@ void	print_type(int type)
 		fprintf(stderr, BLUE"PIPE"RST"\n");
 	else if (type == ARG)
 		fprintf(stderr, BLUE"ARG"RST"\n");
-	else if (type == REDIR_L)
-		fprintf(stderr, BLUE"REDIR_L"RST"\n");
+	else if (type == RDR_L)
+		fprintf(stderr, BLUE"RDR_L"RST"\n");
 	else if (type == APPEND)
 		fprintf(stderr, BLUE"APPEND"RST"\n");
 	else if (type == HR_DOC)
 		fprintf(stderr, BLUE"HR_DOC"RST"\n");
-	else if (type == REDIR_R)
-		fprintf(stderr, BLUE"REDIR_R"RST"\n");
+	else if (type == RDR_R)
+		fprintf(stderr, BLUE"RDR_R"RST"\n");
 	else if (type == OPTION)
 		fprintf(stderr, BLUE"OPTION"RST"\n");
 	else if (type == _FILE)

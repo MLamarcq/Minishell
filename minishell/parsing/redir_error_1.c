@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_error_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:00:26 by ggosse            #+#    #+#             */
-/*   Updated: 2023/04/28 16:57:14 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_redi_r_append_error_1(t_mini_sh *mini_sh)
 	dir_name = NULL;
 	while (tmp)
 	{
-		if (tmp->next && (tmp->type == REDIR_R || tmp->type == APPEND))
+		if (tmp->next && (tmp->type == RDR_R || tmp->type == APPEND))
 		{
 			tmp = tmp->next;
 			dir_name = opendir(tmp->word);
@@ -47,7 +47,7 @@ int	check_redi_r_append_error_2(t_mini_sh *mini_sh)
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_R || tmp->type == APPEND)
+		if (tmp->type == RDR_R || tmp->type == APPEND)
 		{
 			tmp = tmp->next;
 			if ((tmp->type == _FILE && (access(tmp->word, W_OK) == 0)) \

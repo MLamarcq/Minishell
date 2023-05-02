@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:54:31 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/01 16:40:46 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,10 @@ void	when_redir_r_after(t_mini_sh *mini_sh, int i)
 			temp = tmp;
 			while (temp)
 			{
-				if (temp->type == REDIR_R)
+				if (temp->type == RDR_R)
 				{
 					mini_sh->exec->fd_app[i] = \
 					mini_sh->exec->fd_r[mini_sh->exec->check_r];
-					
 				}
 				else
 					break ;
@@ -119,7 +118,6 @@ int	init_append_tab(t_mini_sh *mini_sh)
 		while (tmp)
 		{
 			res = init_append_tab_util(mini_sh, tmp, &i);
-			printf("res = %d\n", res);
 			if (res == FAIL)
 				return (FAIL);
 			if (res == -42)

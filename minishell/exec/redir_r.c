@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_r.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:58:05 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/01 16:52:08 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:33 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	analyse_redir_before_alloc(t_mini_sh *mini_sh, t_parse *tmp)
 	t_parse	*temp;
 
 	temp = tmp;
-	if (temp->type == REDIR_R)
+	if (temp->type == RDR_R)
 	{
 		temp = temp->next;
 		while (temp)
 		{
-			if (temp->type == REDIR_R)
+			if (temp->type == RDR_R)
 			{
 				mini_sh->exec->ana_r = 1;
 				break ;
@@ -45,7 +45,7 @@ void	when_append_after(t_mini_sh *mini_sh, int i)
 	tmp = mini_sh->rl_out_head;
 	while (tmp)
 	{
-		if (tmp->type == REDIR_R)
+		if (tmp->type == RDR_R)
 		{
 			temp = tmp;
 			while (temp)
@@ -73,7 +73,7 @@ void	change_nbr_r(t_mini_sh *mini_sh)
 	while (tmp)
 	{
 		check = 0;
-		if (tmp->type == REDIR_R)
+		if (tmp->type == RDR_R)
 		{
 			temp = tmp->next;
 			while (temp)
@@ -96,26 +96,14 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 	if (mini_sh->exec->nbr_fd_r == 0)
 		return (FAIL);
 	change_nbr_r(mini_sh);
-	mini_sh->exec->fd_r = malloc(sizeof(int) * mini_sh->exec->nbr_fd_r + 1);
-	if (!mini_sh->exec->fd_r)
-		return (FAIL_MALLOC);
-	i = -1;
-	while (++i < mini_sh->exec->nbr_fd_r)
-		mini_sh->exec->fd_r[i] = FAIL;
-	i = -1;
+	init_fail_rtab(mini_sh, &i);
 	while (++i < mini_sh->exec->nbr_fd_r)
 	{
 		while (tmp)
 		{
-			if (tmp->type == REDIR_R)
+			if (tmp->type == RDR_R)
 			{
-				analyse_redir_before_alloc(mini_sh, tmp);
-				if (mini_sh->exec->fd_r[i] != FAIL)
-					close(mini_sh->exec->fd_r[i]);
-				mini_sh->exec->fd_r[i] = \
-				open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
-				if (mini_sh->exec->fd_r[i] == -1)
-					return (FAIL);
+				init_redir_r_util(mini_sh, tmp, i);
 				tmp = tmp->next;
 				if (mini_sh->exec->ana_r == 0)
 					break ;
@@ -123,5 +111,17 @@ int	init_redir_r_tab(t_mini_sh *mini_sh)
 			tmp = tmp->next;
 		}
 	}
+	return (SUCCESS);
+}
+
+int	init_redir_r_util(t_mini_sh *mini_sh, t_parse *tmp, int i)
+{
+	analyse_redir_before_alloc(mini_sh, tmp);
+	if (mini_sh->exec->fd_r[i] != FAIL)
+		close(mini_sh->exec->fd_r[i]);
+	mini_sh->exec->fd_r[i] = \
+	open(tmp->next->word, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	if (mini_sh->exec->fd_r[i] == -1)
+		return (FAIL);
 	return (SUCCESS);
 }

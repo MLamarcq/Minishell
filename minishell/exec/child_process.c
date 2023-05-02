@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mael <mael@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gael <gael@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 16:55:14 by ggosse            #+#    #+#             */
-/*   Updated: 2023/05/01 22:16:51 by mael             ###   ########.fr       */
+/*   Updated: 2023/05/02 08:16:07 by gael             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int	init_fd_exec(t_mini_sh *mini, int i_exec)
 		mini->exec->fd_in = mini->exec->tab_fd[i_exec - 1][0];
 	else
 	{
-		if (mini->sep_type[i_exec - 1] != REDIR_L \
+		if (mini->sep_type[i_exec - 1] != RDR_L \
 		&& mini->sep_type[i_exec - 1] != HR_DOC)
 			mini->exec->fd_in = mini->exec->tab_fd[i_exec - 1][0];
 		else
 		{
-			if (mini->sep_type[i_exec - 1] == REDIR_L)
+			if (mini->sep_type[i_exec - 1] == RDR_L)
 				mini->exec->fd_in = mini->exec->fd_l[mini->exec->check_l];
 			else if (mini->sep_type[i_exec - 1] == HR_DOC)
 				mini->exec->fd_in = mini->exec->fd_hr[mini->exec->check_hr];

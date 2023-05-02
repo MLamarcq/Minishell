@@ -94,6 +94,7 @@ exec/child_process_utils.c \
 exec/redir_l_utils.c \
 exec/redir_r_utils.c \
 exec/heredoc_utils.c \
+exec/rdr_utils.c \
 
 # hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
 # hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
