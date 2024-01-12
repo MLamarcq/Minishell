@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:04:11 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/05/02 15:04:49 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/03 10:52:07 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	go_to_last_read_2(t_mini_sh *mini_sh, int i_exec)
 	i_last_read = i_exec;
 	check = 0;
 	while (mini_sh->sep_type[i_last_read] && \
-	(issep_write(mini_sh->sep_type[i_last_read]) == FAIL || \
-	mini_sh->sep_type[i_last_read] != FAIL || \
+	(issep_write(mini_sh->sep_type[i_last_read]) == FAIL && \
+	mini_sh->sep_type[i_last_read] != FAIL && \
 	mini_sh->sep_type[i_last_read] != PIPE) && (i_last_read < mini_sh->sep_2))
 	{
 		if (issep_read(mini_sh->sep_type[i_last_read]) == SUCCESS)

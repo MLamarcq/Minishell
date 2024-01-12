@@ -99,24 +99,7 @@ exec/heredoc_utils.c \
 exec/tab_fd.c \
 exec/rdr_start_exec.c \
 exec/heredoc_3.c \
-
-# hcreate && make re && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
-# hcreate && make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=./leak.txt ./minishell
-
-# echo abc'" $USER$$ic$TERM"'def$ic | echo abc"' $USER$$ic$TERM'"def
-# echo abc'" $USER$$ic$TERM"'def$mp
-# echo abc"' $USER$$ic$TERM'"def$xe
-# echo "'$USER'"'"$USER"'$USER$USER$?$$$$USER
-
-# ls -lat|grep -ion "$USER"|wc -l>t1
-# ls -l -a | /usr/bin/grep -ion s > sqve | echo abc"' $USER'"def$ic >> ./sqve | cat << abc > outfile
-# cat<main.c>t1|cat<Makefile>t2|cat<<eof>t3>t4
-# ls -la > test12 | > test11 | > test10 | ls > test13
-# ls -l | < main.c wc -l | ls -la
-# >''><
-# >l>l>l
-# << eof > t6 | < main.c cat -e > t7
-# ls -la > t5 | < main.c cat > t6 | < Makefile cat -e > t7 | << eof cat >> t8 | < main.c cat -e >> t9 
+exec/heredoc_4.c \
 
 OBJ = $(SRC:%.c=%.o)
 OBJS_MAEL = $(SRC_MAEL:%.c=%.o)

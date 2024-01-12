@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 11:14:58 by gael              #+#    #+#             */
-/*   Updated: 2023/05/02 17:59:17 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:14:05 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,9 @@ void	change_nbr_l(t_mini_sh *mini_sh);
 int		init_redir_l_tab(t_mini_sh *mini_sh);
 int		middle_redir_l(t_mini_sh *mini_sh, t_parse **tmp, int i);
 int		one_hr_multi_l(t_mini_sh *mini_sh);
+//exec/heredoc_4.c
+void	go_to_last_read_3(t_mini_sh *mini_sh, int i_exec);
+int		middle_last_read_2(t_mini_sh *mini_sh, int i_last_read, int check);
 //exec/start_exec_2.c
 int		execution(t_mini_sh *mini_sh, int i_exec);
 int		init_sep_type(t_mini_sh *mini_sh);

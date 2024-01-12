@@ -6,7 +6,7 @@
 /*   By: mlamarcq <mlamarcq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:55:56 by mlamarcq          #+#    #+#             */
-/*   Updated: 2023/05/02 16:00:23 by mlamarcq         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:11:16 by mlamarcq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	go_to_last_read(t_mini_sh *mini_sh, int i_exec)
 	i_last_read = i_exec;
 	check = 0;
 	while (mini_sh->sep_type[i_last_read] && \
-	(issep_write(mini_sh->sep_type[i_last_read]) == FAIL || \
+	(issep_write(mini_sh->sep_type[i_last_read]) == FAIL && \
+	mini_sh->sep_type[i_last_read] != PIPE && \
 	mini_sh->sep_type[i_last_read] != FAIL) && (i_last_read < (mini_sh->sep_2)))
 	{
 		if (issep_read(mini_sh->sep_type[i_last_read]) == SUCCESS)
@@ -63,7 +64,7 @@ void	do_heredoc_redir(t_mini_sh *mini_sh, int i_exec)
 	else if (mini_sh->sep_type[i_exec + 1] && \
 	mini_sh->sep_type[i_exec + 1] != FAIL)
 	{
-		go_to_last_read(mini_sh, i_exec);
+		go_to_last_read_3(mini_sh, i_exec);
 		do_good_redir(mini_sh, i_exec);
 	}
 	else
